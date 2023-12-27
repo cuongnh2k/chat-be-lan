@@ -6,6 +6,8 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.domain.AuditorAware;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -21,20 +23,26 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import top.reviewx.core.advices.AuthenticationEntryPointAdvice;
-import top.reviewx.core.enums.RoleEnum;
 import top.reviewx.core.filters.SecurityFilter;
 import top.reviewx.core.utils.StringWithoutSpaceDeserializerUtil;
 import top.reviewx.rest.basic.auth.impl.UserDetailServiceImpl;
 
 import java.util.List;
+import java.util.Optional;
 
+@EnableJpaAuditing
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-public class SecurityConfig implements WebMvcConfigurer {
+public class SecurityConfig implements WebMvcConfigurer, AuditorAware<String> {
     private final UserDetailServiceImpl userDetailServiceImpl;
     private final SecurityFilter securityFilter;
     private final AuthenticationEntryPointAdvice authenticationEntryPointAdvice;
+
+    @Override
+    public Optional<String> getCurrentAuditor() {
+        return Optional.empty();
+    }
 
     @Bean
     public WebMvcConfigurer corsConfigurer() {
@@ -71,8 +79,8 @@ public class SecurityConfig implements WebMvcConfigurer {
                         .requestMatchers("/swagger-ui/**",
                                 "/v3/api-docs/**",
                                 "/basic/**").permitAll()
-                        .requestMatchers("/user/**").hasAnyAuthority(RoleEnum.USER.name(), RoleEnum.ADMIN.name())
-                        .requestMatchers("/admin/**").hasAnyAuthority(RoleEnum.ADMIN.name())
+//                        .requestMatchers("/user/**").hasAnyAuthority(RoleEnum.USER.name(), RoleEnum.ADMIN.name())
+//                        .requestMatchers("/admin/**").hasAnyAuthority(RoleEnum.ADMIN.name())
                         .anyRequest().authenticated())
                 .exceptionHandling((o) -> o.authenticationEntryPoint(authenticationEntryPointAdvice))
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class).build();

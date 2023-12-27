@@ -1,21 +1,20 @@
 package top.reviewx.entities;
 
-import com.example.bechat.core.enums.UserChanelEnum;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
+import top.reviewx.core.base.BaseEntity;
+import top.reviewx.core.enums.UserChanelEnum;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@SuperBuilder
 @Entity
 @Table(name="user_chanel")
-public class UserChanelEntity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+public class UserChanelEntity extends BaseEntity {
 
     private UserChanelEnum status;
 

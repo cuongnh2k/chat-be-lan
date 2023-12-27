@@ -2,25 +2,20 @@ package top.reviewx.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.time.LocalDateTime;
+import lombok.experimental.SuperBuilder;
+import top.reviewx.core.base.BaseEntity;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@SuperBuilder
 @Entity
 @Table(name="user_activation_code")
-public class UserActivationCodeEntity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+public class UserActivationCodeEntity extends BaseEntity {
 
     private String code;
-
-    private LocalDateTime createdAt;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

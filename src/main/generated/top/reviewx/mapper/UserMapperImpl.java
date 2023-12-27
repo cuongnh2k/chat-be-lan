@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
-import top.reviewx.core.enums.RoleEnum;
 import top.reviewx.entities.user.LocalEntity;
 import top.reviewx.entities.user.UserEntity;
 import top.reviewx.rest.user.user.dto.res.LocalRes;

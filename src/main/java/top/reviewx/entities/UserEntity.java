@@ -2,8 +2,9 @@ package top.reviewx.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
+import top.reviewx.core.base.BaseEntity;
 
-import java.time.LocalDateTime;
 import java.util.Collection;
 
 @Getter
@@ -11,13 +12,10 @@ import java.util.Collection;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@SuperBuilder
 @Entity
 @Table(name="user")
-public class UserEntity {
-
-    @Id
-    @Column(length = 36)
-    private String id;
+public class UserEntity extends BaseEntity {
 
     private String email;
 
@@ -35,10 +33,6 @@ public class UserEntity {
     private String avatar;
 
     private Boolean isActivated;
-
-    private LocalDateTime createAt;
-
-    private LocalDateTime updateAt;
 
     @OneToMany(mappedBy = "user")
     private Collection<UserActivationCodeEntity> userActivationCodes;

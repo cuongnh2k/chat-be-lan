@@ -2,6 +2,8 @@ package top.reviewx.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
+import top.reviewx.core.base.BaseEntity;
 
 import java.time.LocalDateTime;
 
@@ -10,21 +12,14 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@SuperBuilder
 @Entity
 @Table(name="message_file")
-public class MessageFileEntity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+public class MessageFileEntity extends BaseEntity {
 
     private String nameFile;
 
     private Integer size;
-
-    private LocalDateTime createAt;
-
-    private LocalDateTime updateAt;
 
     private String createBy;
 

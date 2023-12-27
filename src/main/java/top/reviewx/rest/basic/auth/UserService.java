@@ -1,6 +1,8 @@
 package top.reviewx.rest.basic.auth;
 
-public interface BUserService {
+import top.reviewx.rest.basic.auth.dto.req.SignUpReq;
+
+public interface UserService {
 
 //    UserRes signUp(SignUpReq req);
 //

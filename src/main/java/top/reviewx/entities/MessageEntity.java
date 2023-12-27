@@ -2,6 +2,8 @@ package top.reviewx.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
+import top.reviewx.core.base.BaseEntity;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -11,25 +13,14 @@ import java.util.Collection;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@SuperBuilder
 @Entity
 @Table(name="message")
-public class MessageEntity {
-
-    @Id
-    @Column(length = 36)
-    private String id;
+public class MessageEntity extends BaseEntity {
 
     private String receiver;
 
     private String content;
-
-    private String file;
-
-    private LocalDateTime createAt;
-
-    private LocalDateTime updateAt;
-
-    private LocalDateTime deleteAt;
 
     @OneToMany(mappedBy = "message")
     private Collection<MessageFileEntity> messageFiles;

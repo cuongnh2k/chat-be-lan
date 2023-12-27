@@ -3,12 +3,12 @@ package top.reviewx.rest.basic.auth.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import top.reviewx.rest.basic.auth.BUserService;
+import top.reviewx.rest.basic.auth.UserService;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class BUserServiceImpl implements BUserService {
+public class UserServiceImpl implements UserService {
 //    private final BUserRepository bUserRepository;
 //    private final PasswordEncoder passwordEncoder;
 //    private final SendEmailUtil sendEmailUtil;

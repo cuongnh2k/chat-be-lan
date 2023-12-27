@@ -2,6 +2,7 @@ package top.reviewx.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -11,25 +12,16 @@ import java.util.Collection;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@SuperBuilder
 @Entity
 @Table(name="chanel")
 public class ChanelEntity {
-
-    @Id
-    @Column(length = 36)
-    private String id;
 
     private String chanelOwner;
 
     private String name;
 
     private String avatarUrl;
-
-    private Integer numberAmount;
-
-    private LocalDateTime createAt;
-
-    private LocalDateTime updateAt;
 
     @OneToMany(mappedBy = "chanel")
     private Collection<UserChanelEntity> userChanel;

@@ -5,6 +5,6 @@ import org.springframework.stereotype.Repository;
 import top.reviewx.entities.UserEntity;
 
 @Repository
-public interface BUserRepository extends JpaRepository<UserEntity, String> {
+public interface UserRepository extends JpaRepository<UserEntity, String> {
 //    UserEntity findByLocal_Email(String email);
 }
