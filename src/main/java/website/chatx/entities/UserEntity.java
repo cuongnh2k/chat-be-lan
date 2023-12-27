@@ -37,7 +37,7 @@ public class UserEntity extends BaseEntity {
 
     private String avatarUrl;
 
-    private Boolean isActivated;
+    private boolean isActivated;
 
     @OneToMany(mappedBy = "user")
     private List<UserActivationCodeEntity> userActivationCodes;

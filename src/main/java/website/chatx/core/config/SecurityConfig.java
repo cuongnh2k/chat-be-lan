@@ -10,6 +10,7 @@ import org.springframework.data.domain.AuditorAware;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -23,6 +24,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import website.chatx.core.advices.AuthenticationEntryPointAdvice;
+import website.chatx.core.common.CommonAuthContext;
 import website.chatx.core.common.StringWithoutSpaceDeserializerCommon;
 import website.chatx.core.filters.SecurityFilter;
 import website.chatx.service.UserDetailServiceImpl;
@@ -30,6 +32,7 @@ import website.chatx.service.UserDetailServiceImpl;
 import java.util.List;
 import java.util.Optional;
 
+@EnableAsync
 @EnableJpaAuditing
 @Configuration
 @EnableWebSecurity
@@ -38,10 +41,14 @@ public class SecurityConfig implements WebMvcConfigurer, AuditorAware<String> {
     private final UserDetailServiceImpl userDetailServiceImpl;
     private final SecurityFilter securityFilter;
     private final AuthenticationEntryPointAdvice authenticationEntryPointAdvice;
+    private final CommonAuthContext commonAuthContext;
 
     @Override
     public Optional<String> getCurrentAuditor() {
-        return Optional.empty();
+        if (commonAuthContext == null) {
+            return Optional.empty();
+        }
+        return Optional.ofNullable(commonAuthContext.getId());
     }
 
     @Bean
