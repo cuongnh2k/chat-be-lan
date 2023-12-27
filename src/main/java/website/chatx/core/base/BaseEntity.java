@@ -29,8 +29,6 @@ public class BaseEntity {
     @EqualsAndHashCode.Include
     private String id;
 
-    private Boolean deletedFlag;
-
     @CreatedDate
     private LocalDateTime createdAt;
 
