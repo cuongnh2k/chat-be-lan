@@ -79,7 +79,7 @@ public class SecurityFilter extends OncePerRequestFilter {
 //                        new UsernamePasswordAuthenticationToken(null, null, userEntity.getRoles().stream()
 //                                .map(role -> new SimpleGrantedAuthority(role.name()))
 //                                .collect(Collectors.toList())));
-                authContext.set(userEntity.getId(), userEntity.getName(), userEntity.getAvatarUrl());
+                authContext.set(userEntity);
                 filterChain.doFilter(request, response);
             } catch (Exception exception) {
                 res.setMessage(exception.getMessage());

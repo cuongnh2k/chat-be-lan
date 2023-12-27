@@ -1,4 +1,4 @@
-package website.chatx.service;
+package website.chatx.service.impl;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -23,6 +23,7 @@ import website.chatx.entities.UserActivationCodeEntity;
 import website.chatx.entities.UserEntity;
 import website.chatx.repositories.UserActivationCodeRepository;
 import website.chatx.repositories.UserRepository;
+import website.chatx.service.UserService;
 
 import java.util.Date;
 

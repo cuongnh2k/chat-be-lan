@@ -1,4 +1,4 @@
-package website.chatx.rest.basic.auth;
+package website.chatx.rest.basic;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

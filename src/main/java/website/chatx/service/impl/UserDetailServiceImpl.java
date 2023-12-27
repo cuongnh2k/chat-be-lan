@@ -1,4 +1,4 @@
-package website.chatx.service;
+package website.chatx.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.User;

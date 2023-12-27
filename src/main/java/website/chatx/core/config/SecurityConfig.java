@@ -27,7 +27,7 @@ import website.chatx.core.advices.AuthenticationEntryPointAdvice;
 import website.chatx.core.common.CommonAuthContext;
 import website.chatx.core.common.StringWithoutSpaceDeserializerCommon;
 import website.chatx.core.filters.SecurityFilter;
-import website.chatx.service.UserDetailServiceImpl;
+import website.chatx.service.impl.UserDetailServiceImpl;
 
 import java.util.List;
 import java.util.Optional;
@@ -48,7 +48,7 @@ public class SecurityConfig implements WebMvcConfigurer, AuditorAware<String> {
         if (commonAuthContext == null) {
             return Optional.empty();
         }
-        return Optional.ofNullable(commonAuthContext.getId());
+        return Optional.ofNullable(commonAuthContext.getUserEntity().getId());
     }
 
     @Bean
