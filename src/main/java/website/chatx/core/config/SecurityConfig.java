@@ -23,9 +23,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import website.chatx.core.advices.AuthenticationEntryPointAdvice;
-import website.chatx.core.filters.SecurityFilter;
 import website.chatx.core.common.StringWithoutSpaceDeserializerCommon;
-import website.chatx.rest.basic.auth.impl.UserDetailServiceImpl;
+import website.chatx.core.filters.SecurityFilter;
+import website.chatx.service.UserDetailServiceImpl;
 
 import java.util.List;
 import java.util.Optional;
@@ -76,9 +76,10 @@ public class SecurityConfig implements WebMvcConfigurer, AuditorAware<String> {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/swagger-ui/**",
-                                "/v3/api-docs/**",
-                                "/basic/**").permitAll()
+//                        .requestMatchers("/swagger-ui/**",
+//                                "/v3/api-docs/**",
+//                                "/basic/**").permitAll()
+                        .requestMatchers("/**").permitAll()
 //                        .requestMatchers("/user/**").hasAnyAuthority(RoleEnum.USER.name(), RoleEnum.ADMIN.name())
 //                        .requestMatchers("/admin/**").hasAnyAuthority(RoleEnum.ADMIN.name())
                         .anyRequest().authenticated())

@@ -1,4 +1,4 @@
-package website.chatx.rest.basic.auth.dto.req;
+package website.chatx.dto.auth.req;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -11,11 +11,16 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SignInReq {
+public class SignUpReq {
     @Email
     @NotBlank
     private String email;
+
     @NotBlank
     @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[\\W])[A-Za-z\\d\\W]{8,16}$")
     private String password;
+
+    @NotBlank
+    @Size(max = 50, min = 1)
+    private String name;
 }

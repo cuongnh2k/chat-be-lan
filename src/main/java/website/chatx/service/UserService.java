@@ -1,4 +1,4 @@
-package website.chatx.rest.basic.auth;
+package website.chatx.service;
 
 public interface UserService {
 

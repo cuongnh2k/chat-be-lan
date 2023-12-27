@@ -27,7 +27,7 @@ public class UserEntity extends BaseEntity {
     @Column(columnDefinition = "text")
     private String password;
 
-    private String username;
+    private String name;
 
     private Boolean gender;
 

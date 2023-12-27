@@ -1,9 +1,9 @@
-package website.chatx.rest.basic.auth.impl;
+package website.chatx.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import website.chatx.rest.basic.auth.UserService;
+import website.chatx.service.UserService;
 
 @Service
 @Transactional

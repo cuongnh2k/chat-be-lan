@@ -3,6 +3,7 @@ package website.chatx.rest.basic.auth;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import website.chatx.service.UserService;
 
 @Validated
 @RestController
