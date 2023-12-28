@@ -45,10 +45,11 @@ public class SecurityConfig implements WebMvcConfigurer, AuditorAware<String> {
 
     @Override
     public Optional<String> getCurrentAuditor() {
-        if (commonAuthContext == null) {
+        try {
+            return Optional.ofNullable(commonAuthContext.getUserEntity().getId());
+        } catch (Exception e) {
             return Optional.empty();
         }
-        return Optional.ofNullable(commonAuthContext.getUserEntity().getId());
     }
 
     @Bean
