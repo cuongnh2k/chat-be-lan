@@ -50,7 +50,4 @@ public class UserEntity extends BaseEntity {
 
     @OneToMany(mappedBy = "user")
     private List<FileUpEntity> userFiles;
-
-    @OneToMany(mappedBy = "user")
-    private List<ContactEntity> userContacts;
 }
