@@ -22,6 +22,10 @@ public class MessageFileEntity extends BaseEntity {
 
     private String name;
 
+    private String url;
+
+    private String contentType;
+
     private Integer size;
 
     @ManyToOne
