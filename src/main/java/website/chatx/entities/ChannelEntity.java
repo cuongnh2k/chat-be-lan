@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import website.chatx.core.base.BaseEntity;
+import website.chatx.enums.ChannelEnum;
 
 import java.util.List;
 
@@ -26,6 +27,8 @@ public class ChannelEntity extends BaseEntity {
     private String name;
 
     private String avatarUrl;
+
+    private ChannelEnum type;
 
     @OneToMany(mappedBy = "channel")
     private List<UserChannelEntity> userChannels;
