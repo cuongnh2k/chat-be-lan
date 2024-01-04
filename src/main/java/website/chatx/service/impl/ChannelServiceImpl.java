@@ -38,7 +38,7 @@ public class ChannelServiceImpl implements ChannelService {
 
     @Override
     public CommonListResponse<ChannelRes> search(ChannelTypeEnum type, String name, Pageable pageable) {
-        Page<ChannelEntity> channelEntityPage = null;
+        Page<ChannelEntity> channelEntityPage;
         if (StringUtils.hasText(name)) {
             channelEntityPage = channelRepository.findByTypeAndNameContaining(type, name, pageable);
         } else {

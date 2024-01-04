@@ -1,6 +1,5 @@
 package website.chatx.rest.user;
 
-import jakarta.validation.constraints.Size;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +23,7 @@ public class FileController {
     }
 
     @DeleteMapping("/{fileId}")
-    public ResponseEntity<CommonResponse> deleteFile(@PathVariable @Size(min = 36, max = 36) String fileId) {
+    public ResponseEntity<CommonResponse> deleteFile(@PathVariable String fileId) {
         fileService.deleteFile(fileId);
         return CommonResponse.success("");
     }

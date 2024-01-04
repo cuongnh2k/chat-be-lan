@@ -48,13 +48,21 @@ public class FileServiceImpl implements FileService {
         }
 
         FileUpEntity fileUpEntity = fileUpRepository.save(FileUpEntity.builder()
-//                .url("https://s3." + REGION + ".amazonaws.com/" + BUCKET_PUBLIC + "/" + authContext.getUserEntity().getId() + "/" + id + "." + fileExtension.toLowerCase())
                 .name(originalFilename.toLowerCase())
                 .size(file.getSize())
                 .contentType(file.getContentType())
                 .user(authContext.getUserEntity())
                 .build());
-        fileUpEntity.setUrl("https://s3." + REGION + ".amazonaws.com/" + BUCKET_PUBLIC + "/" + authContext.getUserEntity().getId() + "/" + fileUpEntity.getId() + "." + fileExtension.toLowerCase());
+        fileUpEntity.setUrl("https://s3."
+                + REGION
+                + ".amazonaws.com/"
+                + BUCKET_PUBLIC
+                + "/"
+                + authContext.getUserEntity().getId()
+                + "/"
+                + fileUpEntity.getId()
+                + "."
+                + fileExtension.toLowerCase());
         fileUpRepository.save(fileUpEntity);
 
         ObjectMetadata metadata = new ObjectMetadata();
@@ -62,7 +70,11 @@ public class FileServiceImpl implements FileService {
         metadata.setContentType(file.getContentType());
         try {
             amazonS3.putObject(BUCKET_PUBLIC,
-                    authContext.getUserEntity().getId() + "/" + fileUpEntity.getId() + "." + fileExtension.toLowerCase(),
+                    authContext.getUserEntity().getId()
+                            + "/"
+                            + fileUpEntity.getId()
+                            + "."
+                            + fileExtension.toLowerCase(),
                     file.getInputStream(),
                     metadata);
         } catch (IOException e) {
@@ -79,6 +91,10 @@ public class FileServiceImpl implements FileService {
         }
         fileUpRepository.deleteById(fileId);
         amazonS3.deleteObject(BUCKET_PUBLIC,
-                authContext.getUserEntity().getId() + "/" + fileUpEntity.getId() + fileUpEntity.getName().substring(fileUpEntity.getName().lastIndexOf(".")));
+                authContext.getUserEntity().getId()
+                        + "/"
+                        + fileUpEntity.getId()
+                        + fileUpEntity.getName().substring(fileUpEntity.getName().lastIndexOf("."))
+        );
     }
 }

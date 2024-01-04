@@ -42,10 +42,10 @@ public class UserServiceImpl implements UserService {
     private final DaoAuthenticationProvider daoAuthenticationProvider;
 
     private final HttpServletRequest request;
-    //    private final CommonAuthContext authContext;
-//    private final UserMapper userMapper;
+
     @Value("${application.jwt.secret-key}")
     private String SECRET_KEY;
+
     @Value("${application.jwt.access-token-age}")
     private Long ACCESS_TOKEN_AGE;
 
@@ -73,7 +73,9 @@ public class UserServiceImpl implements UserService {
     @Transactional(readOnly = true)
     public SignInRes signIn(SignInReq req) {
         try {
-            daoAuthenticationProvider.authenticate(new UsernamePasswordAuthenticationToken(req.getEmail(), req.getPassword()));
+            daoAuthenticationProvider.authenticate(
+                    new UsernamePasswordAuthenticationToken(req.getEmail(), req.getPassword())
+            );
         } catch (BadCredentialsException e) {
             throw new BusinessLogicException(-3);
         }
