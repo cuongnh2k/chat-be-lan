@@ -17,8 +17,14 @@ public class BaseResponse {
     @Id
     @EqualsAndHashCode.Include
     private String id;
+
     @JsonFormat(shape = JsonFormat.Shape.NUMBER)
     private Date createdAt;
+
     @JsonFormat(shape = JsonFormat.Shape.NUMBER)
     private Date updatedAt;
+
+    private String createdBy;
+
+    private String updatedBy;
 }

@@ -24,13 +24,13 @@ public class AuthController {
     private final UserService userService;
 
     @PostMapping("/register")
-    public ResponseEntity<CommonResponse> register(@RequestBody @Valid SignUpReq req) {
+    public ResponseEntity<CommonResponse> signUp(@RequestBody @Valid SignUpReq req) {
         userService.signUp(req);
         return CommonResponse.success("");
     }
 
     @PostMapping("/login")
-    public ResponseEntity<CommonResponse> login(@RequestBody @Valid SignInReq req) {
+    public ResponseEntity<CommonResponse> signIn(@RequestBody @Valid SignInReq req) {
         return CommonResponse.success(userService.signIn(req));
     }
 

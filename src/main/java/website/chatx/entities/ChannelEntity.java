@@ -1,15 +1,13 @@
 package website.chatx.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import website.chatx.core.base.BaseEntity;
-import website.chatx.enums.ChannelEnum;
+import website.chatx.enums.ChannelTypeEnum;
 
 import java.util.List;
 
@@ -28,7 +26,8 @@ public class ChannelEntity extends BaseEntity {
 
     private String avatarUrl;
 
-    private ChannelEnum type;
+    @Enumerated(EnumType.STRING)
+    private ChannelTypeEnum type;
 
     @OneToMany(mappedBy = "channel")
     private List<UserChannelEntity> userChannels;

@@ -5,6 +5,6 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum ChannelEnum {
+public enum ChannelTypeEnum {
     FRIEND, GROUP
 }

@@ -1,4 +1,4 @@
-package website.chatx.dto.auth.res;
+package website.chatx.dto.res;
 
 import lombok.*;
 

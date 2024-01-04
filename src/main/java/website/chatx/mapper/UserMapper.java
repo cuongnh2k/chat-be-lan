@@ -1,9 +1,16 @@
 package website.chatx.mapper;
 
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import website.chatx.core.base.BaseCustomMapper;
+import website.chatx.dto.res.UserRes;
+import website.chatx.entities.UserEntity;
 
 @Mapper(componentModel = "spring")
 public abstract class UserMapper implements BaseCustomMapper {
-//    public abstract UserRes toUserRes(UserEntity userEntity);
+    @Mapping(target = "userActivationCodes", ignore = true)
+    @Mapping(target = "userChannels", ignore = true)
+    @Mapping(target = "userMessages", ignore = true)
+    @Mapping(target = "userFiles", ignore = true)
+    public abstract UserRes toUserRes(UserEntity entity);
 }

@@ -5,6 +5,6 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum UserChannelEnum {
+public enum UserChannelStatusEnum {
     NEW, ACCEPT, REJECT
 }

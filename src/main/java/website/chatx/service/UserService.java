@@ -4,7 +4,7 @@ import website.chatx.dto.auth.req.ActiveUserReq;
 import website.chatx.dto.auth.req.ResetPasswordReq;
 import website.chatx.dto.auth.req.SignInReq;
 import website.chatx.dto.auth.req.SignUpReq;
-import website.chatx.dto.auth.res.SignInRes;
+import website.chatx.dto.res.SignInRes;
 
 public interface UserService {
 

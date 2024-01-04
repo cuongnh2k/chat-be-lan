@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import website.chatx.core.base.BaseEntity;
-import website.chatx.enums.UserChannelEnum;
+import website.chatx.enums.UserChannelStatusEnum;
 
 @Getter
 @Setter
@@ -19,7 +19,7 @@ import website.chatx.enums.UserChannelEnum;
 public class UserChannelEntity extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
-    private UserChannelEnum status;
+    private UserChannelStatusEnum status;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

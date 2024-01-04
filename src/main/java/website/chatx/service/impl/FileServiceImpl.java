@@ -8,9 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import website.chatx.core.common.CommonAuthContext;
-import website.chatx.core.exception.AccessDeniedException;
 import website.chatx.core.exception.BusinessLogicException;
-import website.chatx.dto.file.res.UploadFileRes;
+import website.chatx.dto.res.FileUpRes;
 import website.chatx.entities.FileUpEntity;
 import website.chatx.mapper.FileUpMapper;
 import website.chatx.repositories.FileUpRepository;
@@ -38,14 +37,14 @@ public class FileServiceImpl implements FileService {
     private String REGION;
 
     @Override
-    public UploadFileRes uploadFile(MultipartFile file) {
+    public FileUpRes uploadFile(MultipartFile file) {
         String originalFilename = file.getOriginalFilename();
         String fileExtension = "";
         if (originalFilename != null) {
             fileExtension = originalFilename.substring(originalFilename.lastIndexOf(".") + 1);
         }
         if (fileExtension.isEmpty()) {
-            throw new BusinessLogicException();
+            throw new BusinessLogicException(-8);
         }
 
         FileUpEntity fileUpEntity = fileUpRepository.save(FileUpEntity.builder()
@@ -67,19 +66,16 @@ public class FileServiceImpl implements FileService {
                     file.getInputStream(),
                     metadata);
         } catch (IOException e) {
-            throw new BusinessLogicException();
+            throw new BusinessLogicException(-9);
         }
-        return fileUpMapper.toUploadFileRes(fileUpEntity);
+        return fileUpMapper.toFileUpRes(fileUpEntity);
     }
 
     @Override
     public void deleteFile(String fileId) {
-        FileUpEntity fileUpEntity = fileUpRepository.findById(fileId).orElse(null);
+        FileUpEntity fileUpEntity = fileUpRepository.findByIdAndUser(fileId, authContext.getUserEntity());
         if (fileUpEntity == null) {
-            throw new BusinessLogicException();
-        }
-        if (!fileUpEntity.getCreatedBy().equals(authContext.getUserEntity().getId())) {
-            throw new AccessDeniedException();
+            throw new BusinessLogicException(-10);
         }
         fileUpRepository.deleteById(fileId);
         amazonS3.deleteObject(BUCKET_PUBLIC,
