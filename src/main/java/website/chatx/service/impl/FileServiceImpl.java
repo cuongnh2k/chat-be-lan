@@ -9,10 +9,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import website.chatx.core.common.CommonAuthContext;
 import website.chatx.core.exception.BusinessLogicException;
-import website.chatx.dto.res.jpa.FileUpRes;
+import website.chatx.dto.res.entity.FileUpEntityRes;
 import website.chatx.core.entities.FileUpEntity;
 import website.chatx.core.mapper.FileUpMapper;
-import website.chatx.repositories.FileUpRepository;
+import website.chatx.repositories.jpa.FileUpJpaRepository;
 import website.chatx.service.FileService;
 
 import java.io.IOException;
@@ -22,7 +22,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class FileServiceImpl implements FileService {
 
-    private final FileUpRepository fileUpRepository;
+    private final FileUpJpaRepository fileUpJpaRepository;
 
     private final CommonAuthContext authContext;
 
@@ -37,7 +37,7 @@ public class FileServiceImpl implements FileService {
     private String REGION;
 
     @Override
-    public FileUpRes uploadFile(MultipartFile file) {
+    public FileUpEntityRes uploadFile(MultipartFile file) {
         String originalFilename = file.getOriginalFilename();
         String fileExtension = "";
         if (originalFilename != null) {
@@ -47,7 +47,7 @@ public class FileServiceImpl implements FileService {
             throw new BusinessLogicException(-8);
         }
 
-        FileUpEntity fileUpEntity = fileUpRepository.save(FileUpEntity.builder()
+        FileUpEntity fileUpEntity = fileUpJpaRepository.save(FileUpEntity.builder()
                 .name(originalFilename.toLowerCase())
                 .size(file.getSize())
                 .contentType(file.getContentType())
@@ -63,7 +63,7 @@ public class FileServiceImpl implements FileService {
                 + fileUpEntity.getId()
                 + "."
                 + fileExtension.toLowerCase());
-        fileUpRepository.save(fileUpEntity);
+        fileUpJpaRepository.save(fileUpEntity);
 
         ObjectMetadata metadata = new ObjectMetadata();
         metadata.setContentLength(file.getSize());
@@ -85,11 +85,11 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public void deleteFile(String fileId) {
-        FileUpEntity fileUpEntity = fileUpRepository.findByIdAndUser(fileId, authContext.getUserEntity());
+        FileUpEntity fileUpEntity = fileUpJpaRepository.findByIdAndUser(fileId, authContext.getUserEntity());
         if (fileUpEntity == null) {
             throw new BusinessLogicException(-10);
         }
-        fileUpRepository.deleteById(fileId);
+        fileUpJpaRepository.deleteById(fileId);
         amazonS3.deleteObject(BUCKET_PUBLIC,
                 authContext.getUserEntity().getId()
                         + "/"

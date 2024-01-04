@@ -1,4 +1,4 @@
-package website.chatx.dto.res.jpa;
+package website.chatx.dto.res.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
-public class ChannelRes extends BaseResponse {
+public class ChannelEntityRes extends BaseResponse {
 
     private String ownerId;
 
@@ -25,9 +25,9 @@ public class ChannelRes extends BaseResponse {
 
     private ChannelTypeEnum type;
 
-    private List<UserChannelRes> userChannels;
+    private List<UserChannelEntityRes> userChannels;
 
-    private List<MessageFileRes> messageFiles;
+    private List<MessageFileEntityRes> messageFiles;
 
-    private List<MessageRes> messages;
+    private List<MessageEntityRes> messages;
 }

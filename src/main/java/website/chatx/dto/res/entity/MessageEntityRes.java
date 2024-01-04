@@ -1,4 +1,4 @@
-package website.chatx.dto.res.jpa;
+package website.chatx.dto.res.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,15 +14,15 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
-public class MessageRes extends BaseResponse {
+public class MessageEntityRes extends BaseResponse {
 
     private String receiverId;
 
     private String content;
 
-    private List<MessageFileRes> messageFiles;
+    private List<MessageFileEntityRes> messageFiles;
 
-    private UserRes sender;
+    private UserEntityRes sender;
 
-    private ChannelRes channel;
+    private ChannelEntityRes channel;
 }

@@ -18,7 +18,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import website.chatx.core.common.CommonAuthContext;
 import website.chatx.core.common.CommonResponse;
 import website.chatx.core.entities.UserEntity;
-import website.chatx.repositories.UserRepository;
+import website.chatx.repositories.jpa.UserJpaRepository;
 
 import java.io.IOException;
 import java.util.regex.Pattern;
@@ -29,7 +29,7 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 @RequiredArgsConstructor
 public class SecurityFilter extends OncePerRequestFilter {
 
-    private final UserRepository userRepository;
+    private final UserJpaRepository userRepository;
     private final CommonAuthContext authContext;
 
     @Value("${application.jwt.secret-key}")

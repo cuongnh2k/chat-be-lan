@@ -1,4 +1,4 @@
-package website.chatx.dto.res.jpa;
+package website.chatx.dto.res.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,9 +12,15 @@ import website.chatx.core.base.BaseResponse;
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
-public class UserActivationCodeRes extends BaseResponse {
+public class FileUpEntityRes extends BaseResponse {
 
-    private String code;
+    private String url;
 
-    private UserRes user;
+    private String name;
+
+    private String contentType;
+
+    private Long size;
+
+    private UserEntityRes user;
 }

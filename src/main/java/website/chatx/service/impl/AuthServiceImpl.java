@@ -5,6 +5,8 @@ import com.auth0.jwt.algorithms.Algorithm;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -13,16 +15,16 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import website.chatx.core.async.SendEmailAsync;
+import website.chatx.core.entities.UserActivationCodeEntity;
+import website.chatx.core.entities.UserEntity;
 import website.chatx.core.exception.BusinessLogicException;
 import website.chatx.dto.req.auth.ActiveUserReq;
 import website.chatx.dto.req.auth.ResetPasswordReq;
 import website.chatx.dto.req.auth.SignInReq;
 import website.chatx.dto.req.auth.SignUpReq;
 import website.chatx.dto.res.auth.SignInRes;
-import website.chatx.core.entities.UserActivationCodeEntity;
-import website.chatx.core.entities.UserEntity;
-import website.chatx.repositories.UserActivationCodeRepository;
-import website.chatx.repositories.UserRepository;
+import website.chatx.repositories.jpa.UserActivationCodeJpaRepository;
+import website.chatx.repositories.jpa.UserJpaRepository;
 import website.chatx.service.AuthService;
 
 import java.util.Date;
@@ -32,8 +34,8 @@ import java.util.Date;
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
 
-    private final UserRepository userRepository;
-    private final UserActivationCodeRepository userActivationCodeRepository;
+    private final UserJpaRepository userJpaRepository;
+    private final UserActivationCodeJpaRepository userActivationCodeJpaRepository;
 
     private final PasswordEncoder passwordEncoder;
 
@@ -49,9 +51,11 @@ public class AuthServiceImpl implements AuthService {
     @Value("${application.jwt.access-token-age}")
     private Long ACCESS_TOKEN_AGE;
 
+    private final Log LOGGER = LogFactory.getLog(getClass());
+
     @Override
     public void signUp(SignUpReq req) {
-        UserEntity userEntity = userRepository.findByEmail(req.getEmail());
+        UserEntity userEntity = userJpaRepository.findByEmail(req.getEmail());
         if (userEntity != null) {
             throw new BusinessLogicException(-1);
         }
@@ -60,9 +64,9 @@ public class AuthServiceImpl implements AuthService {
                 .password(passwordEncoder.encode(req.getPassword()))
                 .name(req.getName())
                 .build();
-        userRepository.save(userEntity);
+        userJpaRepository.save(userEntity);
         String verifyToken = RandomStringUtils.random(4, false, true);
-        userActivationCodeRepository.save(UserActivationCodeEntity.builder()
+        userActivationCodeJpaRepository.save(UserActivationCodeEntity.builder()
                 .code(verifyToken)
                 .user(userEntity)
                 .build());
@@ -79,7 +83,7 @@ public class AuthServiceImpl implements AuthService {
         } catch (BadCredentialsException e) {
             throw new BusinessLogicException(-3);
         }
-        UserEntity userEntity = userRepository.findByEmail(req.getEmail());
+        UserEntity userEntity = userJpaRepository.findByEmail(req.getEmail());
         if (!userEntity.isActivated()) {
             throw new BusinessLogicException(-4);
         }
@@ -92,7 +96,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public void active(ActiveUserReq req) {
-        UserEntity userEntity = userRepository.findByEmail(req.getEmail());
+        UserEntity userEntity = userJpaRepository.findByEmail(req.getEmail());
         if (userEntity == null) {
             throw new BusinessLogicException(-5);
         }
@@ -100,12 +104,12 @@ public class AuthServiceImpl implements AuthService {
             throw new BusinessLogicException(-6);
         }
         userEntity.setActivated(true);
-        userRepository.save(userEntity);
+        userJpaRepository.save(userEntity);
     }
 
     @Override
     public void resetPassword(ResetPasswordReq req) {
-        UserEntity userEntity = userRepository.findByEmail(req.getEmail());
+        UserEntity userEntity = userJpaRepository.findByEmail(req.getEmail());
         if (userEntity == null) {
             throw new BusinessLogicException(-7);
         }
@@ -114,7 +118,7 @@ public class AuthServiceImpl implements AuthService {
                 + RandomStringUtils.random(1, "ASDFGHJKLZ")
                 + RandomStringUtils.random(1, "!@#$%^&*()");
         userEntity.setPassword(passwordEncoder.encode(newPassword));
-        userRepository.save(userEntity);
+        userJpaRepository.save(userEntity);
         sendEmailAsync.sendSimpleMessage(userEntity.getEmail(), "Mật khẩu mới", newPassword);
     }
 }

@@ -1,4 +1,4 @@
-package website.chatx.dto.res.jpa;
+package website.chatx.dto.res.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
-public class UserRes extends BaseResponse {
+public class UserEntityRes extends BaseResponse {
 
     private String email;
 
@@ -31,11 +31,11 @@ public class UserRes extends BaseResponse {
 
     private boolean isActivated;
 
-    private List<UserActivationCodeRes> userActivationCodes;
+    private List<UserActivationCodeEntityRes> userActivationCodes;
 
-    private List<UserChannelRes> userChannels;
+    private List<UserChannelEntityRes> userChannels;
 
-    private List<MessageRes> userMessages;
+    private List<MessageEntityRes> userMessages;
 
-    private List<FileUpRes> userFiles;
+    private List<FileUpEntityRes> userFiles;
 }

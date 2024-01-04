@@ -3,32 +3,32 @@ package website.chatx.core.mapper;
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
 import website.chatx.core.entities.MessageEntity;
-import website.chatx.dto.res.jpa.MessageRes;
+import website.chatx.dto.res.entity.MessageEntityRes;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-01-05T01:04:10+0700",
+    date = "2024-01-05T01:50:21+0700",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.9 (JetBrains s.r.o.)"
 )
 @Component
 public class MessageMapperImpl extends MessageMapper {
 
     @Override
-    public MessageRes toMessageRes(MessageEntity entity) {
+    public MessageEntityRes toMessageRes(MessageEntity entity) {
         if ( entity == null ) {
             return null;
         }
 
-        MessageRes.MessageResBuilder<?, ?> messageRes = MessageRes.builder();
+        MessageEntityRes.MessageEntityResBuilder<?, ?> messageEntityRes = MessageEntityRes.builder();
 
-        messageRes.id( entity.getId() );
-        messageRes.createdAt( map( entity.getCreatedAt() ) );
-        messageRes.updatedAt( map( entity.getUpdatedAt() ) );
-        messageRes.createdBy( entity.getCreatedBy() );
-        messageRes.updatedBy( entity.getUpdatedBy() );
-        messageRes.receiverId( entity.getReceiverId() );
-        messageRes.content( entity.getContent() );
+        messageEntityRes.id( entity.getId() );
+        messageEntityRes.createdAt( map( entity.getCreatedAt() ) );
+        messageEntityRes.updatedAt( map( entity.getUpdatedAt() ) );
+        messageEntityRes.createdBy( entity.getCreatedBy() );
+        messageEntityRes.updatedBy( entity.getUpdatedBy() );
+        messageEntityRes.receiverId( entity.getReceiverId() );
+        messageEntityRes.content( entity.getContent() );
 
-        return messageRes.build();
+        return messageEntityRes.build();
     }
 }

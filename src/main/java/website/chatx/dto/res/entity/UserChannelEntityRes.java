@@ -1,4 +1,4 @@
-package website.chatx.dto.res.jpa;
+package website.chatx.dto.res.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -6,21 +6,18 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import website.chatx.core.base.BaseResponse;
+import website.chatx.core.enums.UserChannelStatusEnum;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
-public class FileUpRes extends BaseResponse {
+public class UserChannelEntityRes extends BaseResponse {
 
-    private String url;
+    private UserChannelStatusEnum status;
 
-    private String name;
+    private UserEntityRes user;
 
-    private String contentType;
-
-    private Long size;
-
-    private UserRes user;
+    private ChannelEntityRes channel;
 }

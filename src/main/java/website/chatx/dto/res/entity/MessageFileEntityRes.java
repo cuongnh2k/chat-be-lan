@@ -1,4 +1,4 @@
-package website.chatx.dto.res.jpa;
+package website.chatx.dto.res.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,7 +12,7 @@ import website.chatx.core.base.BaseResponse;
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
-public class MessageFileRes extends BaseResponse {
+public class MessageFileEntityRes extends BaseResponse {
 
     private String name;
 
@@ -22,7 +22,7 @@ public class MessageFileRes extends BaseResponse {
 
     private Integer size;
 
-    private MessageRes message;
+    private MessageEntityRes message;
 
-    private ChannelRes channel;
+    private ChannelEntityRes channel;
 }
