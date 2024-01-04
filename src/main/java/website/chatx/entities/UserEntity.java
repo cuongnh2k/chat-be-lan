@@ -1,15 +1,13 @@
 package website.chatx.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import website.chatx.core.base.BaseEntity;
+import website.chatx.enums.UserGenderEnum;
 
 import java.util.List;
 
@@ -29,7 +27,8 @@ public class UserEntity extends BaseEntity {
 
     private String name;
 
-    private Boolean gender;
+    @Enumerated(EnumType.STRING)
+    private UserGenderEnum gender;
 
     private String phone;
 
