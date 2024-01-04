@@ -7,11 +7,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import website.chatx.common.CommonAuthContext;
-import website.chatx.exception.BusinessLogicException;
+import website.chatx.core.common.CommonAuthContext;
+import website.chatx.core.exception.BusinessLogicException;
 import website.chatx.dto.res.jpa.FileUpRes;
-import website.chatx.entities.FileUpEntity;
-import website.chatx.mapper.FileUpMapper;
+import website.chatx.core.entities.FileUpEntity;
+import website.chatx.core.mapper.FileUpMapper;
 import website.chatx.repositories.FileUpRepository;
 import website.chatx.service.FileService;
 

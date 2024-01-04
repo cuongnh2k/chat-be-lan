@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import website.chatx.common.CommonResponse;
+import website.chatx.core.common.CommonResponse;
 import website.chatx.service.FileService;
 
 @Validated

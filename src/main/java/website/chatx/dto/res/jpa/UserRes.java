@@ -5,7 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
-import website.chatx.base.BaseResponse;
+import website.chatx.core.base.BaseResponse;
+import website.chatx.core.enums.UserGenderEnum;
 
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class UserRes extends BaseResponse {
 
     private String name;
 
-    private Boolean gender;
+    private UserGenderEnum gender;
 
     private String phone;
 

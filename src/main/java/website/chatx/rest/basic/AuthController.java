@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import website.chatx.common.CommonResponse;
+import website.chatx.core.common.CommonResponse;
 import website.chatx.dto.req.auth.ActiveUserReq;
 import website.chatx.dto.req.auth.ResetPasswordReq;
 import website.chatx.dto.req.auth.SignInReq;

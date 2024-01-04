@@ -6,8 +6,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import website.chatx.exception.BusinessLogicException;
-import website.chatx.entities.UserEntity;
+import website.chatx.core.exception.BusinessLogicException;
+import website.chatx.core.entities.UserEntity;
 import website.chatx.repositories.UserRepository;
 
 import java.util.ArrayList;
