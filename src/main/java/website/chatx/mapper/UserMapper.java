@@ -2,8 +2,8 @@ package website.chatx.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import website.chatx.core.base.BaseCustomMapper;
-import website.chatx.dto.res.UserRes;
+import website.chatx.base.BaseCustomMapper;
+import website.chatx.dto.res.jpa.UserRes;
 import website.chatx.entities.UserEntity;
 
 @Mapper(componentModel = "spring")

@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import website.chatx.core.common.CommonResponse;
-import website.chatx.core.utils.PageableUtil;
+import website.chatx.common.CommonResponse;
+import website.chatx.utils.PageableUtil;
 import website.chatx.enums.ChannelTypeEnum;
 import website.chatx.service.ChannelService;
 

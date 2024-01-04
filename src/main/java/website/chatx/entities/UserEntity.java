@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
-import website.chatx.core.base.BaseEntity;
+import website.chatx.base.BaseEntity;
 import website.chatx.enums.UserGenderEnum;
 
 import java.util.List;

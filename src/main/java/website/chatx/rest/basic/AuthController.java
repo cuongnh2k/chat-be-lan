@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import website.chatx.core.common.CommonResponse;
-import website.chatx.dto.auth.req.ActiveUserReq;
-import website.chatx.dto.auth.req.ResetPasswordReq;
-import website.chatx.dto.auth.req.SignInReq;
-import website.chatx.dto.auth.req.SignUpReq;
-import website.chatx.service.UserService;
+import website.chatx.common.CommonResponse;
+import website.chatx.dto.req.auth.ActiveUserReq;
+import website.chatx.dto.req.auth.ResetPasswordReq;
+import website.chatx.dto.req.auth.SignInReq;
+import website.chatx.dto.req.auth.SignUpReq;
+import website.chatx.service.AuthService;
 
 @Validated
 @RestController
@@ -21,28 +21,28 @@ import website.chatx.service.UserService;
 @RequestMapping("/basic/auths")
 public class AuthController {
 
-    private final UserService userService;
+    private final AuthService authService;
 
     @PostMapping("/register")
     public ResponseEntity<CommonResponse> signUp(@RequestBody @Valid SignUpReq req) {
-        userService.signUp(req);
+        authService.signUp(req);
         return CommonResponse.success("");
     }
 
     @PostMapping("/login")
     public ResponseEntity<CommonResponse> signIn(@RequestBody @Valid SignInReq req) {
-        return CommonResponse.success(userService.signIn(req));
+        return CommonResponse.success(authService.signIn(req));
     }
 
     @PostMapping("/active")
     public ResponseEntity<CommonResponse> active(@RequestBody @Valid ActiveUserReq req) {
-        userService.active(req);
+        authService.active(req);
         return CommonResponse.success("");
     }
 
     @PostMapping("/reset-password")
     public ResponseEntity<CommonResponse> resetPassword(@RequestBody @Valid ResetPasswordReq req) {
-        userService.resetPassword(req);
+        authService.resetPassword(req);
         return CommonResponse.success("");
     }
 }

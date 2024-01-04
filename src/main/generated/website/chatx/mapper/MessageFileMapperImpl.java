@@ -2,12 +2,12 @@ package website.chatx.mapper;
 
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
-import website.chatx.dto.res.MessageFileRes;
+import website.chatx.dto.res.jpa.MessageFileRes;
 import website.chatx.entities.MessageFileEntity;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-01-03T02:55:10+0700",
+    date = "2024-01-05T00:22:57+0700",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.9 (JetBrains s.r.o.)"
 )
 @Component

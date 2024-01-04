@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="vn.cgds.rest.orgmemberstatus.OrgMemberStatusRepository">
+
+    <select id="selectListCidByOrgId" parameterType="java.util.Set" resultType="java.lang.String">
+        /* vn.cgds.rest.orgmemberstatus.OrgMemberStatusRepository.selectListCidByOrgId */
+        SELECT CID
+        FROM ORG_MEMBER_STATUS
+        WHERE IS_DELETED = 'NO'
+          AND STATUS = 'LOCKED'
+          AND ORG_ID IN
+        <foreach item="id" collection="collection" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </select>
+
+
+</mapper>
