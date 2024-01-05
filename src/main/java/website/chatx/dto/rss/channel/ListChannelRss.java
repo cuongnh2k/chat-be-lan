@@ -1,13 +1,13 @@
 package website.chatx.dto.rss.channel;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import website.chatx.core.enums.ChannelTypeEnum;
-
-import java.util.List;
 
 @Getter
 @Setter
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class ListChannelRss {
@@ -15,39 +15,17 @@ public class ListChannelRss {
     private String name;
     private String avatarUrl;
     private ChannelTypeEnum type;
-    private MessageRes message;
 
-    @Getter
-    @Setter
-    @AllArgsConstructor
-    @NoArgsConstructor
-    public class MessageRes {
-        private String id;
-        private String content;
-        private List<MessageFileRes> messageFiles;
-        private UserRes sender;
+    private String friendId;
+    private String friendEmail;
+    private String friendName;
+    private String friendAvatarUrl;
 
-        @Getter
-        @Setter
-        @AllArgsConstructor
-        @NoArgsConstructor
-        public class UserRes {
-            private String id;
-            private String email;
-            private String name;
-            private String avatarUrl;
-        }
+    private String currentMessageId;
+    private String currentMessageContent;
 
-        @Getter
-        @Setter
-        @AllArgsConstructor
-        @NoArgsConstructor
-        public class MessageFileRes {
-            private String id;
-            private String name;
-            private String url;
-            private String contentType;
-            private Integer size;
-        }
-    }
+    private String senderCurrentMessageId;
+    private String senderCurrentMessageEmail;
+    private String senderCurrentMessageName;
+    private String senderCurrentMessageAvatarUrl;
 }

@@ -1,71 +1,81 @@
 package website.chatx.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 import website.chatx.core.common.CommonAuthContext;
 import website.chatx.core.common.CommonListResponse;
-import website.chatx.core.entities.ChannelEntity;
-import website.chatx.core.entities.UserEntity;
+import website.chatx.core.common.CommonPaginator;
 import website.chatx.core.enums.ChannelTypeEnum;
-import website.chatx.core.mapper.ChannelMapper;
-import website.chatx.core.mapper.MessageMapper;
-import website.chatx.dto.res.entity.ChannelEntityRes;
-import website.chatx.repositories.jpa.ChannelJpaRepository;
-import website.chatx.repositories.jpa.MessageJpaRepository;
+import website.chatx.dto.prt.channel.GetListChannelPrt;
+import website.chatx.dto.res.channel.CurrentMessageRes;
+import website.chatx.dto.res.channel.ListChannelRes;
+import website.chatx.dto.res.channel.SenderRes;
+import website.chatx.repositories.mybatis.ChannelMybatisRepository;
 import website.chatx.service.ChannelService;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class ChannelServiceImpl implements ChannelService {
-    private final ChannelJpaRepository channelRepository;
-    private final MessageJpaRepository messageRepository;
+
+    private final ChannelMybatisRepository channelMybatisRepository;
 
     private final CommonAuthContext commonAuthContext;
 
-    private final ChannelMapper channelMapper;
-    private final MessageMapper messageMapper;
+    private final Log LOGGER = LogFactory.getLog(getClass());
 
     @Override
-    public CommonListResponse<ChannelEntityRes> search(ChannelTypeEnum type, String name, Pageable pageable) {
-        Page<ChannelEntity> channelEntityPage;
-        if (StringUtils.hasText(name)) {
-            channelEntityPage = channelRepository.findByTypeAndNameContaining(type, name, pageable);
-        } else {
-            channelEntityPage = channelRepository.findByType(type, pageable);
+    @Transactional(readOnly = true)
+    public CommonListResponse<ListChannelRes> search(ChannelTypeEnum type, String name, Integer page, Integer size) {
+        if (type == null) {
+            Integer countListChannel = channelMybatisRepository.countListChannel(GetListChannelPrt.builder()
+                    .userId(commonAuthContext.getUserEntity().getId())
+                    .build());
+            if (countListChannel == 0) {
+                return CommonListResponse.<ListChannelRes>builder()
+                        .content(new ArrayList<>())
+                        .page(page)
+                        .size(size)
+                        .totalPages(0)
+                        .totalElements(0L)
+                        .build();
+            }
+            CommonPaginator commonPaginator = new CommonPaginator(page, size, countListChannel);
+            return CommonListResponse.<ListChannelRes>builder()
+                    .content(channelMybatisRepository.getListChannel(GetListChannelPrt.builder()
+                                    .userId(commonAuthContext.getUserEntity().getId())
+                                    .offset(commonPaginator.getOffset())
+                                    .limit(commonPaginator.getLimit())
+                                    .build()).stream()
+                            .map(o -> ListChannelRes.builder()
+                                    .id(o.getId())
+                                    .name(o.getType() == ChannelTypeEnum.FRIEND ? o.getFriendName() : o.getName())
+                                    .avatarUrl(o.getType() == ChannelTypeEnum.FRIEND ? o.getFriendAvatarUrl() : o.getAvatarUrl())
+                                    .type(o.getType())
+                                    .currentMessage(CurrentMessageRes.builder()
+                                            .id(o.getCurrentMessageId())
+                                            .content(o.getCurrentMessageContent())
+                                            .sender(SenderRes.builder()
+                                                    .id(o.getSenderCurrentMessageId())
+                                                    .email(o.getSenderCurrentMessageEmail())
+                                                    .name(o.getSenderCurrentMessageName())
+                                                    .avatarUrl(o.getSenderCurrentMessageAvatarUrl())
+                                                    .build())
+                                            .build())
+                                    .build())
+                            .collect(Collectors.toList()))
+                    .page(page)
+                    .size(size)
+                    .totalPages(commonPaginator.getTotalPages())
+                    .totalElements(commonPaginator.getTotalItems())
+                    .build();
         }
-        List<ChannelEntity> channelEntities = channelEntityPage.getContent();
-        if (type == ChannelTypeEnum.FRIEND) {
-            channelEntities.forEach(o -> o.getUserChannels().forEach(oo -> {
-                UserEntity userEntity = oo.getUser();
-                if (!userEntity.getId().equals(commonAuthContext.getUserEntity().getId())) {
-                    o.setAvatarUrl(userEntity.getAvatarUrl());
-                    o.setName(userEntity.getName());
-                }
-            }));
-        }
-        return CommonListResponse.<ChannelEntityRes>builder()
-                .content(channelEntities.stream()
-                        .map(o -> {
-                            ChannelEntityRes channelRes = channelMapper.toChannelRes(o);
-                            channelRes.setMessages(Collections.singletonList(
-                                    messageMapper.toMessageRes(messageRepository.findFirstByChannelOrderByCreatedAtDesc(o))
-                            ));
-                            return channelRes;
-                        })
-                        .collect(Collectors.toList()))
-                .page(pageable.getPageNumber())
-                .size(pageable.getPageSize())
-                .totalPages(channelEntityPage.getTotalPages())
-                .totalElements(channelEntityPage.getTotalElements())
-                .build();
+        return null;
     }
 }

@@ -18,7 +18,7 @@ public class PageableUtil {
     public static List<Sort.Order> buildOrderList(String orderString) {
         List<Sort.Order> orders = new LinkedList<>();
         if (StringUtils.isBlank(orderString)) {
-            orders.add(Sort.Order.desc("updatedAt"));
+            orders.add(Sort.Order.desc("createdAt"));
         } else {
             orderString = StringUtils.deleteWhitespace(orderString);
             if (orderString.contains(",")) {
