@@ -25,7 +25,7 @@ public class CommonPaginator {
         this.offset = (this.pageNo - 1) * this.pageSize;
     }
 
-    public CommonPaginator(int pageNo, int pageSize, int totalItems) {
+    public CommonPaginator(int pageNo, int pageSize, long totalItems) {
         this.pageNo = pageNo;
         this.pageSize = pageSize;
         this.totalItems = totalItems;

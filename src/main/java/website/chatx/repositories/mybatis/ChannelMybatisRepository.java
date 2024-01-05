@@ -14,11 +14,27 @@ public class ChannelMybatisRepository {
 
     private final SqlSession sqlSession;
 
-    public Integer countListChannel(GetListChannelPrt prt) {
+    public Long countListChannel(GetListChannelPrt prt) {
         return sqlSession.selectOne("ChannelMybatisRepository.countListChannel", prt);
     }
 
     public List<ListChannelRss> getListChannel(GetListChannelPrt prt) {
         return sqlSession.selectList("ChannelMybatisRepository.getListChannel", prt);
+    }
+
+    public Long countListFriend(GetListChannelPrt prt) {
+        return sqlSession.selectOne("ChannelMybatisRepository.countListFriend", prt);
+    }
+
+    public List<ListChannelRss> getListFriend(GetListChannelPrt prt) {
+        return sqlSession.selectList("ChannelMybatisRepository.getListFriend", prt);
+    }
+
+    public Long countListGroup(GetListChannelPrt prt) {
+        return sqlSession.selectOne("ChannelMybatisRepository.countListGroup", prt);
+    }
+
+    public List<ListChannelRss> getListGroup(GetListChannelPrt prt) {
+        return sqlSession.selectList("ChannelMybatisRepository.getListGroup", prt);
     }
 }
