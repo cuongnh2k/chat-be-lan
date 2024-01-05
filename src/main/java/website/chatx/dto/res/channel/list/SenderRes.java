@@ -1,4 +1,4 @@
-package website.chatx.dto.res.channel;
+package website.chatx.dto.res.channel.list;
 
 
 import lombok.*;

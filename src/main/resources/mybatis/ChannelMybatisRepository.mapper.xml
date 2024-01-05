@@ -163,4 +163,23 @@
         limit #{offset}, #{limit}
     </select>
 
+    <select id="getDetailChannel" parameterType="website.chatx.dto.prt.channel.GetDetailChannelPrt"
+            resultType="website.chatx.dto.rss.channel.DetailChannelRss">
+        /* ChannelMybatisRepository.getDetailChannel */
+        select c1.id         id,
+               c1.name       name,
+               c1.avatar_url avatarUrl,
+               c1.type       type,
+
+               u1.id         friendId,
+               u1.email      friendEmail,
+               u1.name       friendName,
+               u1.avatar_url friendAvatarUrl
+        from channel c1
+                 join user_channel uc1 on (c1.id = uc1.channel_id and c1.id = #{channelId} and uc1.user_id = #{userId})
+                 left join user_channel uc2
+                           on (c1.id = uc2.channel_id and uc2.user_id != #{userId} and c1.type = 'FRIEND')
+                 left join user u1 on (uc2.user_id = u1.id)
+    </select>
+
 </mapper>

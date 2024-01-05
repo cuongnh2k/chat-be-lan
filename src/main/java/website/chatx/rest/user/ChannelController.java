@@ -3,10 +3,7 @@ package website.chatx.rest.user;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import website.chatx.core.common.CommonResponse;
 import website.chatx.core.enums.ChannelTypeEnum;
 import website.chatx.service.ChannelService;
@@ -25,5 +22,10 @@ public class ChannelController {
                                                  @RequestParam(defaultValue = "1") Integer page,
                                                  @RequestParam(defaultValue = "10") Integer size) {
         return CommonResponse.success(channelService.search(type, name, page, size));
+    }
+
+    @GetMapping("/{channelId}")
+    public ResponseEntity<CommonResponse> detail(@PathVariable String channelId) {
+        return CommonResponse.success(channelService.detail(channelId));
     }
 }

@@ -3,7 +3,9 @@ package website.chatx.repositories.mybatis;
 import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Component;
+import website.chatx.dto.prt.channel.GetDetailChannelPrt;
 import website.chatx.dto.prt.channel.GetListChannelPrt;
+import website.chatx.dto.rss.channel.DetailChannelRss;
 import website.chatx.dto.rss.channel.ListChannelRss;
 
 import java.util.List;
@@ -36,5 +38,9 @@ public class ChannelMybatisRepository {
 
     public List<ListChannelRss> getListGroup(GetListChannelPrt prt) {
         return sqlSession.selectList("ChannelMybatisRepository.getListGroup", prt);
+    }
+
+    public DetailChannelRss getDetailChannel(GetDetailChannelPrt prt) {
+        return sqlSession.selectOne("ChannelMybatisRepository.getDetailChannel", prt);
     }
 }

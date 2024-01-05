@@ -9,10 +9,14 @@ import website.chatx.core.common.CommonAuthContext;
 import website.chatx.core.common.CommonListResponse;
 import website.chatx.core.common.CommonPaginator;
 import website.chatx.core.enums.ChannelTypeEnum;
+import website.chatx.core.exception.BusinessLogicException;
+import website.chatx.dto.prt.channel.GetDetailChannelPrt;
 import website.chatx.dto.prt.channel.GetListChannelPrt;
-import website.chatx.dto.res.channel.CurrentMessageRes;
-import website.chatx.dto.res.channel.ListChannelRes;
-import website.chatx.dto.res.channel.SenderRes;
+import website.chatx.dto.res.channel.DetailChannelRes;
+import website.chatx.dto.res.channel.list.CurrentMessageRes;
+import website.chatx.dto.res.channel.list.ListChannelRes;
+import website.chatx.dto.res.channel.list.SenderRes;
+import website.chatx.dto.rss.channel.DetailChannelRss;
 import website.chatx.dto.rss.channel.ListChannelRss;
 import website.chatx.repositories.mybatis.ChannelMybatisRepository;
 import website.chatx.service.ChannelService;
@@ -110,6 +114,23 @@ public class ChannelServiceImpl implements ChannelService {
                 .size(size)
                 .totalPages(commonPaginator.getTotalPages())
                 .totalElements(commonPaginator.getTotalItems())
+                .build();
+    }
+
+    @Override
+    public DetailChannelRes detail(String channelId) {
+        DetailChannelRss detailChannelRss = channelMybatisRepository.getDetailChannel(GetDetailChannelPrt.builder()
+                .channelId(channelId)
+                .userId(commonAuthContext.getUserEntity().getId())
+                .build());
+        if (detailChannelRss == null) {
+            throw new BusinessLogicException(-11);
+        }
+        return DetailChannelRes.builder()
+                .id(detailChannelRss.getId())
+                .name(detailChannelRss.getType() == ChannelTypeEnum.FRIEND ? detailChannelRss.getFriendName() : detailChannelRss.getName())
+                .avatarUrl(detailChannelRss.getType() == ChannelTypeEnum.FRIEND ? detailChannelRss.getFriendAvatarUrl() : detailChannelRss.getAvatarUrl())
+                .type(detailChannelRss.getType())
                 .build();
     }
 }
