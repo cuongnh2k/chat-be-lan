@@ -67,8 +67,8 @@ public class MessageFileServiceImpl implements MessageFileService {
                         )
                         .collect(Collectors.toList())
                 )
-                .page(page)
-                .size(size)
+                .page(commonPaginator.getPageNo())
+                .size(commonPaginator.getPageSize())
                 .totalPages(commonPaginator.getTotalPages())
                 .totalElements(countListFile)
                 .build();

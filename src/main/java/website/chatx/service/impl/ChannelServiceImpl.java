@@ -115,8 +115,8 @@ public class ChannelServiceImpl implements ChannelService {
                                 )
                                 .build())
                         .collect(Collectors.toList()))
-                .page(page)
-                .size(size)
+                .page(commonPaginator.getPageNo())
+                .size(commonPaginator.getPageSize())
                 .totalPages(commonPaginator.getTotalPages())
                 .totalElements(countListChannel)
                 .build();

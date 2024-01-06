@@ -5,13 +5,13 @@ import lombok.Getter;
 @Getter
 public class CommonPaginator {
 
-    private int pageNo = 0;
-    private int pageSize = 10;
-    private long totalItems = 0;
-    private int totalPages = 0;
+    private Integer pageNo;
+    private Integer pageSize;
+    private Long totalItems;
+    private Integer totalPages;
 
-    private int offset = 0;
-    private int limit = 10;
+    private Integer offset;
+    private Integer limit;
 
     private void calculate() {
 
@@ -25,9 +25,9 @@ public class CommonPaginator {
         this.offset = (this.pageNo - 1) * this.pageSize;
     }
 
-    public CommonPaginator(int pageNo, int pageSize, long totalItems) {
-        this.pageNo = pageNo;
-        this.pageSize = pageSize;
+    public CommonPaginator(Integer pageNo, Integer pageSize, Long totalItems) {
+        this.pageNo = pageNo == null ? 1 : pageNo;
+        this.pageSize = pageSize == null ? Integer.MAX_VALUE : pageSize;
         this.totalItems = totalItems;
         this.calculate();
     }

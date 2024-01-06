@@ -1,100 +1,65 @@
 package website.chatx.service.impl;
 
-import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.ObjectMetadata;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 import website.chatx.core.common.CommonAuthContext;
-import website.chatx.core.entities.FileUpEntity;
-import website.chatx.core.exception.BusinessLogicException;
-import website.chatx.core.mapper.FileUpMapper;
-import website.chatx.dto.res.entity.FileUpEntityRes;
-import website.chatx.repositories.jpa.FileUpJpaRepository;
-import website.chatx.service.FileUpService;
+import website.chatx.core.common.CommonListResponse;
+import website.chatx.core.common.CommonPaginator;
+import website.chatx.core.utils.BeanCopyUtils;
+import website.chatx.dto.prt.user.GetListUserToAddFriendPrt;
+import website.chatx.dto.res.user.ListUserToAddFriendRes;
+import website.chatx.repositories.mybatis.UserMybatisRepository;
+import website.chatx.service.UserService;
 
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.stream.Collectors;
 
-//@Service
-//@Transactional
-//@RequiredArgsConstructor
-public class UserServiceImpl  {
+@Service
+@Transactional
+@RequiredArgsConstructor
+public class UserServiceImpl implements UserService {
 
-//    private final FileUpJpaRepository fileUpJpaRepository;
-//
-//    private final CommonAuthContext authContext;
-//
-//    private final AmazonS3 amazonS3;
-//
-//    private final FileUpMapper fileUpMapper;
-//
-//    @Value("${application.bucket.public}")
-//    private String BUCKET_PUBLIC;
-//
-//    @Value("${cloud.aws.region.static}")
-//    private String REGION;
-//
-//    @Override
-//    public FileUpEntityRes uploadFile(MultipartFile file) {
-//        String originalFilename = file.getOriginalFilename();
-//        String fileExtension = "";
-//        if (originalFilename != null) {
-//            fileExtension = originalFilename.substring(originalFilename.lastIndexOf(".") + 1);
-//        }
-//        if (fileExtension.isEmpty()) {
-//            throw new BusinessLogicException(-8);
-//        }
-//
-//        FileUpEntity fileUpEntity = fileUpJpaRepository.save(FileUpEntity.builder()
-//                .name(originalFilename.toLowerCase())
-//                .size(file.getSize())
-//                .contentType(file.getContentType())
-//                .user(authContext.getUserEntity())
-//                .build());
-//        fileUpEntity.setUrl("https://s3."
-//                + REGION
-//                + ".amazonaws.com/"
-//                + BUCKET_PUBLIC
-//                + "/"
-//                + authContext.getUserEntity().getId()
-//                + "/"
-//                + fileUpEntity.getId()
-//                + "."
-//                + fileExtension.toLowerCase());
-//        fileUpJpaRepository.save(fileUpEntity);
-//
-//        ObjectMetadata metadata = new ObjectMetadata();
-//        metadata.setContentLength(file.getSize());
-//        metadata.setContentType(file.getContentType());
-//        try {
-//            amazonS3.putObject(BUCKET_PUBLIC,
-//                    authContext.getUserEntity().getId()
-//                            + "/"
-//                            + fileUpEntity.getId()
-//                            + "."
-//                            + fileExtension.toLowerCase(),
-//                    file.getInputStream(),
-//                    metadata);
-//        } catch (IOException e) {
-//            throw new BusinessLogicException(-9);
-//        }
-//        return fileUpMapper.toFileUpRes(fileUpEntity);
-//    }
-//
-//    @Override
-//    public void deleteFile(String fileId) {
-//        FileUpEntity fileUpEntity = fileUpJpaRepository.findByIdAndUser(fileId, authContext.getUserEntity());
-//        if (fileUpEntity == null) {
-//            throw new BusinessLogicException(-10);
-//        }
-//        fileUpJpaRepository.deleteById(fileId);
-//        amazonS3.deleteObject(BUCKET_PUBLIC,
-//                authContext.getUserEntity().getId()
-//                        + "/"
-//                        + fileUpEntity.getId()
-//                        + fileUpEntity.getName().substring(fileUpEntity.getName().lastIndexOf("."))
-//        );
-//    }
+    private final UserMybatisRepository userMybatisRepository;
+
+    private final CommonAuthContext commonAuthContext;
+
+    @Override
+    @Transactional(readOnly = true)
+    public CommonListResponse<ListUserToAddFriendRes> getListUserToAddFriend(String search, Integer page, Integer size) {
+        Long countListUserToAddFriend = userMybatisRepository.countListUserToAddFriend(GetListUserToAddFriendPrt.builder()
+                .userId(commonAuthContext.getUserEntity().getId())
+                .search(search)
+                .build());
+        if (countListUserToAddFriend == 0) {
+            return CommonListResponse.<ListUserToAddFriendRes>builder()
+                    .content(new ArrayList<>())
+                    .page(page)
+                    .size(size)
+                    .totalPages(0)
+                    .totalElements(0L)
+                    .build();
+        }
+        CommonPaginator commonPaginator = new CommonPaginator(page, size, countListUserToAddFriend);
+        return CommonListResponse.<ListUserToAddFriendRes>builder()
+                .content(userMybatisRepository.getListUserToAddFriend(GetListUserToAddFriendPrt.builder()
+                                .userId(commonAuthContext.getUserEntity().getId())
+                                .search(search)
+                                .offset(commonPaginator.getOffset())
+                                .limit(commonPaginator.getLimit())
+                                .build()).stream()
+                        .map(o -> {
+                                    ListUserToAddFriendRes listUserToAddFriendRes = new ListUserToAddFriendRes();
+                                    BeanCopyUtils.copyProperties(listUserToAddFriendRes, o);
+                                    return listUserToAddFriendRes;
+                                }
+                        )
+                        .collect(Collectors.toList())
+                )
+                .page(commonPaginator.getPageNo())
+                .size(commonPaginator.getPageSize())
+                .totalPages(commonPaginator.getTotalPages())
+                .totalElements(countListUserToAddFriend)
+                .build();
+    }
 }

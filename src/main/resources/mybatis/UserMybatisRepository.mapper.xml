@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="UserMybatisRepository">
+
+    <select id="countListUserToAddFriend" parameterType="website.chatx.dto.prt.user.GetListUserToAddFriendPrt"
+            resultType="java.lang.Long">
+        /* UserMybatisRepository.countListUserToAddFriend */
+        select count(1)
+        from user u1
+        <where>
+            u1.is_activated = 1
+            and u1.id != #{userId}
+            <if test="search != ''">
+                <bind name="pattern" value="'%' + search + '%'"/>
+                and (u1.name like #{pattern} or u1.email like #{pattern})
+            </if>
+        </where>
+    </select>
+
+    <select id="getListUserToAddFriend" parameterType="website.chatx.dto.prt.user.GetListUserToAddFriendPrt"
+            resultType="website.chatx.dto.rss.user.ListUserToAddFriendRss">
+        /* UserMybatisRepository.getListUserToAddFriend */
+        select u1.id            id,
+               u1.email         email,
+               u1.name          name,
+               u1.avatar_url    avatarUrl,
+               uc1.status       status
+        from user u1
+            left join user_channel uc1
+                on (u1.id = uc1.user_id
+                    and uc1.user_id != #{userId}
+                    and uc1.channel_id = (select c1.id
+                                           from channel c1
+                                               join user_channel uc2
+                                                   on (c1.id = uc2.channel_id
+                                                        and uc2.user_id = #{userId} and c1.type = 'FRIEND'
+                                                       )
+                                                join user_channel uc3
+                                                    on (c1.id = uc3.channel_id
+                                                        and uc3.user_id = uc1.user_id and c1.type = 'FRIEND'
+                                                        )
+                                        )
+                )
+        <where>
+            u1.is_activated = 1
+            and u1.id != #{userId}
+            <if test="search != ''">
+                <bind name="pattern" value="'%' + search + '%'"/>
+                and (u1.name like #{pattern} or u1.email like #{pattern})
+            </if>
+        </where>
+        order by u1.name asc
+        limit #{offset}, #{limit}
+    </select>
+
+</mapper>

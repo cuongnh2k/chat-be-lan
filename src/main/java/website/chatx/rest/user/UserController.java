@@ -1,27 +1,27 @@
 package website.chatx.rest.user;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 import website.chatx.core.common.CommonResponse;
-import website.chatx.service.FileUpService;
+import website.chatx.service.UserService;
 
-//@Validated
-//@RestController
-//@RequiredArgsConstructor
-//@RequestMapping("/user/files")
+@Validated
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("/user/users")
 public class UserController {
 
-//    private final FileUpService fileService;
+    private final UserService userService;
 
-//    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-//    public ResponseEntity<CommonResponse> uploadFile(@RequestPart MultipartFile file) {
-//        return CommonResponse.success(fileService.uploadFile(file));
-//    }
+    @GetMapping("/to-add-friend")
+    public ResponseEntity<CommonResponse> getListToAddFriend(@RequestParam(defaultValue = "") String search,
+                                                             @RequestParam(required = false) Integer page,
+                                                             @RequestParam(required = false) Integer size) {
+        return CommonResponse.success(userService.getListUserToAddFriend(search, page, size));
+    }
 }

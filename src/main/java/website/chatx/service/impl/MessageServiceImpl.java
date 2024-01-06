@@ -76,8 +76,8 @@ public class MessageServiceImpl implements MessageService {
                         )
                         .collect(Collectors.toList())
                 )
-                .page(page)
-                .size(size)
+                .page(commonPaginator.getPageNo())
+                .size(commonPaginator.getPageSize())
                 .totalPages(commonPaginator.getTotalPages())
                 .totalElements(countListMessage)
                 .build();
