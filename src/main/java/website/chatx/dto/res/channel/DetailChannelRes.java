@@ -10,6 +10,7 @@ import website.chatx.core.enums.ChannelTypeEnum;
 @NoArgsConstructor
 public class DetailChannelRes {
     private String id;
+    private String ownerId;
     private String name;
     private String avatarUrl;
     private ChannelTypeEnum type;

@@ -25,6 +25,8 @@
 
                m1.id         currentMessageId,
                m1.content    currentMessageContent,
+               m1.created_at currentMessageCreatedAt,
+               m1.updated_at currentMessageUpdatedAt,
 
                u2.id         senderCurrentMessageId,
                u2.email      senderCurrentMessageEmail,
@@ -77,8 +79,10 @@
                u1.name       friendName,
                u1.avatar_url friendAvatarUrl,
 
-               m1.id         currentMessageId,
-               m1.content    currentMessageContent,
+                m1.id currentMessageId,
+                m1.content currentMessageContent,
+                m1.created_at currentMessageCreatedAt,
+                m1.updated_at currentMessageUpdatedAt,
 
                u2.id         senderCurrentMessageId,
                u2.email      senderCurrentMessageEmail,
@@ -132,8 +136,10 @@
                c1.avatar_url avatarUrl,
                c1.type       type,
 
-               m1.id         currentMessageId,
-               m1.content    currentMessageContent,
+                m1.id         currentMessageId,
+                m1.content    currentMessageContent,
+                m1.created_at currentMessageCreatedAt,
+                m1.updated_at currentMessageUpdatedAt,
 
                u2.id         senderCurrentMessageId,
                u2.email      senderCurrentMessageEmail,
@@ -170,7 +176,7 @@
                c1.name       name,
                c1.avatar_url avatarUrl,
                c1.type       type,
-
+               c1.owner_id   ownerId,
                u1.id         friendId,
                u1.email      friendEmail,
                u1.name       friendName,

@@ -6,10 +6,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import website.chatx.core.enums.ChannelTypeEnum;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class ListChannelRss {
     private String id;
     private String name;
@@ -23,6 +25,8 @@ public class ListChannelRss {
 
     private String currentMessageId;
     private String currentMessageContent;
+    private LocalDateTime currentMessageCreatedAt;
+    private LocalDateTime currentMessageUpdatedAt;
 
     private String senderCurrentMessageId;
     private String senderCurrentMessageEmail;

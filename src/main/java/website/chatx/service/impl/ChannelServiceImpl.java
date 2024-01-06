@@ -21,6 +21,7 @@ import website.chatx.dto.rss.channel.ListChannelRss;
 import website.chatx.repositories.mybatis.ChannelMybatisRepository;
 import website.chatx.service.ChannelService;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -38,7 +39,7 @@ public class ChannelServiceImpl implements ChannelService {
 
     @Override
     @Transactional(readOnly = true)
-    public CommonListResponse<ListChannelRes> search(ChannelTypeEnum type, String name, Integer page, Integer size) {
+    public CommonListResponse<ListChannelRes> getListChannel(ChannelTypeEnum type, String name, Integer page, Integer size) {
         Long countListChannel;
         if (type == null) {
             countListChannel = channelMybatisRepository.countListChannel(GetListChannelPrt.builder()
@@ -99,6 +100,8 @@ public class ChannelServiceImpl implements ChannelService {
                                         ? CurrentMessageRes.builder()
                                         .id(o.getCurrentMessageId())
                                         .content(o.getCurrentMessageContent())
+                                        .createdAt(Timestamp.valueOf(o.getCurrentMessageCreatedAt()).getTime())
+                                        .updatedAt(Timestamp.valueOf(o.getCurrentMessageUpdatedAt()).getTime())
                                         .sender(SenderRes.builder()
                                                 .id(o.getSenderCurrentMessageId())
                                                 .email(o.getSenderCurrentMessageEmail())
@@ -113,12 +116,13 @@ public class ChannelServiceImpl implements ChannelService {
                 .page(page)
                 .size(size)
                 .totalPages(commonPaginator.getTotalPages())
-                .totalElements(commonPaginator.getTotalItems())
+                .totalElements(countListChannel)
                 .build();
     }
 
     @Override
-    public DetailChannelRes detail(String channelId) {
+    @Transactional(readOnly = true)
+    public DetailChannelRes getDetailChannel(String channelId) {
         DetailChannelRss detailChannelRss = channelMybatisRepository.getDetailChannel(GetDetailChannelPrt.builder()
                 .channelId(channelId)
                 .userId(commonAuthContext.getUserEntity().getId())
@@ -128,6 +132,7 @@ public class ChannelServiceImpl implements ChannelService {
         }
         return DetailChannelRes.builder()
                 .id(detailChannelRss.getId())
+                .ownerId(detailChannelRss.getOwnerId())
                 .name(detailChannelRss.getType() == ChannelTypeEnum.FRIEND ? detailChannelRss.getFriendName() : detailChannelRss.getName())
                 .avatarUrl(detailChannelRss.getType() == ChannelTypeEnum.FRIEND ? detailChannelRss.getFriendAvatarUrl() : detailChannelRss.getAvatarUrl())
                 .type(detailChannelRss.getType())

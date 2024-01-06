@@ -7,7 +7,7 @@ import website.chatx.dto.res.channel.list.ListChannelRes;
 
 public interface ChannelService {
 
-    CommonListResponse<ListChannelRes> search(ChannelTypeEnum type, String name, Integer page, Integer size);
+    CommonListResponse<ListChannelRes> getListChannel(ChannelTypeEnum type, String name, Integer page, Integer size);
 
-    DetailChannelRes detail(String channelId);
+    DetailChannelRes getDetailChannel(String channelId);
 }
