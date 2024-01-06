@@ -140,6 +140,7 @@ public class ChannelServiceImpl implements ChannelService {
                 .type(detailChannelRss.getType())
                 .createdAt(Timestamp.valueOf(detailChannelRss.getCreatedAt()).getTime())
                 .updatedAt(Timestamp.valueOf(detailChannelRss.getUpdatedAt()).getTime())
+                .status(detailChannelRss.getStatus())
                 .build();
     }
 }

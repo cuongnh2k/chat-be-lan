@@ -2,6 +2,7 @@ package website.chatx.dto.res.channel;
 
 import lombok.*;
 import website.chatx.core.enums.ChannelTypeEnum;
+import website.chatx.core.enums.UserChannelStatusEnum;
 
 @Getter
 @Setter
@@ -16,4 +17,6 @@ public class DetailChannelRes {
     private ChannelTypeEnum type;
     private Long createdAt;
     private Long updatedAt;
+
+    private UserChannelStatusEnum status;
 }
