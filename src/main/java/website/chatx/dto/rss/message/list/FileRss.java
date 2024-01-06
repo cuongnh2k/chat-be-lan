@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class FileRss {
+    private String fileId;
     private String fileName;
     private String fileUrl;
     private String fileContentType;

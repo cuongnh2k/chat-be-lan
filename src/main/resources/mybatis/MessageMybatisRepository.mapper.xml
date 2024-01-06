@@ -31,6 +31,7 @@
                 u1.name             senderName,
                 u1.avatar_url       senderAvatarUrl,
 
+                mf1.id              fileId,
                 mf1.name            fileName,
                 mf1.url             fileUrl,
                 mf1.content_type    fileContentType,
@@ -63,6 +64,7 @@
         <result property="senderName" column="senderName"/>
         <result property="senderAvatarUrl" column="senderAvatarUrl"/>
         <collection property="files" ofType="website.chatx.dto.rss.message.list.FileRss">
+            <result property="fileId" column="fileId"/>
             <result property="fileName" column="fileName"/>
             <result property="fileUrl" column="fileUrl"/>
             <result property="fileContentType" column="fileContentType"/>

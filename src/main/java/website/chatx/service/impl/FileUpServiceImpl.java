@@ -13,14 +13,14 @@ import website.chatx.dto.res.entity.FileUpEntityRes;
 import website.chatx.core.entities.FileUpEntity;
 import website.chatx.core.mapper.FileUpMapper;
 import website.chatx.repositories.jpa.FileUpJpaRepository;
-import website.chatx.service.FileService;
+import website.chatx.service.FileUpService;
 
 import java.io.IOException;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class FileServiceImpl implements FileService {
+public class FileUpServiceImpl implements FileUpService {
 
     private final FileUpJpaRepository fileUpJpaRepository;
 

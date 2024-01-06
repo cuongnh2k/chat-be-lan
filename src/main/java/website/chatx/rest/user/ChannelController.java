@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import website.chatx.core.common.CommonResponse;
 import website.chatx.core.enums.ChannelTypeEnum;
 import website.chatx.service.ChannelService;
+import website.chatx.service.MessageFileService;
 import website.chatx.service.MessageService;
 
 @Validated
@@ -17,6 +18,7 @@ public class ChannelController {
 
     private final ChannelService channelService;
     private final MessageService messageService;
+    private final MessageFileService messageFileService;
 
     @GetMapping
     public ResponseEntity<CommonResponse> getListChannel(@RequestParam(required = false) ChannelTypeEnum type,
@@ -40,10 +42,10 @@ public class ChannelController {
     }
 
     @GetMapping("/{channelId}/files")
-    public ResponseEntity<CommonResponse> getListFiles(@PathVariable String channelId,
-                                                       @RequestParam(defaultValue = "") String name,
-                                                       @RequestParam(defaultValue = "1") Integer page,
-                                                       @RequestParam(defaultValue = "10") Integer size) {
-        return CommonResponse.success(messageService.getListMessage(channelId, name, page, size));
+    public ResponseEntity<CommonResponse> getListFile(@PathVariable String channelId,
+                                                      @RequestParam(defaultValue = "") String name,
+                                                      @RequestParam(defaultValue = "1") Integer page,
+                                                      @RequestParam(defaultValue = "10") Integer size) {
+        return CommonResponse.success(messageFileService.getListFile(channelId, name, page, size));
     }
 }

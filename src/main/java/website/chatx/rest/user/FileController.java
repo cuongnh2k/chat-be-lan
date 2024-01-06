@@ -7,7 +7,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import website.chatx.core.common.CommonResponse;
-import website.chatx.service.FileService;
+import website.chatx.service.FileUpService;
 
 @Validated
 @RestController
@@ -15,7 +15,7 @@ import website.chatx.service.FileService;
 @RequestMapping("/user/files")
 public class FileController {
 
-    private final FileService fileService;
+    private final FileUpService fileService;
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<CommonResponse> uploadFile(@RequestPart MultipartFile file) {

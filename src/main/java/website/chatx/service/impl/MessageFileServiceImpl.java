@@ -6,12 +6,11 @@ import org.springframework.transaction.annotation.Transactional;
 import website.chatx.core.common.CommonAuthContext;
 import website.chatx.core.common.CommonListResponse;
 import website.chatx.core.common.CommonPaginator;
-import website.chatx.dto.prt.message.GetListMessagePrt;
-import website.chatx.dto.res.message.list.FileRes;
-import website.chatx.dto.res.message.list.ListMessageRes;
-import website.chatx.dto.res.message.list.SenderRes;
-import website.chatx.repositories.mybatis.MessageMybatisRepository;
-import website.chatx.service.MessageService;
+import website.chatx.dto.prt.messagefile.GetListFilePrt;
+import website.chatx.dto.res.messagefile.list.ListFileRes;
+import website.chatx.dto.res.messagefile.list.SenderRes;
+import website.chatx.repositories.mybatis.MessageFileMybatisRepository;
+import website.chatx.service.MessageFileService;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -20,20 +19,20 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class MessageServiceImpl implements MessageService {
-    private final MessageMybatisRepository messageMybatisRepository;
+public class MessageFileServiceImpl implements MessageFileService {
+    private final MessageFileMybatisRepository messageFileMybatisRepository;
 
     private final CommonAuthContext commonAuthContext;
 
     @Override
-    public CommonListResponse<ListMessageRes> getListMessage(String channelId, String content, Integer page, Integer size) {
-        Long countListMessage = messageMybatisRepository.countListMessage(GetListMessagePrt.builder()
+    public CommonListResponse<ListFileRes> getListFile(String channelId, String name, Integer page, Integer size) {
+        Long countListFile = messageFileMybatisRepository.countListFile(GetListFilePrt.builder()
                 .userId(commonAuthContext.getUserEntity().getId())
                 .channelId(channelId)
-                .content(content)
+                .name(name)
                 .build());
-        if (countListMessage == 0) {
-            return CommonListResponse.<ListMessageRes>builder()
+        if (countListFile == 0) {
+            return CommonListResponse.<ListFileRes>builder()
                     .content(new ArrayList<>())
                     .page(page)
                     .size(size)
@@ -41,18 +40,21 @@ public class MessageServiceImpl implements MessageService {
                     .totalElements(0L)
                     .build();
         }
-        CommonPaginator commonPaginator = new CommonPaginator(page, size, countListMessage);
-        return CommonListResponse.<ListMessageRes>builder()
-                .content(messageMybatisRepository.getListMessage(GetListMessagePrt.builder()
+        CommonPaginator commonPaginator = new CommonPaginator(page, size, countListFile);
+        return CommonListResponse.<ListFileRes>builder()
+                .content(messageFileMybatisRepository.getListFile(GetListFilePrt.builder()
                                 .userId(commonAuthContext.getUserEntity().getId())
                                 .channelId(channelId)
-                                .content(content)
+                                .name(name)
                                 .offset(commonPaginator.getOffset())
                                 .limit(commonPaginator.getLimit())
                                 .build()).stream()
-                        .map(o -> ListMessageRes.builder()
+                        .map(o -> ListFileRes.builder()
                                 .id(o.getId())
-                                .content(o.getContent())
+                                .name(o.getName())
+                                .url(o.getUrl())
+                                .contentType(o.getContentType())
+                                .size(o.getSize())
                                 .createdAt(Timestamp.valueOf(o.getCreatedAt()).getTime())
                                 .updatedAt(Timestamp.valueOf(o.getUpdatedAt()).getTime())
                                 .sender(SenderRes.builder()
@@ -61,17 +63,6 @@ public class MessageServiceImpl implements MessageService {
                                         .name(o.getSenderName())
                                         .avatarUrl(o.getSenderAvatarUrl())
                                         .build())
-                                .files(o.getFiles().stream()
-                                        .map(oo -> FileRes.builder()
-                                                .id(oo.getFileId())
-                                                .name(oo.getFileName())
-                                                .url(oo.getFileUrl())
-                                                .contentType(oo.getFileContentType())
-                                                .size(oo.getFileSize())
-                                                .createdAt(Timestamp.valueOf(oo.getFileCreatedAt()).getTime())
-                                                .updatedAt(Timestamp.valueOf(oo.getFileUpdatedAt()).getTime())
-                                                .build())
-                                        .collect(Collectors.toList()))
                                 .build()
                         )
                         .collect(Collectors.toList())
@@ -79,7 +70,7 @@ public class MessageServiceImpl implements MessageService {
                 .page(page)
                 .size(size)
                 .totalPages(commonPaginator.getTotalPages())
-                .totalElements(countListMessage)
+                .totalElements(countListFile)
                 .build();
     }
 }

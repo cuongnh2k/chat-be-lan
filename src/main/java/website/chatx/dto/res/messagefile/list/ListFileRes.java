@@ -1,4 +1,4 @@
-package website.chatx.dto.res.message.list;
+package website.chatx.dto.res.messagefile.list;
 
 import lombok.*;
 
@@ -7,7 +7,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class FileRes {
+public class ListFileRes {
     private String id;
     private String name;
     private String url;
@@ -15,4 +15,6 @@ public class FileRes {
     private Integer size;
     private Long createdAt;
     private Long updatedAt;
+
+    private SenderRes sender;
 }
