@@ -9,6 +9,7 @@ import website.chatx.core.enums.ChannelTypeEnum;
 import website.chatx.service.ChannelService;
 import website.chatx.service.MessageFileService;
 import website.chatx.service.MessageService;
+import website.chatx.service.UserChannelService;
 
 @Validated
 @RestController
@@ -19,6 +20,7 @@ public class ChannelController {
     private final ChannelService channelService;
     private final MessageService messageService;
     private final MessageFileService messageFileService;
+    private final UserChannelService userChannelService;
 
     @GetMapping
     public ResponseEntity<CommonResponse> getListChannel(@RequestParam(required = false) ChannelTypeEnum type,
@@ -47,5 +49,13 @@ public class ChannelController {
                                                       @RequestParam(defaultValue = "1") Integer page,
                                                       @RequestParam(defaultValue = "10") Integer size) {
         return CommonResponse.success(messageFileService.getListFile(channelId, name, page, size));
+    }
+
+    @GetMapping("/{channelId}/member")
+    public ResponseEntity<CommonResponse> getListMember(@PathVariable String channelId,
+                                                        @RequestParam(defaultValue = "") String name,
+                                                        @RequestParam(defaultValue = "1") Integer page,
+                                                        @RequestParam(defaultValue = "10") Integer size) {
+        return CommonResponse.success(userChannelService.getListMember(channelId, name, page, size));
     }
 }
