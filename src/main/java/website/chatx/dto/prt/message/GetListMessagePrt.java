@@ -9,6 +9,7 @@ import lombok.Setter;
 @Builder
 public class GetListMessagePrt {
     private String userId;
+    private String channelId;
     private String content;
     private int offset;
     private int limit;

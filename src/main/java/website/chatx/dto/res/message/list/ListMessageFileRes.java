@@ -12,4 +12,6 @@ public class ListMessageFileRes {
     private String url;
     private String contentType;
     private Integer size;
+    private Long createdAt;
+    private Long updatedAt;
 }

@@ -13,6 +13,7 @@ import website.chatx.dto.res.message.list.SenderRes;
 import website.chatx.repositories.mybatis.MessageMybatisRepository;
 import website.chatx.service.MessageService;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
@@ -28,6 +29,7 @@ public class MessageServiceImpl implements MessageService {
     public CommonListResponse<ListMessageRes> getListMessage(String channelId, String content, Integer page, Integer size) {
         Long countListMessage = messageMybatisRepository.countListMessage(GetListMessagePrt.builder()
                 .userId(commonAuthContext.getUserEntity().getId())
+                .channelId(channelId)
                 .content(content)
                 .build());
         if (countListMessage == 0) {
@@ -43,6 +45,7 @@ public class MessageServiceImpl implements MessageService {
         return CommonListResponse.<ListMessageRes>builder()
                 .content(messageMybatisRepository.getListMessage(GetListMessagePrt.builder()
                                 .userId(commonAuthContext.getUserEntity().getId())
+                                .channelId(channelId)
                                 .content(content)
                                 .offset(commonPaginator.getOffset())
                                 .limit(commonPaginator.getLimit())
@@ -50,6 +53,8 @@ public class MessageServiceImpl implements MessageService {
                         .map(o -> ListMessageRes.builder()
                                 .id(o.getId())
                                 .content(o.getContent())
+                                .createdAt(Timestamp.valueOf(o.getCreatedAt()).getTime())
+                                .updatedAt(Timestamp.valueOf(o.getUpdatedAt()).getTime())
                                 .sender(SenderRes.builder()
                                         .id(o.getSenderId())
                                         .email(o.getSenderEmail())
@@ -62,6 +67,8 @@ public class MessageServiceImpl implements MessageService {
                                                 .url(oo.getMessageFileUrl())
                                                 .contentType(oo.getMessageFileContentType())
                                                 .size(oo.getMessageFileSize())
+                                                .createdAt(Timestamp.valueOf(oo.getMessageFileCreatedAt()).getTime())
+                                                .updatedAt(Timestamp.valueOf(oo.getMessageFileUpdatedAt()).getTime())
                                                 .build())
                                         .collect(Collectors.toList()))
                                 .build()

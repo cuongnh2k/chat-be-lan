@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -14,4 +16,6 @@ public class ListMessageFileRss {
     private String messageFileUrl;
     private String messageFileContentType;
     private Integer messageFileSize;
+    private LocalDateTime messageFileCreatedAt;
+    private LocalDateTime messageFileUpdatedAt;
 }

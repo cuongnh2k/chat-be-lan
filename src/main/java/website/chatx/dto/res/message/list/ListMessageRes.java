@@ -12,6 +12,8 @@ import java.util.List;
 public class ListMessageRes {
     private String id;
     private String content;
+    private Long createdAt;
+    private Long updatedAt;
 
     private SenderRes sender;
 
