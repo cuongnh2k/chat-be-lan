@@ -23,5 +23,5 @@ public class ListMessageRss {
     private String senderName;
     private String senderAvatarUrl;
 
-    private List<ListMessageFileRss> listMessageFile;
+    private List<FileRss> files;
 }

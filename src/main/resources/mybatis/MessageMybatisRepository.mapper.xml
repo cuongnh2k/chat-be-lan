@@ -31,12 +31,12 @@
                 u1.name             senderName,
                 u1.avatar_url       senderAvatarUrl,
 
-                mf1.name            messageFileName,
-                mf1.url             messageFileUrl,
-                mf1.content_type    messageFileContentType,
-                mf1.size            messageFileSize,
-                mf1.created_at      messageFileCreatedAt,
-                mf1.updated_at      messageFileUpdatedAt
+                mf1.name            fileName,
+                mf1.url             fileUrl,
+                mf1.content_type    fileContentType,
+                mf1.size            fileSize,
+                mf1.created_at      fileCreatedAt,
+                mf1.updated_at      fileUpdatedAt
         from message m1
                  join channel c1
                       on (m1.channel_id = c1.id
@@ -62,13 +62,13 @@
         <result property="senderEmail" column="senderEmail"/>
         <result property="senderName" column="senderName"/>
         <result property="senderAvatarUrl" column="senderAvatarUrl"/>
-        <collection property="listMessageFile" ofType="website.chatx.dto.rss.message.list.ListMessageFileRss">
-            <result property="messageFileName" column="messageFileName"/>
-            <result property="messageFileUrl" column="messageFileUrl"/>
-            <result property="messageFileContentType" column="messageFileContentType"/>
-            <result property="messageFileSize" column="messageFileSize"/>
-            <result property="messageFileCreatedAt" column="messageFileCreatedAt"/>
-            <result property="messageFileUpdatedAt" column="messageFileUpdatedAt"/>
+        <collection property="files" ofType="website.chatx.dto.rss.message.list.FileRss">
+            <result property="fileName" column="fileName"/>
+            <result property="fileUrl" column="fileUrl"/>
+            <result property="fileContentType" column="fileContentType"/>
+            <result property="fileSize" column="fileSize"/>
+            <result property="fileCreatedAt" column="fileCreatedAt"/>
+            <result property="fileUpdatedAt" column="fileUpdatedAt"/>
         </collection>
     </resultMap>
 

@@ -17,5 +17,5 @@ public class ListMessageRes {
 
     private SenderRes sender;
 
-    private List<ListMessageFileRes> listMessageFile;
+    private List<FileRes> files;
 }

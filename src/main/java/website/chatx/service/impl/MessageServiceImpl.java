@@ -7,7 +7,7 @@ import website.chatx.core.common.CommonAuthContext;
 import website.chatx.core.common.CommonListResponse;
 import website.chatx.core.common.CommonPaginator;
 import website.chatx.dto.prt.message.GetListMessagePrt;
-import website.chatx.dto.res.message.list.ListMessageFileRes;
+import website.chatx.dto.res.message.list.FileRes;
 import website.chatx.dto.res.message.list.ListMessageRes;
 import website.chatx.dto.res.message.list.SenderRes;
 import website.chatx.repositories.mybatis.MessageMybatisRepository;
@@ -61,14 +61,14 @@ public class MessageServiceImpl implements MessageService {
                                         .name(o.getSenderName())
                                         .avatarUrl(o.getSenderAvatarUrl())
                                         .build())
-                                .listMessageFile(o.getListMessageFile().stream()
-                                        .map(oo -> ListMessageFileRes.builder()
-                                                .name(oo.getMessageFileName())
-                                                .url(oo.getMessageFileUrl())
-                                                .contentType(oo.getMessageFileContentType())
-                                                .size(oo.getMessageFileSize())
-                                                .createdAt(Timestamp.valueOf(oo.getMessageFileCreatedAt()).getTime())
-                                                .updatedAt(Timestamp.valueOf(oo.getMessageFileUpdatedAt()).getTime())
+                                .files(o.getFiles().stream()
+                                        .map(oo -> FileRes.builder()
+                                                .name(oo.getFileName())
+                                                .url(oo.getFileUrl())
+                                                .contentType(oo.getFileContentType())
+                                                .size(oo.getFileSize())
+                                                .createdAt(Timestamp.valueOf(oo.getFileCreatedAt()).getTime())
+                                                .updatedAt(Timestamp.valueOf(oo.getFileUpdatedAt()).getTime())
                                                 .build())
                                         .collect(Collectors.toList()))
                                 .build()

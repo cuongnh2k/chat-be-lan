@@ -7,7 +7,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ListMessageFileRes {
+public class FileRes {
     private String name;
     private String url;
     private String contentType;
