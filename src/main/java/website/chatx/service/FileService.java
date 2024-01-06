@@ -8,4 +8,6 @@ public interface FileService {
     FileUpEntityRes uploadFile(MultipartFile file);
 
     void deleteFile(String fileId);
+
+
 }

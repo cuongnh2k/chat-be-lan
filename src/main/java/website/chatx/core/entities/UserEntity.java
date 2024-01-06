@@ -45,8 +45,11 @@ public class UserEntity extends BaseEntity {
     private List<UserChannelEntity> userChannels;
 
     @OneToMany(mappedBy = "sender")
-    private List<MessageEntity> userMessages;
+    private List<MessageEntity> messages;
 
     @OneToMany(mappedBy = "user")
-    private List<FileUpEntity> userFiles;
+    private List<FileUpEntity> fileUps;
+
+    @OneToMany(mappedBy = "sender")
+    private List<MessageFileEntity> messageFiles;
 }

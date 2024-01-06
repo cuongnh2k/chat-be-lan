@@ -16,26 +16,17 @@ import java.util.List;
 @NoArgsConstructor
 @SuperBuilder
 public class UserEntityRes extends BaseResponse {
-
     private String email;
-
+    private String password;
     private String name;
-
     private UserGenderEnum gender;
-
     private String phone;
-
     private String address;
-
     private String avatarUrl;
-
     private boolean isActivated;
-
     private List<UserActivationCodeEntityRes> userActivationCodes;
-
     private List<UserChannelEntityRes> userChannels;
-
-    private List<MessageEntityRes> userMessages;
-
-    private List<FileUpEntityRes> userFiles;
+    private List<MessageEntityRes> messages;
+    private List<FileUpEntityRes> fileUps;
+    private List<MessageFileEntityRes> messageFiles;
 }

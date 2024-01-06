@@ -29,6 +29,10 @@ public class MessageFileEntity extends BaseEntity {
     private Integer size;
 
     @ManyToOne
+    @JoinColumn(name = "sender_id")
+    private UserEntity sender;
+
+    @ManyToOne
     @JoinColumn(name = "message_id")
     private MessageEntity message;
 

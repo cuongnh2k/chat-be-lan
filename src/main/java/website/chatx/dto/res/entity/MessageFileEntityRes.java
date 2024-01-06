@@ -13,16 +13,11 @@ import website.chatx.core.base.BaseResponse;
 @NoArgsConstructor
 @SuperBuilder
 public class MessageFileEntityRes extends BaseResponse {
-
     private String name;
-
     private String url;
-
     private String contentType;
-
     private Integer size;
-
+    private UserEntityRes sender;
     private MessageEntityRes message;
-
     private ChannelEntityRes channel;
 }

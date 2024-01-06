@@ -38,4 +38,12 @@ public class ChannelController {
                                                          @RequestParam(defaultValue = "10") Integer size) {
         return CommonResponse.success(messageService.getListMessage(channelId, content, page, size));
     }
+
+    @GetMapping("/{channelId}/files")
+    public ResponseEntity<CommonResponse> getListFiles(@PathVariable String channelId,
+                                                       @RequestParam(defaultValue = "") String name,
+                                                       @RequestParam(defaultValue = "1") Integer page,
+                                                       @RequestParam(defaultValue = "10") Integer size) {
+        return CommonResponse.success(messageService.getListMessage(channelId, name, page, size));
+    }
 }
