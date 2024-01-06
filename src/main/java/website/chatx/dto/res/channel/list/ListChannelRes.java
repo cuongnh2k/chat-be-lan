@@ -14,5 +14,7 @@ public class ListChannelRes {
     private String name;
     private String avatarUrl;
     private ChannelTypeEnum type;
+    private Long createdAt;
+    private Long updatedAt;
     private CurrentMessageRes currentMessage;
 }

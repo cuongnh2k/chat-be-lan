@@ -17,6 +17,8 @@ public class ListChannelRss {
     private String name;
     private String avatarUrl;
     private ChannelTypeEnum type;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
     private String friendId;
     private String friendEmail;

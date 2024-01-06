@@ -17,6 +17,8 @@
                c1.name       name,
                c1.avatar_url avatarUrl,
                c1.type       type,
+               c1.created_at createdAt,
+               c1.updated_at updatedAt,
 
                u1.id         friendId,
                u1.email      friendEmail,
@@ -73,6 +75,8 @@
                c1.name       name,
                c1.avatar_url avatarUrl,
                c1.type       type,
+                c1.created_at createdAt,
+                c1.updated_at updatedAt,
 
                u1.id         friendId,
                u1.email      friendEmail,
@@ -135,6 +139,8 @@
                c1.name       name,
                c1.avatar_url avatarUrl,
                c1.type       type,
+                c1.created_at createdAt,
+                c1.updated_at updatedAt,
 
                 m1.id         currentMessageId,
                 m1.content    currentMessageContent,
@@ -176,6 +182,8 @@
                c1.name       name,
                c1.avatar_url avatarUrl,
                c1.type       type,
+               c1.created_at createdAt,
+               c1.updated_at updatedAt,
                c1.owner_id   ownerId,
                u1.id         friendId,
                u1.email      friendEmail,

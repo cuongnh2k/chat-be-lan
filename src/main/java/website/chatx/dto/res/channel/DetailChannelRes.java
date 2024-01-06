@@ -14,4 +14,6 @@ public class DetailChannelRes {
     private String name;
     private String avatarUrl;
     private ChannelTypeEnum type;
+    private Long createdAt;
+    private Long updatedAt;
 }

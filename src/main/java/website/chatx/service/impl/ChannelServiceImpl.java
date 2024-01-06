@@ -96,6 +96,8 @@ public class ChannelServiceImpl implements ChannelService {
                                 .name(o.getType() == ChannelTypeEnum.FRIEND ? o.getFriendName() : o.getName())
                                 .avatarUrl(o.getType() == ChannelTypeEnum.FRIEND ? o.getFriendAvatarUrl() : o.getAvatarUrl())
                                 .type(o.getType())
+                                .createdAt(Timestamp.valueOf(o.getCreatedAt()).getTime())
+                                .updatedAt(Timestamp.valueOf(o.getUpdatedAt()).getTime())
                                 .currentMessage(o.getCurrentMessageId() != null
                                         ? CurrentMessageRes.builder()
                                         .id(o.getCurrentMessageId())
@@ -136,6 +138,8 @@ public class ChannelServiceImpl implements ChannelService {
                 .name(detailChannelRss.getType() == ChannelTypeEnum.FRIEND ? detailChannelRss.getFriendName() : detailChannelRss.getName())
                 .avatarUrl(detailChannelRss.getType() == ChannelTypeEnum.FRIEND ? detailChannelRss.getFriendAvatarUrl() : detailChannelRss.getAvatarUrl())
                 .type(detailChannelRss.getType())
+                .createdAt(Timestamp.valueOf(detailChannelRss.getCreatedAt()).getTime())
+                .updatedAt(Timestamp.valueOf(detailChannelRss.getUpdatedAt()).getTime())
                 .build();
     }
 }

@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import website.chatx.core.enums.ChannelTypeEnum;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -16,6 +18,8 @@ public class DetailChannelRss {
     private String name;
     private String avatarUrl;
     private ChannelTypeEnum type;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
     private String friendId;
     private String friendEmail;
