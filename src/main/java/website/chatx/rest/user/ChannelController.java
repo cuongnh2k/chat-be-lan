@@ -8,10 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import website.chatx.core.common.CommonResponse;
 import website.chatx.core.enums.ChannelTypeEnum;
 import website.chatx.core.enums.UserChannelStatusEnum;
-import website.chatx.dto.req.channel.AddUserFriendReq;
-import website.chatx.dto.req.channel.AddUserGroupReq;
-import website.chatx.dto.req.channel.ReactUserFriendReq;
-import website.chatx.dto.req.channel.ReactUserGroupReq;
+import website.chatx.dto.req.channel.*;
 import website.chatx.service.ChannelService;
 import website.chatx.service.MessageFileService;
 import website.chatx.service.MessageService;
@@ -91,6 +88,12 @@ public class ChannelController {
     public ResponseEntity<CommonResponse> reactUserGroup(@PathVariable String channelId,
                                                          @RequestBody @Valid ReactUserGroupReq req) {
         userChannelService.reactUserGroup(channelId, req);
+        return CommonResponse.success("");
+    }
+
+    @PostMapping("/create-group")
+    public ResponseEntity<CommonResponse> createGroup(@RequestBody @Valid CreateGroupReq req) {
+        userChannelService.createGroup(req);
         return CommonResponse.success("");
     }
 
