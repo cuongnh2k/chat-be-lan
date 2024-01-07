@@ -169,12 +169,15 @@ public class UserChannelServiceImpl implements UserChannelService {
         userEntities.forEach(i -> {
             boolean exist = false;
             for (UserChannelEntity o : userChannelEntities) {
-                if (o.getUser().getId().equals(i.getId()) && o.getStatus() == UserChannelStatusEnum.REJECT) {
-                    o.setStatus(channelEntity.getOwnerId().equals(commonAuthContext.getUserEntity().getId())
-                            ? UserChannelStatusEnum.ACCEPT
-                            : UserChannelStatusEnum.NEW
-                    );
+                if (o.getUser().getId().equals(i.getId())) {
+                    if (o.getStatus() == UserChannelStatusEnum.REJECT) {
+                        o.setStatus(channelEntity.getOwnerId().equals(commonAuthContext.getUserEntity().getId())
+                                ? UserChannelStatusEnum.ACCEPT
+                                : UserChannelStatusEnum.NEW
+                        );
+                    }
                     exist = true;
+                    break;
                 }
             }
             if (!exist) {
