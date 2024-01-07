@@ -13,5 +13,5 @@ public interface UserJpaRepository extends JpaRepository<UserEntity, String> {
     UserEntity findByEmail(String email);
 
     @Query("select u1 from UserEntity u1 where u1.email = :email and u1.isActivated = true and u1.id != :userId")
-    Optional<UserEntity> findUserToAddFriend(@Param("email") String email, @Param("userId") String userId);
+    Optional<UserEntity> findOneUserToAddFriend(@Param("email") String email, @Param("userId") String userId);
 }

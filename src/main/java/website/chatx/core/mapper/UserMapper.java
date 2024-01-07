@@ -5,7 +5,7 @@ import org.mapstruct.Mapping;
 import website.chatx.core.base.BaseCustomMapper;
 import website.chatx.core.entities.UserEntity;
 import website.chatx.dto.res.entity.UserEntityRes;
-import website.chatx.dto.res.user.UserToAddFriendRes;
+import website.chatx.dto.res.user.OneUserToAddFriendRes;
 
 @Mapper(componentModel = "spring")
 public abstract class UserMapper implements BaseCustomMapper {
@@ -16,5 +16,5 @@ public abstract class UserMapper implements BaseCustomMapper {
     @Mapping(target = "messageFiles", ignore = true)
     public abstract UserEntityRes toUserEntityRes(UserEntity entity);
 
-    public abstract UserToAddFriendRes toUserToAddFriendRes(UserEntity entity);
+    public abstract OneUserToAddFriendRes toUserToAddFriendRes(UserEntity entity);
 }

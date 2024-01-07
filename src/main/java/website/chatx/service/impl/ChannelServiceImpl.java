@@ -56,16 +56,16 @@ public class ChannelServiceImpl implements ChannelService {
                     .search(search)
                     .build());
         }
+        CommonPaginator commonPaginator = new CommonPaginator(page, size, countListChannel);
         if (countListChannel == 0) {
             return CommonListResponse.<ListChannelRes>builder()
                     .content(new ArrayList<>())
-                    .page(page)
-                    .size(size)
-                    .totalPages(0)
-                    .totalElements(0L)
+                    .page(commonPaginator.getPageNo())
+                    .size(commonPaginator.getPageSize())
+                    .totalPages(commonPaginator.getTotalPages())
+                    .totalElements(commonPaginator.getTotalItems())
                     .build();
         }
-        CommonPaginator commonPaginator = new CommonPaginator(page, size, countListChannel);
         List<ListChannelRss> listChannelRss;
         if (type == null) {
             listChannelRss = channelMybatisRepository.getListChannel(GetListChannelPrt.builder()
@@ -118,7 +118,7 @@ public class ChannelServiceImpl implements ChannelService {
                 .page(commonPaginator.getPageNo())
                 .size(commonPaginator.getPageSize())
                 .totalPages(commonPaginator.getTotalPages())
-                .totalElements(countListChannel)
+                .totalElements(commonPaginator.getTotalItems())
                 .build();
     }
 

@@ -32,16 +32,16 @@ public class MessageServiceImpl implements MessageService {
                 .channelId(channelId)
                 .content(content)
                 .build());
+        CommonPaginator commonPaginator = new CommonPaginator(page, size, countListMessage);
         if (countListMessage == 0) {
             return CommonListResponse.<ListMessageRes>builder()
                     .content(new ArrayList<>())
-                    .page(page)
-                    .size(size)
-                    .totalPages(0)
-                    .totalElements(0L)
+                    .page(commonPaginator.getPageNo())
+                    .size(commonPaginator.getPageSize())
+                    .totalPages(commonPaginator.getTotalPages())
+                    .totalElements(commonPaginator.getTotalItems())
                     .build();
         }
-        CommonPaginator commonPaginator = new CommonPaginator(page, size, countListMessage);
         return CommonListResponse.<ListMessageRes>builder()
                 .content(messageMybatisRepository.getListMessage(GetListMessagePrt.builder()
                                 .userId(commonAuthContext.getUserEntity().getId())
@@ -79,7 +79,7 @@ public class MessageServiceImpl implements MessageService {
                 .page(commonPaginator.getPageNo())
                 .size(commonPaginator.getPageSize())
                 .totalPages(commonPaginator.getTotalPages())
-                .totalElements(countListMessage)
+                .totalElements(commonPaginator.getTotalItems())
                 .build();
     }
 }

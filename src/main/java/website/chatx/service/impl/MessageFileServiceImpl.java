@@ -31,16 +31,16 @@ public class MessageFileServiceImpl implements MessageFileService {
                 .channelId(channelId)
                 .name(name)
                 .build());
+        CommonPaginator commonPaginator = new CommonPaginator(page, size, countListFile);
         if (countListFile == 0) {
             return CommonListResponse.<ListFileRes>builder()
                     .content(new ArrayList<>())
-                    .page(page)
-                    .size(size)
-                    .totalPages(0)
-                    .totalElements(0L)
+                    .page(commonPaginator.getPageNo())
+                    .size(commonPaginator.getPageSize())
+                    .totalPages(commonPaginator.getTotalPages())
+                    .totalElements(commonPaginator.getTotalItems())
                     .build();
         }
-        CommonPaginator commonPaginator = new CommonPaginator(page, size, countListFile);
         return CommonListResponse.<ListFileRes>builder()
                 .content(messageFileMybatisRepository.getListFile(GetListFilePrt.builder()
                                 .userId(commonAuthContext.getUserEntity().getId())
@@ -70,7 +70,7 @@ public class MessageFileServiceImpl implements MessageFileService {
                 .page(commonPaginator.getPageNo())
                 .size(commonPaginator.getPageSize())
                 .totalPages(commonPaginator.getTotalPages())
-                .totalElements(countListFile)
+                .totalElements(commonPaginator.getTotalItems())
                 .build();
     }
 }

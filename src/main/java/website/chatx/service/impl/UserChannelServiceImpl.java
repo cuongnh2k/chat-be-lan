@@ -30,27 +30,27 @@ public class UserChannelServiceImpl implements UserChannelService {
 
     @Override
     @Transactional(readOnly = true)
-    public CommonListResponse<ListMemberRes> getListMember(String channelId, String name, Integer page, Integer size) {
+    public CommonListResponse<ListMemberRes> getListMember(String channelId, String search, Integer page, Integer size) {
         Long countListMember = userChannelMybatisRepository.countListMember(GetListMemberPrt.builder()
                 .userId(commonAuthContext.getUserEntity().getId())
                 .channelId(channelId)
-                .name(name)
+                .search(search)
                 .build());
+        CommonPaginator commonPaginator = new CommonPaginator(page, size, countListMember);
         if (countListMember == 0) {
             return CommonListResponse.<ListMemberRes>builder()
                     .content(new ArrayList<>())
-                    .page(page)
-                    .size(size)
-                    .totalPages(0)
-                    .totalElements(0L)
+                    .page(commonPaginator.getPageNo())
+                    .size(commonPaginator.getPageSize())
+                    .totalPages(commonPaginator.getTotalPages())
+                    .totalElements(commonPaginator.getTotalItems())
                     .build();
         }
-        CommonPaginator commonPaginator = new CommonPaginator(page, size, countListMember);
         return CommonListResponse.<ListMemberRes>builder()
                 .content(userChannelMybatisRepository.getListMember(GetListMemberPrt.builder()
                                 .userId(commonAuthContext.getUserEntity().getId())
                                 .channelId(channelId)
-                                .name(name)
+                                .search(search)
                                 .offset(commonPaginator.getOffset())
                                 .limit(commonPaginator.getLimit())
                                 .build()).stream()
@@ -64,7 +64,7 @@ public class UserChannelServiceImpl implements UserChannelService {
                 .page(commonPaginator.getPageNo())
                 .size(commonPaginator.getPageSize())
                 .totalPages(commonPaginator.getTotalPages())
-                .totalElements(countListMember)
+                .totalElements(commonPaginator.getTotalItems())
                 .build();
     }
 }

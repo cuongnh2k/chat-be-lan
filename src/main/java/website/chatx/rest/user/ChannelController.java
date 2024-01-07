@@ -53,9 +53,9 @@ public class ChannelController {
 
     @GetMapping("/{channelId}/member")
     public ResponseEntity<CommonResponse> getListMember(@PathVariable String channelId,
-                                                        @RequestParam(defaultValue = "") String name,
+                                                        @RequestParam(defaultValue = "") String search,
                                                         @RequestParam(required = false) Integer page,
                                                         @RequestParam(required = false) Integer size) {
-        return CommonResponse.success(userChannelService.getListMember(channelId, name, page, size));
+        return CommonResponse.success(userChannelService.getListMember(channelId, search, page, size));
     }
 }

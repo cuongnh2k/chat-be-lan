@@ -4,11 +4,11 @@ import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
 import website.chatx.core.entities.UserEntity;
 import website.chatx.dto.res.entity.UserEntityRes;
-import website.chatx.dto.res.user.UserToAddFriendRes;
+import website.chatx.dto.res.user.OneUserToAddFriendRes;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-01-07T11:22:51+0700",
+    date = "2024-01-07T13:19:25+0700",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.9 (JetBrains s.r.o.)"
 )
 @Component
@@ -39,18 +39,18 @@ public class UserMapperImpl extends UserMapper {
     }
 
     @Override
-    public UserToAddFriendRes toUserToAddFriendRes(UserEntity entity) {
+    public OneUserToAddFriendRes toUserToAddFriendRes(UserEntity entity) {
         if ( entity == null ) {
             return null;
         }
 
-        UserToAddFriendRes.UserToAddFriendResBuilder userToAddFriendRes = UserToAddFriendRes.builder();
+        OneUserToAddFriendRes.OneUserToAddFriendResBuilder oneUserToAddFriendRes = OneUserToAddFriendRes.builder();
 
-        userToAddFriendRes.id( entity.getId() );
-        userToAddFriendRes.email( entity.getEmail() );
-        userToAddFriendRes.name( entity.getName() );
-        userToAddFriendRes.avatarUrl( entity.getAvatarUrl() );
+        oneUserToAddFriendRes.id( entity.getId() );
+        oneUserToAddFriendRes.email( entity.getEmail() );
+        oneUserToAddFriendRes.name( entity.getName() );
+        oneUserToAddFriendRes.avatarUrl( entity.getAvatarUrl() );
 
-        return userToAddFriendRes.build();
+        return oneUserToAddFriendRes.build();
     }
 }
