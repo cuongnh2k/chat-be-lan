@@ -10,6 +10,8 @@ import website.chatx.core.enums.ChannelTypeEnum;
 import website.chatx.core.enums.UserChannelStatusEnum;
 import website.chatx.dto.req.channel.AddUserFriendReq;
 import website.chatx.dto.req.channel.AddUserGroupReq;
+import website.chatx.dto.req.channel.ReactUserFriendReq;
+import website.chatx.dto.req.channel.ReactUserGroupReq;
 import website.chatx.service.ChannelService;
 import website.chatx.service.MessageFileService;
 import website.chatx.service.MessageService;
@@ -71,10 +73,25 @@ public class ChannelController {
         return CommonResponse.success("");
     }
 
+    @PostMapping("/{channelId}/react-user-friend")
+    public ResponseEntity<CommonResponse> reactUserFriend(@PathVariable String channelId,
+                                                          @RequestBody @Valid ReactUserFriendReq req) {
+        userChannelService.reactUserFriend(channelId, req);
+        return CommonResponse.success("");
+    }
+
     @PostMapping("/{channelId}/add-user-group")
     public ResponseEntity<CommonResponse> addUserGroup(@PathVariable String channelId,
                                                        @RequestBody @Valid AddUserGroupReq req) {
         userChannelService.addUserGroup(channelId, req);
         return CommonResponse.success("");
     }
+
+    @PostMapping("/{channelId}/react-user-group")
+    public ResponseEntity<CommonResponse> reactUserGroup(@PathVariable String channelId,
+                                                         @RequestBody @Valid ReactUserGroupReq req) {
+        userChannelService.reactUserGroup(channelId, req);
+        return CommonResponse.success("");
+    }
+
 }

@@ -19,6 +19,8 @@ import website.chatx.core.utils.BeanCopyUtils;
 import website.chatx.dto.prt.userchannel.GetListMemberPrt;
 import website.chatx.dto.req.channel.AddUserFriendReq;
 import website.chatx.dto.req.channel.AddUserGroupReq;
+import website.chatx.dto.req.channel.ReactUserFriendReq;
+import website.chatx.dto.req.channel.ReactUserGroupReq;
 import website.chatx.dto.res.userchannel.list.ListMemberRes;
 import website.chatx.repositories.jpa.ChannelJpaRepository;
 import website.chatx.repositories.jpa.UserChannelJpaRepository;
@@ -127,6 +129,29 @@ public class UserChannelServiceImpl implements UserChannelService {
     }
 
     @Override
+    public void reactUserFriend(String channelId, ReactUserFriendReq req) {
+        ChannelEntity channelEntity = channelJpaRepository.findById(channelId)
+                .orElseThrow(() -> new BusinessLogicException(-18));
+
+        if (channelEntity.getType() == ChannelTypeEnum.GROUP) {
+            throw new BusinessLogicException(-19);
+        }
+
+        List<UserChannelEntity> userChannelEntities = channelEntity.getUserChannels();
+        boolean exists = false;
+        for (UserChannelEntity o : userChannelEntities) {
+            if (o.getUser().getId().equals(commonAuthContext.getUserEntity().getId())) {
+                o.setStatus(req.getStatus());
+                exists = true;
+            }
+        }
+        if (!exists) {
+            throw new BusinessLogicException(-20);
+        }
+        userChannelJpaRepository.saveAll(userChannelEntities);
+    }
+
+    @Override
     public void addUserGroup(String channelId, AddUserGroupReq req) {
         UserEntity userEntity = userJpaRepository.findByIdAndActivatedTrue(req.getUserId())
                 .orElseThrow(() -> new BusinessLogicException(-15));
@@ -158,6 +183,33 @@ public class UserChannelServiceImpl implements UserChannelService {
                     .user(userEntity)
                     .channel(channelEntity)
                     .build());
+        }
+        userChannelJpaRepository.saveAll(userChannelEntities);
+    }
+
+    @Override
+    public void reactUserGroup(String channelId, ReactUserGroupReq req) {
+        ChannelEntity channelEntity = channelJpaRepository.findById(channelId)
+                .orElseThrow(() -> new BusinessLogicException(-21));
+
+        if (channelEntity.getType() == ChannelTypeEnum.FRIEND) {
+            throw new BusinessLogicException(-22);
+        }
+
+        if (!channelEntity.getOwnerId().equals(commonAuthContext.getUserEntity().getId())) {
+            throw new BusinessLogicException(-23);
+        }
+
+        List<UserChannelEntity> userChannelEntities = channelEntity.getUserChannels();
+        boolean exists = false;
+        for (UserChannelEntity o : userChannelEntities) {
+            if (o.getUser().getId().equals(req.getUserId())) {
+                o.setStatus(req.getStatus());
+                exists = true;
+            }
+        }
+        if (!exists) {
+            throw new BusinessLogicException(-24);
         }
         userChannelJpaRepository.saveAll(userChannelEntities);
     }
