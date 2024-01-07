@@ -7,7 +7,7 @@ import website.chatx.dto.res.entity.MessageEntityRes;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-01-07T13:19:25+0700",
+    date = "2024-01-07T18:05:41+0700",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.9 (JetBrains s.r.o.)"
 )
 @Component

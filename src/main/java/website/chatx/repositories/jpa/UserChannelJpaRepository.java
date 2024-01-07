@@ -21,5 +21,5 @@ public interface UserChannelJpaRepository extends JpaRepository<UserChannelEntit
                                      join user_channel uc2 on (c1.id = uc2.channel_id and uc2.user_id = ?2 and c1.type = 'FRIEND')
                                      join user_channel uc3 on (c1.id = uc3.channel_id and c1.type = 'FRIEND')
                     """)
-    List<UserChannelEntity> findMyIdAndTheirId(String myId, String theirId);
+    List<UserChannelEntity> findByMyIdAndTheirId(String myId, String theirId);
 }
