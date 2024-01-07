@@ -22,4 +22,6 @@ public interface UserChannelService {
     void createMessage(String channelId, CreateMessageReq req);
 
     void updateMessage(String channelId, String messageId, UpdateMessageReq req);
+
+    void deleteMessage(String channelId, String messageId);
 }

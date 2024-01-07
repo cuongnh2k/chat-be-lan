@@ -111,4 +111,11 @@ public class ChannelController {
         userChannelService.updateMessage(channelId, messageId, req);
         return CommonResponse.success("");
     }
+
+    @DeleteMapping("/{channelId}/messages/{messageId}")
+    public ResponseEntity<CommonResponse> deleteMessage(@PathVariable String channelId,
+                                                        @PathVariable String messageId) {
+        userChannelService.deleteMessage(channelId, messageId);
+        return CommonResponse.success("");
+    }
 }

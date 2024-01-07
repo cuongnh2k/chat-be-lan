@@ -292,7 +292,30 @@ public class UserChannelServiceImpl implements UserChannelService {
             throw new BusinessLogicException(-31);
         }
 
+        if (!messageEntity.getSender().getId().equals(commonAuthContext.getUserEntity().getId())) {
+            throw new BusinessLogicException(-32);
+        }
+
         messageEntity.setContent(req.getContent());
         messageJpaRepository.save(messageEntity);
+    }
+
+    @Override
+    public void deleteMessage(String channelId, String messageId) {
+        ChannelEntity channelEntity = channelJpaRepository.findByMyIdAndChannelId(commonAuthContext.getUserEntity().getId(), channelId)
+                .orElseThrow(() -> new BusinessLogicException(-33));
+
+        MessageEntity messageEntity = messageJpaRepository.findById(messageId)
+                .orElseThrow(() -> new BusinessLogicException(-34));
+
+        if (!messageEntity.getChannel().getId().equals(channelEntity.getId())) {
+            throw new BusinessLogicException(-35);
+        }
+
+        if (!messageEntity.getSender().getId().equals(commonAuthContext.getUserEntity().getId())) {
+            throw new BusinessLogicException(-36);
+        }
+
+        messageJpaRepository.delete(messageEntity);
     }
 }
