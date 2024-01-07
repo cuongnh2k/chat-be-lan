@@ -1,14 +1,14 @@
 package website.chatx.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import website.chatx.core.common.CommonAuthContext;
 import website.chatx.core.common.CommonListResponse;
 import website.chatx.core.common.CommonPaginator;
-import website.chatx.core.enums.ChannelTypeEnum;
-import website.chatx.core.enums.UserChannelStatusEnum;
 import website.chatx.core.exception.BusinessLogicException;
 import website.chatx.core.mapper.UserMapper;
 import website.chatx.core.utils.BeanCopyUtils;
@@ -17,6 +17,7 @@ import website.chatx.dto.prt.user.GetOneUserToAddFriendPrt;
 import website.chatx.dto.res.user.ListFriendToAddGroupRes;
 import website.chatx.dto.res.user.OneUserToAddFriendRes;
 import website.chatx.dto.rss.user.OneUserToAddFriendRss;
+import website.chatx.repositories.jpa.ChannelJpaRepository;
 import website.chatx.repositories.jpa.UserChannelJpaRepository;
 import website.chatx.repositories.jpa.UserJpaRepository;
 import website.chatx.repositories.mybatis.UserMybatisRepository;
@@ -32,12 +33,15 @@ public class UserServiceImpl implements UserService {
 
     private final UserJpaRepository userJpaRepository;
     private final UserChannelJpaRepository userChannelJpaRepository;
+    private final ChannelJpaRepository channelJpaRepository;
 
     private final UserMybatisRepository userMybatisRepository;
 
     private final CommonAuthContext commonAuthContext;
 
     private final UserMapper userMapper;
+
+    private final Log LOGGER = LogFactory.getLog(getClass());
 
     @Override
     @Transactional(readOnly = true)
@@ -56,13 +60,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public CommonListResponse<ListFriendToAddGroupRes> getListFriendToAddGroup(String channelId, String search, Integer page, Integer size) {
-        if (StringUtils.hasText(channelId)
-                && userChannelJpaRepository.findByUserIdAndChannelIdAndStatusAndChannelType(
-                commonAuthContext.getUserEntity().getId(),
-                channelId,
-                UserChannelStatusEnum.ACCEPT,
-                ChannelTypeEnum.GROUP) == null) {
-            throw new BusinessLogicException(-13);
+        if (StringUtils.hasText(channelId)) {
+            channelJpaRepository.findByMyIdAndChannelId(
+                    commonAuthContext.getUserEntity().getId(), channelId).orElseThrow(() -> new BusinessLogicException(-13));
         }
         Long countListFriend = userMybatisRepository.countListFriendToAddGroup(GetListFriendToAddGroupPrt.builder()
                 .userId(commonAuthContext.getUserEntity().getId())
