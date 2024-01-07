@@ -100,6 +100,7 @@ public class ChannelServiceImpl implements ChannelService {
                 .content(listChannelRss.stream()
                         .map(o -> ListChannelRes.builder()
                                 .id(o.getId())
+                                .friendId(o.getFriendId())
                                 .name(o.getType() == ChannelTypeEnum.FRIEND ? o.getFriendName() : o.getName())
                                 .avatarUrl(o.getType() == ChannelTypeEnum.FRIEND ? o.getFriendAvatarUrl() : o.getAvatarUrl())
                                 .type(o.getType())

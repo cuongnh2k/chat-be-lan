@@ -11,6 +11,7 @@ import website.chatx.core.enums.UserChannelStatusEnum;
 @NoArgsConstructor
 public class ListChannelRes {
     private String id;
+    private String friendId;
     private String name;
     private String avatarUrl;
     private ChannelTypeEnum type;
