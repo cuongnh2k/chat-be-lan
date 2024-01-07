@@ -23,6 +23,8 @@ public class ListChannelRss {
 
     private UserChannelStatusEnum status;
 
+    private UserChannelStatusEnum friendStatus;
+
     private String friendId;
     private String friendEmail;
     private String friendName;

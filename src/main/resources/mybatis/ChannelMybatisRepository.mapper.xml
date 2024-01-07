@@ -28,6 +28,8 @@
 
                uc1.status   status,
 
+                uc2.status friendStatus,
+
                u1.id         friendId,
                u1.email      friendEmail,
                u1.name       friendName,
@@ -100,6 +102,8 @@
                 c1.updated_at updatedAt,
 
                 uc1.status   status,
+
+                uc2.status friendStatus,
 
                u1.id         friendId,
                u1.email      friendEmail,

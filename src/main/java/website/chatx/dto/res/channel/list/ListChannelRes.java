@@ -11,11 +11,12 @@ import website.chatx.core.enums.UserChannelStatusEnum;
 @NoArgsConstructor
 public class ListChannelRes {
     private String id;
+    private UserChannelStatusEnum status;
     private String friendId;
+    private UserChannelStatusEnum friendStatus;
     private String name;
     private String avatarUrl;
     private ChannelTypeEnum type;
-    private UserChannelStatusEnum status;
     private Long createdAt;
     private Long updatedAt;
     private CurrentMessageRes currentMessage;

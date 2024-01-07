@@ -105,6 +105,7 @@ public class ChannelServiceImpl implements ChannelService {
                                 .avatarUrl(o.getType() == ChannelTypeEnum.FRIEND ? o.getFriendAvatarUrl() : o.getAvatarUrl())
                                 .type(o.getType())
                                 .status(o.getStatus())
+                                .friendStatus(o.getFriendStatus())
                                 .createdAt(Timestamp.valueOf(o.getCreatedAt()).getTime())
                                 .updatedAt(Timestamp.valueOf(o.getUpdatedAt()).getTime())
                                 .currentMessage(o.getCurrentMessageId() != null
