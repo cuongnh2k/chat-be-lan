@@ -19,8 +19,6 @@ import java.util.List;
 @Table(name = "message")
 public class MessageEntity extends BaseEntity {
 
-    private String receiverId;
-
     private String content;
 
     @OneToMany(mappedBy = "message")

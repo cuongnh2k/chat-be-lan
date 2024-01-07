@@ -9,9 +9,7 @@ import org.springframework.util.CollectionUtils;
 import website.chatx.core.common.CommonAuthContext;
 import website.chatx.core.common.CommonListResponse;
 import website.chatx.core.common.CommonPaginator;
-import website.chatx.core.entities.ChannelEntity;
-import website.chatx.core.entities.UserChannelEntity;
-import website.chatx.core.entities.UserEntity;
+import website.chatx.core.entities.*;
 import website.chatx.core.enums.ChannelTypeEnum;
 import website.chatx.core.enums.UserChannelStatusEnum;
 import website.chatx.core.exception.BusinessLogicException;
@@ -19,9 +17,7 @@ import website.chatx.core.utils.BeanCopyUtils;
 import website.chatx.dto.prt.userchannel.GetListMemberPrt;
 import website.chatx.dto.req.channel.*;
 import website.chatx.dto.res.userchannel.list.ListMemberRes;
-import website.chatx.repositories.jpa.ChannelJpaRepository;
-import website.chatx.repositories.jpa.UserChannelJpaRepository;
-import website.chatx.repositories.jpa.UserJpaRepository;
+import website.chatx.repositories.jpa.*;
 import website.chatx.repositories.mybatis.UserChannelMybatisRepository;
 import website.chatx.service.UserChannelService;
 
@@ -38,6 +34,8 @@ public class UserChannelServiceImpl implements UserChannelService {
     private final UserChannelJpaRepository userChannelJpaRepository;
     private final ChannelJpaRepository channelJpaRepository;
     private final UserJpaRepository userJpaRepository;
+    private final MessageJpaRepository messageJpaRepository;
+    private final MessageFileJpaRepository messageFileJpaRepository;
 
     private final UserChannelMybatisRepository userChannelMybatisRepository;
 
@@ -254,5 +252,31 @@ public class UserChannelServiceImpl implements UserChannelService {
                     .build());
         }
         userChannelJpaRepository.saveAll(userChannelEntities);
+    }
+
+    @Override
+    public void createMessage(String channelId, CreateMessageReq req) {
+        ChannelEntity channelEntity = channelJpaRepository.findByMyIdAndChannelId(commonAuthContext.getUserEntity().getId(), channelId)
+                .orElseThrow(() -> new BusinessLogicException(-28));
+
+        MessageEntity messageEntity = messageJpaRepository.save(MessageEntity.builder()
+                .content(req.getContent())
+                .sender(commonAuthContext.getUserEntity())
+                .channel(channelEntity)
+                .build());
+
+        if (!CollectionUtils.isEmpty(req.getFiles())) {
+            List<MessageFileEntity> messageFileEntities = new ArrayList<>();
+            req.getFiles().forEach(o -> messageFileEntities.add(MessageFileEntity.builder()
+                    .name(o.getName())
+                    .url(o.getUrl())
+                    .contentType(o.getContentType())
+                    .size(o.getSize())
+                    .sender(commonAuthContext.getUserEntity())
+                    .message(messageEntity)
+                    .channel(channelEntity)
+                    .build()));
+            messageFileJpaRepository.saveAll(messageFileEntities);
+        }
     }
 }

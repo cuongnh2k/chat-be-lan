@@ -18,4 +18,6 @@ public interface UserChannelService {
     void reactUserGroup(String channelId, ReactUserGroupReq req);
 
     void createGroup(CreateGroupReq req);
+
+    void createMessage(String channelId, CreateMessageReq req);
 }

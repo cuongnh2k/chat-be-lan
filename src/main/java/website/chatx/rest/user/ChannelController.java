@@ -99,8 +99,8 @@ public class ChannelController {
 
     @PostMapping("/{channelId}/messages")
     public ResponseEntity<CommonResponse> createMessage(@PathVariable String channelId,
-                                                        @RequestBody @Valid CreateGroupReq req) {
-        userChannelService.createGroup(req);
+                                                        @RequestBody @Valid CreateMessageReq req) {
+        userChannelService.createMessage(channelId, req);
         return CommonResponse.success("");
     }
 }
