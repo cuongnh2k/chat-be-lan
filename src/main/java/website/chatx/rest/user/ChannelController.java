@@ -29,9 +29,10 @@ public class ChannelController {
     @GetMapping
     public ResponseEntity<CommonResponse> getListChannel(@RequestParam(required = false) ChannelTypeEnum type,
                                                          @RequestParam(defaultValue = "") String search,
+                                                         @RequestParam(required = false) UserChannelStatusEnum status,
                                                          @RequestParam(required = false) Integer page,
                                                          @RequestParam(required = false) Integer size) {
-        return CommonResponse.success(channelService.getListChannel(type, search, page, size));
+        return CommonResponse.success(channelService.getListChannel(type, search, status, page, size));
     }
 
     @GetMapping("/{channelId}")

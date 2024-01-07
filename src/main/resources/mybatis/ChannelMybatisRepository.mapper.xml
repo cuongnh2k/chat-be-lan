@@ -7,7 +7,13 @@
         /* ChannelMybatisRepository.countListChannel */
         select count(1)
         from channel c1
-                 join user_channel uc1 on (c1.id = uc1.channel_id and uc1.user_id = #{userId})
+                 join user_channel uc1
+                      on (c1.id = uc1.channel_id
+                          and uc1.user_id = #{userId}
+        <if test="status != null">
+                            and uc1.status = #{status}
+        </if>
+                          )
     </select>
 
     <select id="getListChannel" parameterType="website.chatx.dto.prt.channel.GetListChannelPrt"
@@ -35,7 +41,13 @@
                u2.name       senderCurrentMessageName,
                u2.avatar_url senderCurrentMessageAvatarUrl
         from channel c1
-                 join user_channel uc1 on (c1.id = uc1.channel_id and uc1.user_id = #{userId})
+                 join user_channel uc1
+                     on (c1.id = uc1.channel_id
+                        and uc1.user_id = #{userId}
+        <if test="status != null">
+                        and uc1.status = #{status}
+        </if>
+                    )
                  left join user_channel uc2
                            on (c1.id = uc2.channel_id and uc2.user_id != #{userId} and c1.type = 'FRIEND')
                  left join user u1 on (uc2.user_id = u1.id)
@@ -58,7 +70,14 @@
         /* ChannelMybatisRepository.countListFriend */
         select count(1)
         from channel c1
-            join user_channel uc1 on (c1.id = uc1.channel_id and uc1.user_id = #{userId} and c1.type = 'FRIEND')
+            join user_channel uc1
+                on (c1.id = uc1.channel_id
+                    and uc1.user_id = #{userId}
+                    and c1.type = 'FRIEND'
+        <if test="status != null">
+                    and uc1.status = #{status}
+        </if>
+                )
             join user_channel uc2 on (c1.id = uc2.channel_id and uc2.user_id != #{userId} and c1.type = 'FRIEND')
             join user u1 on (uc2.user_id = u1.id
         <if test="search != ''">
@@ -93,7 +112,14 @@
                u2.name       senderCurrentMessageName,
                u2.avatar_url senderCurrentMessageAvatarUrl
         from channel c1
-                 join user_channel uc1 on (c1.id = uc1.channel_id and uc1.user_id = #{userId} and c1.type = 'FRIEND')
+                 join user_channel uc1
+                     on (c1.id = uc1.channel_id
+                        and uc1.user_id = #{userId}
+                        and c1.type = 'FRIEND'
+        <if test="status != null">
+                        and uc1.status = #{status}
+        </if>
+                    )
                  join user_channel uc2 on (c1.id = uc2.channel_id and uc2.user_id != #{userId} and c1.type = 'FRIEND')
                  join user u1 on (uc2.user_id = u1.id
         <if test="search != ''">
@@ -125,11 +151,14 @@
                 on (c1.id = uc1.channel_id
                     and uc1.user_id = #{userId}
                     and c1.type = 'GROUP'
+        <if test="status != null">
+                    and uc1.status = #{status}
+        </if>
         <if test="search != ''">
             <bind name="pattern" value="'%' + search + '%'"/>
             and c1.name like #{pattern}
         </if>
-        )
+                )
     </select>
 
     <select id="getListGroup" parameterType="website.chatx.dto.prt.channel.GetListChannelPrt"
@@ -156,6 +185,9 @@
                       on (c1.id = uc1.channel_id
                             and uc1.user_id = #{userId}
                             and c1.type = 'GROUP'
+        <if test="status != null">
+            and uc1.status = #{status}
+        </if>
         <if test="search != ''">
             <bind name="pattern" value="'%' + search + '%'"/>
                             and c1.name like #{pattern}

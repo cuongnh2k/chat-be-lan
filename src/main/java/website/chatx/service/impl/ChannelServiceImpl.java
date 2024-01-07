@@ -9,6 +9,7 @@ import website.chatx.core.common.CommonAuthContext;
 import website.chatx.core.common.CommonListResponse;
 import website.chatx.core.common.CommonPaginator;
 import website.chatx.core.enums.ChannelTypeEnum;
+import website.chatx.core.enums.UserChannelStatusEnum;
 import website.chatx.core.exception.BusinessLogicException;
 import website.chatx.dto.prt.channel.GetDetailChannelPrt;
 import website.chatx.dto.prt.channel.GetListChannelPrt;
@@ -39,21 +40,24 @@ public class ChannelServiceImpl implements ChannelService {
 
     @Override
     @Transactional(readOnly = true)
-    public CommonListResponse<ListChannelRes> getListChannel(ChannelTypeEnum type, String search, Integer page, Integer size) {
+    public CommonListResponse<ListChannelRes> getListChannel(ChannelTypeEnum type, String search, UserChannelStatusEnum status, Integer page, Integer size) {
         Long countListChannel;
         if (type == null) {
             countListChannel = channelMybatisRepository.countListChannel(GetListChannelPrt.builder()
                     .userId(commonAuthContext.getUserEntity().getId())
+                    .status(status)
                     .build());
         } else if (type == ChannelTypeEnum.FRIEND) {
             countListChannel = channelMybatisRepository.countListFriend(GetListChannelPrt.builder()
                     .userId(commonAuthContext.getUserEntity().getId())
                     .search(search)
+                    .status(status)
                     .build());
         } else {
             countListChannel = channelMybatisRepository.countListGroup(GetListChannelPrt.builder()
                     .userId(commonAuthContext.getUserEntity().getId())
                     .search(search)
+                    .status(status)
                     .build());
         }
         CommonPaginator commonPaginator = new CommonPaginator(page, size, countListChannel);
@@ -71,6 +75,7 @@ public class ChannelServiceImpl implements ChannelService {
             listChannelRss = channelMybatisRepository.getListChannel(GetListChannelPrt.builder()
                     .userId(commonAuthContext.getUserEntity().getId())
                     .search(search)
+                    .status(status)
                     .offset(commonPaginator.getOffset())
                     .limit(commonPaginator.getLimit())
                     .build());
@@ -78,6 +83,7 @@ public class ChannelServiceImpl implements ChannelService {
             listChannelRss = channelMybatisRepository.getListFriend(GetListChannelPrt.builder()
                     .userId(commonAuthContext.getUserEntity().getId())
                     .search(search)
+                    .status(status)
                     .offset(commonPaginator.getOffset())
                     .limit(commonPaginator.getLimit())
                     .build());
@@ -85,6 +91,7 @@ public class ChannelServiceImpl implements ChannelService {
             listChannelRss = channelMybatisRepository.getListGroup(GetListChannelPrt.builder()
                     .userId(commonAuthContext.getUserEntity().getId())
                     .search(search)
+                    .status(status)
                     .offset(commonPaginator.getOffset())
                     .limit(commonPaginator.getLimit())
                     .build());
@@ -96,6 +103,7 @@ public class ChannelServiceImpl implements ChannelService {
                                 .name(o.getType() == ChannelTypeEnum.FRIEND ? o.getFriendName() : o.getName())
                                 .avatarUrl(o.getType() == ChannelTypeEnum.FRIEND ? o.getFriendAvatarUrl() : o.getAvatarUrl())
                                 .type(o.getType())
+                                .status(o.getStatus())
                                 .createdAt(Timestamp.valueOf(o.getCreatedAt()).getTime())
                                 .updatedAt(Timestamp.valueOf(o.getUpdatedAt()).getTime())
                                 .currentMessage(o.getCurrentMessageId() != null
