@@ -11,7 +11,7 @@ import website.chatx.core.enums.ChannelTypeEnum;
 public class GetListChannelPrt {
     private String userId;
     private ChannelTypeEnum type;
-    private String name;
+    private String search;
     private int offset;
     private int limit;
 }

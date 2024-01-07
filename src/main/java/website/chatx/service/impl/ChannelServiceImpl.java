@@ -39,7 +39,7 @@ public class ChannelServiceImpl implements ChannelService {
 
     @Override
     @Transactional(readOnly = true)
-    public CommonListResponse<ListChannelRes> getListChannel(ChannelTypeEnum type, String name, Integer page, Integer size) {
+    public CommonListResponse<ListChannelRes> getListChannel(ChannelTypeEnum type, String search, Integer page, Integer size) {
         Long countListChannel;
         if (type == null) {
             countListChannel = channelMybatisRepository.countListChannel(GetListChannelPrt.builder()
@@ -48,12 +48,12 @@ public class ChannelServiceImpl implements ChannelService {
         } else if (type == ChannelTypeEnum.FRIEND) {
             countListChannel = channelMybatisRepository.countListFriend(GetListChannelPrt.builder()
                     .userId(commonAuthContext.getUserEntity().getId())
-                    .name(name)
+                    .search(search)
                     .build());
         } else {
             countListChannel = channelMybatisRepository.countListGroup(GetListChannelPrt.builder()
                     .userId(commonAuthContext.getUserEntity().getId())
-                    .name(name)
+                    .search(search)
                     .build());
         }
         if (countListChannel == 0) {
@@ -70,21 +70,21 @@ public class ChannelServiceImpl implements ChannelService {
         if (type == null) {
             listChannelRss = channelMybatisRepository.getListChannel(GetListChannelPrt.builder()
                     .userId(commonAuthContext.getUserEntity().getId())
-                    .name(name)
+                    .search(search)
                     .offset(commonPaginator.getOffset())
                     .limit(commonPaginator.getLimit())
                     .build());
         } else if (type == ChannelTypeEnum.FRIEND) {
             listChannelRss = channelMybatisRepository.getListFriend(GetListChannelPrt.builder()
                     .userId(commonAuthContext.getUserEntity().getId())
-                    .name(name)
+                    .search(search)
                     .offset(commonPaginator.getOffset())
                     .limit(commonPaginator.getLimit())
                     .build());
         } else {
             listChannelRss = channelMybatisRepository.getListGroup(GetListChannelPrt.builder()
                     .userId(commonAuthContext.getUserEntity().getId())
-                    .name(name)
+                    .search(search)
                     .offset(commonPaginator.getOffset())
                     .limit(commonPaginator.getLimit())
                     .build());

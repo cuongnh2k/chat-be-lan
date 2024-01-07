@@ -19,9 +19,7 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/to-add-friend")
-    public ResponseEntity<CommonResponse> getListToAddFriend(@RequestParam(defaultValue = "") String search,
-                                                             @RequestParam(required = false) Integer page,
-                                                             @RequestParam(required = false) Integer size) {
-        return CommonResponse.success(userService.getListUserToAddFriend(search, page, size));
+    public ResponseEntity<CommonResponse> getUserToAddFriend(@RequestParam String email) {
+        return CommonResponse.success(userService.getUserToAddFriend(email));
     }
 }

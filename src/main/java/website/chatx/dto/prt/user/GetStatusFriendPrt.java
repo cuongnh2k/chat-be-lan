@@ -7,9 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class GetListUserToAddFriendPrt {
+public class GetStatusFriendPrt {
     private String userId;
-    private String search;
-    private int offset;
-    private int limit;
+    private String email;
 }

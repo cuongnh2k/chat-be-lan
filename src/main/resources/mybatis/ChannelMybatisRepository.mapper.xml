@@ -61,9 +61,9 @@
             join user_channel uc1 on (c1.id = uc1.channel_id and uc1.user_id = #{userId} and c1.type = 'FRIEND')
             join user_channel uc2 on (c1.id = uc2.channel_id and uc2.user_id != #{userId} and c1.type = 'FRIEND')
             join user u1 on (uc2.user_id = u1.id
-        <if test="name != ''">
-            <bind name="pattern" value="'%' + name + '%'"/>
-                and u1.name like #{pattern}
+        <if test="search != ''">
+            <bind name="pattern" value="'%' + search + '%'"/>
+                and (u1.name like #{pattern} or u1.email like #{pattern})
         </if>
         )
     </select>
@@ -96,9 +96,9 @@
                  join user_channel uc1 on (c1.id = uc1.channel_id and uc1.user_id = #{userId} and c1.type = 'FRIEND')
                  join user_channel uc2 on (c1.id = uc2.channel_id and uc2.user_id != #{userId} and c1.type = 'FRIEND')
                  join user u1 on (uc2.user_id = u1.id
-        <if test="name != ''">
-            <bind name="pattern" value="'%' + name + '%'"/>
-                                and u1.name like #{pattern}
+        <if test="search != ''">
+            <bind name="pattern" value="'%' + search + '%'"/>
+                                    and (u1.name like #{pattern} or u1.email like #{pattern})
         </if>
                                 )
                  left join message m1
@@ -125,9 +125,9 @@
                 on (c1.id = uc1.channel_id
                     and uc1.user_id = #{userId}
                     and c1.type = 'GROUP'
-        <if test="name != ''">
-            <bind name="pattern" value="'%' + name + '%'"/>
-                    and c1.name like #{pattern}
+        <if test="search != ''">
+            <bind name="pattern" value="'%' + search + '%'"/>
+            and c1.name like #{pattern}
         </if>
         )
     </select>
@@ -156,8 +156,8 @@
                       on (c1.id = uc1.channel_id
                             and uc1.user_id = #{userId}
                             and c1.type = 'GROUP'
-        <if test="name != ''">
-            <bind name="pattern" value="'%' + name + '%'"/>
+        <if test="search != ''">
+            <bind name="pattern" value="'%' + search + '%'"/>
                             and c1.name like #{pattern}
         </if>
                           )

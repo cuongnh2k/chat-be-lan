@@ -1,8 +1,7 @@
 package website.chatx.service;
 
-import website.chatx.core.common.CommonListResponse;
-import website.chatx.dto.res.user.ListUserToAddFriendRes;
+import website.chatx.dto.res.user.UserToAddFriendRes;
 
 public interface UserService {
-    CommonListResponse<ListUserToAddFriendRes> getListUserToAddFriend(String search, Integer page, Integer size);
+    UserToAddFriendRes getUserToAddFriend(String email);
 }

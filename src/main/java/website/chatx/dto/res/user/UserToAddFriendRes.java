@@ -1,6 +1,7 @@
 package website.chatx.dto.res.user;
 
 import lombok.*;
+import website.chatx.core.enums.ChannelTypeEnum;
 import website.chatx.core.enums.UserChannelStatusEnum;
 
 @Getter
@@ -8,10 +9,11 @@ import website.chatx.core.enums.UserChannelStatusEnum;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ListUserToAddFriendRes {
+public class UserToAddFriendRes {
     private String id;
     private String email;
     private String name;
     private String avatarUrl;
-    private UserChannelStatusEnum status;
+    private UserChannelStatusEnum theirStatus;
+    private UserChannelStatusEnum myStatus;
 }
