@@ -223,6 +223,21 @@ public class UserChannelServiceImpl implements UserChannelService {
 
     @Override
     public void createGroup(CreateGroupReq req) {
+        if (req.getUserIds().size() < 2) {
+            throw new BusinessLogicException(-25);
+        }
+
+        List<UserEntity> userEntities = userJpaRepository.findByListIdAndActivatedTrue(req.getUserIds());
+        if (userEntities.size() != req.getUserIds().size()) {
+            throw new BusinessLogicException(-26);
+        }
+
+        for (UserEntity o : userEntities) {
+            if (channelJpaRepository.checkFriend(commonAuthContext.getUserEntity().getId(), o.getId()).orElse(null) == null) {
+                throw new BusinessLogicException(-27);
+            }
+        }
+
         ChannelEntity channelEntity = channelJpaRepository.save(ChannelEntity.builder()
                 .ownerId(commonAuthContext.getUserEntity().getId())
                 .name(req.getName())
@@ -230,6 +245,14 @@ public class UserChannelServiceImpl implements UserChannelService {
                 .type(ChannelTypeEnum.GROUP)
                 .build());
 
-
+        List<UserChannelEntity> userChannelEntities = new ArrayList<>();
+        for (UserEntity o : userEntities) {
+            userChannelEntities.add(UserChannelEntity.builder()
+                    .status(UserChannelStatusEnum.ACCEPT)
+                    .user(o)
+                    .channel(channelEntity)
+                    .build());
+        }
+        userChannelJpaRepository.saveAll(userChannelEntities);
     }
 }
