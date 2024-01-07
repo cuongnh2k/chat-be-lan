@@ -9,16 +9,24 @@ import org.springframework.util.CollectionUtils;
 import website.chatx.core.common.CommonAuthContext;
 import website.chatx.core.common.CommonListResponse;
 import website.chatx.core.common.CommonPaginator;
+import website.chatx.core.entities.ChannelEntity;
 import website.chatx.core.entities.UserChannelEntity;
+import website.chatx.core.entities.UserEntity;
+import website.chatx.core.enums.ChannelTypeEnum;
+import website.chatx.core.enums.UserChannelStatusEnum;
+import website.chatx.core.exception.BusinessLogicException;
 import website.chatx.core.utils.BeanCopyUtils;
 import website.chatx.dto.prt.userchannel.GetListMemberPrt;
 import website.chatx.dto.req.channel.AddFriendReq;
 import website.chatx.dto.res.userchannel.list.ListMemberRes;
+import website.chatx.repositories.jpa.ChannelJpaRepository;
 import website.chatx.repositories.jpa.UserChannelJpaRepository;
+import website.chatx.repositories.jpa.UserJpaRepository;
 import website.chatx.repositories.mybatis.UserChannelMybatisRepository;
 import website.chatx.service.UserChannelService;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,6 +36,8 @@ import java.util.stream.Collectors;
 public class UserChannelServiceImpl implements UserChannelService {
 
     private final UserChannelJpaRepository userChannelJpaRepository;
+    private final ChannelJpaRepository channelJpaRepository;
+    private final UserJpaRepository userJpaRepository;
 
     private final UserChannelMybatisRepository userChannelMybatisRepository;
 
@@ -77,11 +87,38 @@ public class UserChannelServiceImpl implements UserChannelService {
 
     @Override
     public void addFriend(AddFriendReq req) {
+        UserEntity userEntity = userJpaRepository.findById(req.getUserId())
+                .orElseThrow(() -> new BusinessLogicException(-14));
         List<UserChannelEntity> userChannelEntities = userChannelJpaRepository.findMyIdAndTheirId(
                 commonAuthContext.getUserEntity().getId(),
                 req.getUserId());
         if (CollectionUtils.isEmpty(userChannelEntities)) {
-
+            ChannelEntity channelEntity = channelJpaRepository.save(ChannelEntity.builder()
+                    .type(ChannelTypeEnum.FRIEND)
+                    .build());
+            UserChannelEntity userChannelEntity1 = UserChannelEntity.builder()
+                    .status(UserChannelStatusEnum.ACCEPT)
+                    .user(commonAuthContext.getUserEntity())
+                    .channel(channelEntity)
+                    .build();
+            UserChannelEntity userChannelEntity2 = UserChannelEntity.builder()
+                    .status(UserChannelStatusEnum.NEW)
+                    .user(userEntity)
+                    .channel(channelEntity)
+                    .build();
+            userChannelJpaRepository.saveAll(Arrays.asList(userChannelEntity1, userChannelEntity2));
+            return;
         }
+        userChannelEntities.forEach(o -> {
+            if (o.getUser().getId().equals(commonAuthContext.getUserEntity().getId())
+                    && (o.getStatus() == UserChannelStatusEnum.NEW || o.getStatus() == UserChannelStatusEnum.REJECT)) {
+                o.setStatus(UserChannelStatusEnum.ACCEPT);
+            } else {
+                if (o.getStatus() == UserChannelStatusEnum.REJECT) {
+                    o.setStatus(UserChannelStatusEnum.NEW);
+                }
+            }
+        });
+        userChannelJpaRepository.saveAll(userChannelEntities);
     }
 }
