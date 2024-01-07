@@ -48,11 +48,12 @@ public class UserChannelServiceImpl implements UserChannelService {
 
     @Override
     @Transactional(readOnly = true)
-    public CommonListResponse<ListMemberRes> getListMember(String channelId, String search, Integer page, Integer size) {
+    public CommonListResponse<ListMemberRes> getListMember(String channelId, String search, UserChannelStatusEnum status, Integer page, Integer size) {
         Long countListMember = userChannelMybatisRepository.countListMember(GetListMemberPrt.builder()
                 .userId(commonAuthContext.getUserEntity().getId())
                 .channelId(channelId)
                 .search(search)
+                .status(status)
                 .build());
         CommonPaginator commonPaginator = new CommonPaginator(page, size, countListMember);
         if (countListMember == 0) {
@@ -69,6 +70,7 @@ public class UserChannelServiceImpl implements UserChannelService {
                                 .userId(commonAuthContext.getUserEntity().getId())
                                 .channelId(channelId)
                                 .search(search)
+                                .status(status)
                                 .offset(commonPaginator.getOffset())
                                 .limit(commonPaginator.getLimit())
                                 .build()).stream()

@@ -7,6 +7,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import website.chatx.core.common.CommonResponse;
 import website.chatx.core.enums.ChannelTypeEnum;
+import website.chatx.core.enums.UserChannelStatusEnum;
 import website.chatx.dto.req.channel.AddUserFriendReq;
 import website.chatx.dto.req.channel.AddUserGroupReq;
 import website.chatx.service.ChannelService;
@@ -57,9 +58,10 @@ public class ChannelController {
     @GetMapping("/{channelId}/member")
     public ResponseEntity<CommonResponse> getListMember(@PathVariable String channelId,
                                                         @RequestParam(defaultValue = "") String search,
+                                                        @RequestParam(required = false) UserChannelStatusEnum status,
                                                         @RequestParam(required = false) Integer page,
                                                         @RequestParam(required = false) Integer size) {
-        return CommonResponse.success(userChannelService.getListMember(channelId, search, page, size));
+        return CommonResponse.success(userChannelService.getListMember(channelId, search, status, page, size));
     }
 
     @PostMapping("/add-user-friend")
