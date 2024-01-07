@@ -7,6 +7,7 @@ import org.springframework.util.StringUtils;
 import website.chatx.core.common.CommonAuthContext;
 import website.chatx.core.common.CommonListResponse;
 import website.chatx.core.common.CommonPaginator;
+import website.chatx.core.enums.ChannelTypeEnum;
 import website.chatx.core.enums.UserChannelStatusEnum;
 import website.chatx.core.exception.BusinessLogicException;
 import website.chatx.core.mapper.UserMapper;
@@ -56,10 +57,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public CommonListResponse<ListFriendToAddGroupRes> getListFriendToAddGroup(String channelId, String search, Integer page, Integer size) {
         if (StringUtils.hasText(channelId)
-                && !userChannelJpaRepository.existsByUserIdAndChannelIdAndStatus(
+                && userChannelJpaRepository.findByUserIdAndChannelIdAndStatusAndChannelType(
                 commonAuthContext.getUserEntity().getId(),
                 channelId,
-                UserChannelStatusEnum.ACCEPT)) {
+                UserChannelStatusEnum.ACCEPT,
+                ChannelTypeEnum.GROUP) == null) {
             throw new BusinessLogicException(-13);
         }
         Long countListFriend = userMybatisRepository.countListFriendToAddGroup(GetListFriendToAddGroupPrt.builder()

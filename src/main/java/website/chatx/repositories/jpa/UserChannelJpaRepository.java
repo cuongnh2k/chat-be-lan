@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import website.chatx.core.entities.UserChannelEntity;
+import website.chatx.core.enums.ChannelTypeEnum;
 import website.chatx.core.enums.UserChannelStatusEnum;
 
 import java.util.List;
@@ -11,7 +12,22 @@ import java.util.List;
 @Repository
 public interface UserChannelJpaRepository extends JpaRepository<UserChannelEntity, String> {
 
-    Boolean existsByUserIdAndChannelIdAndStatus(String userId, String channelId, UserChannelStatusEnum status);
+    @Query(nativeQuery = true,
+            value = """
+                    select uc1.*
+                    from user_channel uc1
+                        join channel c1 
+                            on (uc1.channel_id = c1.id 
+                                and c1.type = ?4 
+                                and uc1.user_id = ?1
+                                and uc1.channel_id = ?2
+                                and uc1.status = ?3
+                                )
+                    """)
+    UserChannelEntity findByUserIdAndChannelIdAndStatusAndChannelType(String userId,
+                                                                      String channelId,
+                                                                      UserChannelStatusEnum status,
+                                                                      ChannelTypeEnum type);
 
     @Query(nativeQuery = true,
             value = """
