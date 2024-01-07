@@ -3,28 +3,25 @@ package website.chatx.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import website.chatx.core.common.CommonAuthContext;
 import website.chatx.core.common.CommonListResponse;
 import website.chatx.core.common.CommonPaginator;
-import website.chatx.core.entities.UserEntity;
 import website.chatx.core.enums.UserChannelStatusEnum;
 import website.chatx.core.exception.BusinessLogicException;
 import website.chatx.core.mapper.UserMapper;
 import website.chatx.core.utils.BeanCopyUtils;
 import website.chatx.dto.prt.user.GetListFriendToAddGroupPrt;
-import website.chatx.dto.prt.user.GetStatusFriendPrt;
+import website.chatx.dto.prt.user.GetOneUserToAddFriendPrt;
 import website.chatx.dto.res.user.ListFriendToAddGroupRes;
 import website.chatx.dto.res.user.OneUserToAddFriendRes;
-import website.chatx.dto.rss.user.StatusFriendRss;
+import website.chatx.dto.rss.user.OneUserToAddFriendRss;
 import website.chatx.repositories.jpa.UserChannelJpaRepository;
 import website.chatx.repositories.jpa.UserJpaRepository;
 import website.chatx.repositories.mybatis.UserMybatisRepository;
 import website.chatx.service.UserService;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -44,24 +41,16 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(readOnly = true)
     public OneUserToAddFriendRes getOneUserToAddFriend(String email) {
-        UserEntity userEntity = userJpaRepository.findOneUserToAddFriend(email, commonAuthContext.getUserEntity().getId())
-                .orElseThrow(() -> new BusinessLogicException(-12));
-
-        OneUserToAddFriendRes userToAddFriendRes = userMapper.toUserToAddFriendRes(userEntity);
-
-        List<StatusFriendRss> statusFriendRss = userMybatisRepository.getStatusFriend(GetStatusFriendPrt.builder()
+        OneUserToAddFriendRss oneUserToAddFriendRss = userMybatisRepository.getOneUserToAddFriend(GetOneUserToAddFriendPrt.builder()
                 .userId(commonAuthContext.getUserEntity().getId())
                 .email(email)
                 .build());
-        if (!CollectionUtils.isEmpty(statusFriendRss)) {
-            statusFriendRss.forEach(o -> {
-                if (o.getUserId().equals(commonAuthContext.getUserEntity().getId())) {
-                    userToAddFriendRes.setMyStatus(o.getStatus());
-                }
-                userToAddFriendRes.setTheirStatus(o.getStatus());
-            });
+        if (oneUserToAddFriendRss == null) {
+            throw new BusinessLogicException(-12);
         }
-        return userToAddFriendRes;
+        OneUserToAddFriendRes oneUserToAddFriendRes = new OneUserToAddFriendRes();
+        BeanCopyUtils.copyProperties(oneUserToAddFriendRes, oneUserToAddFriendRss);
+        return oneUserToAddFriendRes;
     }
 
     @Override

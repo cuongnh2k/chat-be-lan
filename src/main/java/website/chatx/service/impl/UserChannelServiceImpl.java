@@ -5,22 +5,29 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 import website.chatx.core.common.CommonAuthContext;
 import website.chatx.core.common.CommonListResponse;
 import website.chatx.core.common.CommonPaginator;
+import website.chatx.core.entities.UserChannelEntity;
 import website.chatx.core.utils.BeanCopyUtils;
 import website.chatx.dto.prt.userchannel.GetListMemberPrt;
+import website.chatx.dto.req.channel.AddFriendReq;
 import website.chatx.dto.res.userchannel.list.ListMemberRes;
+import website.chatx.repositories.jpa.UserChannelJpaRepository;
 import website.chatx.repositories.mybatis.UserChannelMybatisRepository;
 import website.chatx.service.UserChannelService;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class UserChannelServiceImpl implements UserChannelService {
+
+    private final UserChannelJpaRepository userChannelJpaRepository;
 
     private final UserChannelMybatisRepository userChannelMybatisRepository;
 
@@ -66,5 +73,15 @@ public class UserChannelServiceImpl implements UserChannelService {
                 .totalPages(commonPaginator.getTotalPages())
                 .totalElements(commonPaginator.getTotalItems())
                 .build();
+    }
+
+    @Override
+    public void addFriend(AddFriendReq req) {
+        List<UserChannelEntity> userChannelEntities = userChannelJpaRepository.findMyIdAndTheirId(
+                commonAuthContext.getUserEntity().getId(),
+                req.getUserId());
+        if (CollectionUtils.isEmpty(userChannelEntities)) {
+
+        }
     }
 }

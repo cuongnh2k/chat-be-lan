@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class GetStatusFriendPrt {
+public class GetOneUserToAddFriendPrt {
     private String userId;
     private String email;
 }

@@ -8,7 +8,10 @@ import website.chatx.core.enums.UserChannelStatusEnum;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class StatusFriendRss {
-    private String userId;
+public class OneUserToAddFriendRss {
+    private String id;
+    private String email;
+    private String name;
+    private String avatarUrl;
     private UserChannelStatusEnum status;
 }

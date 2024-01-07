@@ -13,6 +13,5 @@ public class OneUserToAddFriendRes {
     private String email;
     private String name;
     private String avatarUrl;
-    private UserChannelStatusEnum theirStatus;
-    private UserChannelStatusEnum myStatus;
+    private UserChannelStatusEnum status;
 }
