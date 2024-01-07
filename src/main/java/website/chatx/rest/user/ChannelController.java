@@ -97,4 +97,10 @@ public class ChannelController {
         return CommonResponse.success("");
     }
 
+    @PostMapping("/{channelId}/messages")
+    public ResponseEntity<CommonResponse> createMessage(@PathVariable String channelId,
+                                                        @RequestBody @Valid CreateGroupReq req) {
+        userChannelService.createGroup(req);
+        return CommonResponse.success("");
+    }
 }
