@@ -103,4 +103,12 @@ public class ChannelController {
         userChannelService.createMessage(channelId, req);
         return CommonResponse.success("");
     }
+
+    @PatchMapping("/{channelId}/messages/{messageId}")
+    public ResponseEntity<CommonResponse> updateMessage(@PathVariable String channelId,
+                                                        @PathVariable String messageId,
+                                                        @RequestBody @Valid UpdateMessageReq req) {
+        userChannelService.updateMessage(channelId, messageId, req);
+        return CommonResponse.success("");
+    }
 }

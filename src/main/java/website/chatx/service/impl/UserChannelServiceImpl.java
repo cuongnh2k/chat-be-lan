@@ -279,4 +279,20 @@ public class UserChannelServiceImpl implements UserChannelService {
             messageFileJpaRepository.saveAll(messageFileEntities);
         }
     }
+
+    @Override
+    public void updateMessage(String channelId, String messageId, UpdateMessageReq req) {
+        ChannelEntity channelEntity = channelJpaRepository.findByMyIdAndChannelId(commonAuthContext.getUserEntity().getId(), channelId)
+                .orElseThrow(() -> new BusinessLogicException(-29));
+
+        MessageEntity messageEntity = messageJpaRepository.findById(messageId)
+                .orElseThrow(() -> new BusinessLogicException(-30));
+
+        if (!messageEntity.getChannel().getId().equals(channelEntity.getId())) {
+            throw new BusinessLogicException(-31);
+        }
+
+        messageEntity.setContent(req.getContent());
+        messageJpaRepository.save(messageEntity);
+    }
 }
