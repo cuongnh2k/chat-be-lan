@@ -3,15 +3,17 @@ package website.chatx.service.impl;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import website.chatx.core.common.CommonAuthContext;
-import website.chatx.core.exception.BusinessLogicException;
-import website.chatx.dto.res.entity.FileUpEntityRes;
 import website.chatx.core.entities.FileUpEntity;
+import website.chatx.core.exception.BusinessLogicException;
 import website.chatx.core.mapper.FileUpMapper;
+import website.chatx.dto.res.entity.FileUpEntityRes;
 import website.chatx.repositories.jpa.FileUpJpaRepository;
 import website.chatx.service.FileUpService;
 
@@ -35,6 +37,8 @@ public class FileUpServiceImpl implements FileUpService {
 
     @Value("${cloud.aws.region.static}")
     private String REGION;
+
+    private final Log LOGGER = LogFactory.getLog(getClass());
 
     @Override
     public FileUpEntityRes uploadFile(MultipartFile file) {
@@ -68,6 +72,7 @@ public class FileUpServiceImpl implements FileUpService {
         ObjectMetadata metadata = new ObjectMetadata();
         metadata.setContentLength(file.getSize());
         metadata.setContentType(file.getContentType());
+        LOGGER.info("content-type: " + file.getContentType());
         try {
             amazonS3.putObject(BUCKET_PUBLIC,
                     authContext.getUserEntity().getId()
