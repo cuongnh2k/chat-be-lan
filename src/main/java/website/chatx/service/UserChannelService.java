@@ -3,6 +3,7 @@ package website.chatx.service;
 import website.chatx.core.common.CommonListResponse;
 import website.chatx.core.enums.UserChannelStatusEnum;
 import website.chatx.dto.req.channel.*;
+import website.chatx.dto.req.channel.createmessage.CreateMessageReq;
 import website.chatx.dto.res.userchannel.list.ListMemberRes;
 
 public interface UserChannelService {

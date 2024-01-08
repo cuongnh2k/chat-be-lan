@@ -9,6 +9,7 @@ import website.chatx.core.common.CommonResponse;
 import website.chatx.core.enums.ChannelTypeEnum;
 import website.chatx.core.enums.UserChannelStatusEnum;
 import website.chatx.dto.req.channel.*;
+import website.chatx.dto.req.channel.createmessage.CreateMessageReq;
 import website.chatx.service.ChannelService;
 import website.chatx.service.MessageFileService;
 import website.chatx.service.MessageService;

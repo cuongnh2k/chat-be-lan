@@ -16,6 +16,7 @@ import website.chatx.core.exception.BusinessLogicException;
 import website.chatx.core.utils.BeanCopyUtils;
 import website.chatx.dto.prt.userchannel.GetListMemberPrt;
 import website.chatx.dto.req.channel.*;
+import website.chatx.dto.req.channel.createmessage.CreateMessageReq;
 import website.chatx.dto.res.userchannel.list.ListMemberRes;
 import website.chatx.repositories.jpa.*;
 import website.chatx.repositories.mybatis.UserChannelMybatisRepository;
