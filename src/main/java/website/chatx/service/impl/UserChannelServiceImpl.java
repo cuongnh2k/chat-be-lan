@@ -245,6 +245,11 @@ public class UserChannelServiceImpl implements UserChannelService {
                 .build());
 
         List<UserChannelEntity> userChannelEntities = new ArrayList<>();
+        userChannelEntities.add(UserChannelEntity.builder()
+                .status(UserChannelStatusEnum.ACCEPT)
+                .user(commonAuthContext.getUserEntity())
+                .channel(channelEntity)
+                .build());
         for (UserEntity o : userEntities) {
             userChannelEntities.add(UserChannelEntity.builder()
                     .status(UserChannelStatusEnum.ACCEPT)
