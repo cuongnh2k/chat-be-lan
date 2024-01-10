@@ -15,10 +15,10 @@ public class MessageFileMybatisRepository {
     private final SqlSession sqlSession;
 
     public Long countListFile(GetListFilePrt prt) {
-        return sqlSession.selectOne("MessageFileMybatisRepository.countListFile", prt);
+        return sqlSession.selectOne("website.chatx.repositories.mybatis.MessageFileMybatisRepository.countListFile", prt);
     }
 
     public List<ListFileRss> getListFile(GetListFilePrt prt) {
-        return sqlSession.selectList("MessageFileMybatisRepository.getListFile", prt);
+        return sqlSession.selectList("website.chatx.repositories.mybatis.MessageFileMybatisRepository.getListFile", prt);
     }
 }

@@ -15,10 +15,10 @@ public class MessageMybatisRepository {
     private final SqlSession sqlSession;
 
     public Long countListMessage(GetListMessagePrt prt) {
-        return sqlSession.selectOne("MessageMybatisRepository.countListMessage", prt);
+        return sqlSession.selectOne("website.chatx.repositories.mybatis.MessageMybatisRepository.countListMessage", prt);
     }
 
     public List<ListMessageRss> getListMessage(GetListMessagePrt prt) {
-        return sqlSession.selectList("MessageMybatisRepository.getListMessage", prt);
+        return sqlSession.selectList("website.chatx.repositories.mybatis.MessageMybatisRepository.getListMessage", prt);
     }
 }

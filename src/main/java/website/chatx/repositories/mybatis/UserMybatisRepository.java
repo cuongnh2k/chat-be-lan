@@ -17,14 +17,14 @@ public class UserMybatisRepository {
     private final SqlSession sqlSession;
 
     public OneUserToAddFriendRss getOneUserToAddFriend(GetOneUserToAddFriendPrt prt) {
-        return sqlSession.selectOne("UserMybatisRepository.getOneUserToAddFriend", prt);
+        return sqlSession.selectOne("website.chatx.repositories.mybatis.UserMybatisRepository.getOneUserToAddFriend", prt);
     }
 
     public Long countListFriendToAddGroup(GetListFriendToAddGroupPrt prt) {
-        return sqlSession.selectOne("UserMybatisRepository.countListFriendToAddGroup", prt);
+        return sqlSession.selectOne("website.chatx.repositories.mybatis.UserMybatisRepository.countListFriendToAddGroup", prt);
     }
 
     public List<ListFriendToAddGroupRss> getListFriendToAddGroup(GetListFriendToAddGroupPrt prt) {
-        return sqlSession.selectList("UserMybatisRepository.getListFriendToAddGroup", prt);
+        return sqlSession.selectList("website.chatx.repositories.mybatis.UserMybatisRepository.getListFriendToAddGroup", prt);
     }
 }

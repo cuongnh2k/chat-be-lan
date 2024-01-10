@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="UserMybatisRepository">
+<mapper namespace="website.chatx.repositories.mybatis.UserMybatisRepository">
 
     <select id="getOneUserToAddFriend" parameterType="website.chatx.dto.prt.user.GetOneUserToAddFriendPrt"
             resultType="website.chatx.dto.rss.user.OneUserToAddFriendRss">

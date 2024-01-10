@@ -1,8 +1,6 @@
 package website.chatx.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import website.chatx.core.common.CommonAuthContext;
@@ -35,8 +33,6 @@ public class ChannelServiceImpl implements ChannelService {
     private final ChannelMybatisRepository channelMybatisRepository;
 
     private final CommonAuthContext commonAuthContext;
-
-    private final Log LOGGER = LogFactory.getLog(getClass());
 
     @Override
     @Transactional(readOnly = true)
