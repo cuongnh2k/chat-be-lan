@@ -17,13 +17,12 @@ import java.util.List;
 @SuperBuilder
 public class UserEntityRes extends BaseResponse {
     private String email;
-    private String password;
     private String name;
     private UserGenderEnum gender;
     private String phone;
     private String address;
     private String avatarUrl;
-    private boolean isActivated;
+    private Boolean isActivated;
     private List<UserActivationCodeEntityRes> userActivationCodes;
     private List<UserChannelEntityRes> userChannels;
     private List<MessageEntityRes> messages;

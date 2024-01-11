@@ -14,6 +14,7 @@ import website.chatx.core.mapper.UserMapper;
 import website.chatx.core.utils.BeanCopyUtils;
 import website.chatx.dto.prt.user.GetListFriendToAddGroupPrt;
 import website.chatx.dto.prt.user.GetOneUserToAddFriendPrt;
+import website.chatx.dto.res.entity.UserEntityRes;
 import website.chatx.dto.res.user.ListFriendToAddGroupRes;
 import website.chatx.dto.res.user.OneUserToAddFriendRes;
 import website.chatx.dto.rss.user.OneUserToAddFriendRss;
@@ -100,5 +101,10 @@ public class UserServiceImpl implements UserService {
                 .totalPages(commonPaginator.getTotalPages())
                 .totalElements(commonPaginator.getTotalItems())
                 .build();
+    }
+
+    @Override
+    public UserEntityRes getUser() {
+        return userMapper.toUserEntityRes(commonAuthContext.getUserEntity());
     }
 }

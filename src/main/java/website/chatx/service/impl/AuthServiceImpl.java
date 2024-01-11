@@ -63,6 +63,7 @@ public class AuthServiceImpl implements AuthService {
                 .email(req.getEmail())
                 .password(passwordEncoder.encode(req.getPassword()))
                 .name(req.getName())
+                .isActivated(false)
                 .build();
         userJpaRepository.save(userEntity);
         String verifyToken = RandomStringUtils.random(4, false, true);
@@ -84,7 +85,7 @@ public class AuthServiceImpl implements AuthService {
             throw new BusinessLogicException(-3);
         }
         UserEntity userEntity = userJpaRepository.findByEmail(req.getEmail());
-        if (!userEntity.isActivated()) {
+        if (!userEntity.getIsActivated()) {
             throw new BusinessLogicException(-4);
         }
         return new SignInRes(JWT.create()
@@ -103,7 +104,7 @@ public class AuthServiceImpl implements AuthService {
         if (!req.getVerifyToken().equals(userEntity.getUserActivationCodes().get(0).getCode())) {
             throw new BusinessLogicException(-6);
         }
-        userEntity.setActivated(true);
+        userEntity.setIsActivated(true);
         userJpaRepository.save(userEntity);
     }
 

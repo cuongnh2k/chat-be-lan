@@ -18,6 +18,11 @@ public class UserController {
 
     private final UserService userService;
 
+    @GetMapping
+    public ResponseEntity<CommonResponse> getUser() {
+        return CommonResponse.success(userService.getUser());
+    }
+
     @GetMapping("/to-add-friend")
     public ResponseEntity<CommonResponse> getOneUserToAddFriend(@RequestParam String email) {
         return CommonResponse.success(userService.getOneUserToAddFriend(email));
@@ -25,9 +30,9 @@ public class UserController {
 
     @GetMapping("/to-add-group")
     public ResponseEntity<CommonResponse> getListFriendToAddGroup(@RequestParam(defaultValue = "") String channelId,
-                                                            @RequestParam(defaultValue = "") String search,
-                                                            @RequestParam(required = false) Integer page,
-                                                            @RequestParam(required = false) Integer size) {
+                                                                  @RequestParam(defaultValue = "") String search,
+                                                                  @RequestParam(required = false) Integer page,
+                                                                  @RequestParam(required = false) Integer size) {
         return CommonResponse.success(userService.getListFriendToAddGroup(channelId, search, page, size));
     }
 }
