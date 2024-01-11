@@ -1,13 +1,12 @@
 package website.chatx.rest.user;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import website.chatx.core.common.CommonResponse;
+import website.chatx.dto.req.user.UpdateUserReq;
 import website.chatx.service.UserService;
 
 @Validated
@@ -21,6 +20,12 @@ public class UserController {
     @GetMapping
     public ResponseEntity<CommonResponse> getUser() {
         return CommonResponse.success(userService.getUser());
+    }
+
+    @PatchMapping
+    public ResponseEntity<CommonResponse> updateUser(@RequestBody @Valid UpdateUserReq req) {
+        userService.updateUser(req);
+        return CommonResponse.success("");
     }
 
     @GetMapping("/to-add-friend")

@@ -3,23 +3,28 @@ package website.chatx.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import website.chatx.core.common.CommonAuthContext;
 import website.chatx.core.common.CommonListResponse;
 import website.chatx.core.common.CommonPaginator;
+import website.chatx.core.entities.UserEntity;
 import website.chatx.core.exception.BusinessLogicException;
 import website.chatx.core.mapper.UserMapper;
 import website.chatx.core.utils.BeanCopyUtils;
 import website.chatx.dto.prt.user.GetListFriendToAddGroupPrt;
 import website.chatx.dto.prt.user.GetOneUserToAddFriendPrt;
+import website.chatx.dto.req.user.UpdateUserReq;
 import website.chatx.dto.res.entity.UserEntityRes;
 import website.chatx.dto.res.user.ListFriendToAddGroupRes;
 import website.chatx.dto.res.user.OneUserToAddFriendRes;
 import website.chatx.dto.rss.user.OneUserToAddFriendRss;
 import website.chatx.repositories.jpa.ChannelJpaRepository;
-import website.chatx.repositories.jpa.UserChannelJpaRepository;
 import website.chatx.repositories.jpa.UserJpaRepository;
 import website.chatx.repositories.mybatis.UserMybatisRepository;
 import website.chatx.service.UserService;
@@ -32,15 +37,18 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-    private final UserJpaRepository userJpaRepository;
-    private final UserChannelJpaRepository userChannelJpaRepository;
     private final ChannelJpaRepository channelJpaRepository;
+    private final UserJpaRepository userJpaRepository;
 
     private final UserMybatisRepository userMybatisRepository;
+
+    private final DaoAuthenticationProvider daoAuthenticationProvider;
 
     private final CommonAuthContext commonAuthContext;
 
     private final UserMapper userMapper;
+
+    private final PasswordEncoder passwordEncoder;
 
     private final Log LOGGER = LogFactory.getLog(getClass());
 
@@ -106,5 +114,27 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserEntityRes getUser() {
         return userMapper.toUserEntityRes(commonAuthContext.getUserEntity());
+    }
+
+    @Override
+    public void updateUser(UpdateUserReq req) {
+        UserEntity userEntity = commonAuthContext.getUserEntity();
+
+        if (StringUtils.hasText(req.getNewPassword())) {
+            try {
+                daoAuthenticationProvider.authenticate(
+                        new UsernamePasswordAuthenticationToken(userEntity.getEmail(), req.getOldPassword()));
+            } catch (BadCredentialsException e) {
+                throw new BusinessLogicException(-37);
+            }
+            userEntity.setPassword(passwordEncoder.encode(req.getNewPassword()));
+        }
+        if (StringUtils.hasText(req.getName())) {
+            userEntity.setName(req.getName());
+        }
+        if (StringUtils.hasText(req.getAvatarUrl())) {
+            userEntity.setAvatarUrl(req.getAvatarUrl());
+        }
+        userJpaRepository.save(userEntity);
     }
 }
