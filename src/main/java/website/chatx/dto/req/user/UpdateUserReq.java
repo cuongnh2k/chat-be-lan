@@ -1,6 +1,5 @@
 package website.chatx.dto.req.user;
 
-import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,7 +7,6 @@ import lombok.Setter;
 @Setter
 public class UpdateUserReq {
 
-    @NotBlank
     private String name;
 
     private String avatarUrl;
