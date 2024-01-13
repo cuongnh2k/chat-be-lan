@@ -19,6 +19,7 @@ import java.util.List;
 @Table(name = "message")
 public class MessageEntity extends BaseEntity {
 
+    @Column(columnDefinition = "longtext")
     private String content;
 
     @OneToMany(mappedBy = "message")
