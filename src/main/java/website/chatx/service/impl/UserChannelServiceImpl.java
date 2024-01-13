@@ -160,7 +160,7 @@ public class UserChannelServiceImpl implements UserChannelService {
             }
         }
 
-        ChannelEntity channelEntity = channelJpaRepository.findByMyIdAndChannelId(commonAuthContext.getUserEntity().getId(), channelId)
+        ChannelEntity channelEntity = channelJpaRepository.findByMyIdAndGroupId(commonAuthContext.getUserEntity().getId(), channelId)
                 .orElseThrow(() -> new BusinessLogicException(-17));
 
         List<UserChannelEntity> userChannelEntities = channelEntity.getUserChannels();
@@ -262,7 +262,7 @@ public class UserChannelServiceImpl implements UserChannelService {
 
     @Override
     public void createMessage(String channelId, CreateMessageReq req) {
-        ChannelEntity channelEntity = channelJpaRepository.findByMyIdAndChannelId(commonAuthContext.getUserEntity().getId(), channelId)
+        ChannelEntity channelEntity = channelJpaRepository.findByMyIdAndChannel1Id(commonAuthContext.getUserEntity().getId(), channelId)
                 .orElseThrow(() -> new BusinessLogicException(-28));
 
         MessageEntity messageEntity = messageJpaRepository.save(MessageEntity.builder()
@@ -288,7 +288,7 @@ public class UserChannelServiceImpl implements UserChannelService {
 
     @Override
     public void updateMessage(String channelId, String messageId, UpdateMessageReq req) {
-        ChannelEntity channelEntity = channelJpaRepository.findByMyIdAndChannelId(commonAuthContext.getUserEntity().getId(), channelId)
+        ChannelEntity channelEntity = channelJpaRepository.findByMyIdAndChannel1Id(commonAuthContext.getUserEntity().getId(), channelId)
                 .orElseThrow(() -> new BusinessLogicException(-29));
 
         MessageEntity messageEntity = messageJpaRepository.findById(messageId)
@@ -308,7 +308,7 @@ public class UserChannelServiceImpl implements UserChannelService {
 
     @Override
     public void deleteMessage(String channelId, String messageId) {
-        ChannelEntity channelEntity = channelJpaRepository.findByMyIdAndChannelId(commonAuthContext.getUserEntity().getId(), channelId)
+        ChannelEntity channelEntity = channelJpaRepository.findByMyIdAndChannel1Id(commonAuthContext.getUserEntity().getId(), channelId)
                 .orElseThrow(() -> new BusinessLogicException(-33));
 
         MessageEntity messageEntity = messageJpaRepository.findById(messageId)

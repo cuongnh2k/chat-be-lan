@@ -22,7 +22,20 @@ public interface ChannelJpaRepository extends JpaRepository<ChannelEntity, Strin
                                 and c1.type = 'GROUP'
                             )
                     """)
-    Optional<ChannelEntity> findByMyIdAndChannelId(String userId, String channelId);
+    Optional<ChannelEntity> findByMyIdAndGroupId(String userId, String channelId);
+
+    @Query(nativeQuery = true,
+            value = """
+                    select c1.*
+                    from channel c1
+                        join user_channel uc1
+                            on (c1.id = uc1.channel_id
+                                and uc1.user_id = ?1
+                                and uc1.channel_id = ?2
+                                and uc1.status = 'ACCEPT'
+                            )
+                    """)
+    Optional<ChannelEntity> findByMyIdAndChannel1Id(String userId, String channelId);
 
     @Query(nativeQuery = true,
             value = """

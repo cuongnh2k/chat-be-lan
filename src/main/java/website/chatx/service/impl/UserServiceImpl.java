@@ -70,7 +70,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public CommonListResponse<ListFriendToAddGroupRes> getListFriendToAddGroup(String channelId, String search, Integer page, Integer size) {
         if (StringUtils.hasText(channelId)) {
-            channelJpaRepository.findByMyIdAndChannelId(
+            channelJpaRepository.findByMyIdAndGroupId(
                     commonAuthContext.getUserEntity().getId(), channelId).orElseThrow(() -> new BusinessLogicException(-13));
         }
         Long countListFriend = userMybatisRepository.countListFriendToAddGroup(GetListFriendToAddGroupPrt.builder()
