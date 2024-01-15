@@ -65,14 +65,16 @@ public class SecurityFilter extends OncePerRequestFilter {
         else if (Pattern.compile("^/basic/.*$")
                 .matcher(request.getServletPath()).find()) {
             filterChain.doFilter(request, response);
-        } else if (!StringUtils.hasText(request.getHeader(AUTHORIZATION))) {
+        } else if (!StringUtils.hasText(request.getHeader(AUTHORIZATION)) && !request.getRequestURI().startsWith("/api/v1/wsjs")) {
             res.setMessage("token is empty");
             new ObjectMapper().writeValue(response.getOutputStream(), res);
         } else {
             try {
-                String token = request.getHeader(AUTHORIZATION).substring("Bearer ".length());
+                String token;
                 if (request.getRequestURI().startsWith("/api/v1/wsjs")) {
-                    token = request.getParameter("token");
+                    token = request.getParameter("token").substring("Bearer ".length());
+                } else {
+                    token = request.getHeader(AUTHORIZATION).substring("Bearer ".length());
                 }
                 Algorithm algorithm = Algorithm.HMAC256(SECRET_KEY.getBytes());
                 JWTVerifier verifier = JWT.require(algorithm).build();

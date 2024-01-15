@@ -3,6 +3,7 @@ package website.chatx.repositories.jpa;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import website.chatx.core.entities.ChannelEntity;
 import website.chatx.core.entities.UserChannelEntity;
 
 import java.util.List;
@@ -19,4 +20,6 @@ public interface UserChannelJpaRepository extends JpaRepository<UserChannelEntit
                                      join user_channel uc3 on (c1.id = uc3.channel_id and c1.type = 'FRIEND')
                     """)
     List<UserChannelEntity> findByMyIdAndTheirId(String myId, String theirId);
+
+    List<UserChannelEntity> findByChannel(ChannelEntity channelEntity);
 }
