@@ -14,7 +14,7 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import website.chatx.core.async.SendEmailAsync;
+import website.chatx.async.SendEmailAsync;
 import website.chatx.core.entities.UserActivationCodeEntity;
 import website.chatx.core.entities.UserEntity;
 import website.chatx.core.exception.BusinessLogicException;

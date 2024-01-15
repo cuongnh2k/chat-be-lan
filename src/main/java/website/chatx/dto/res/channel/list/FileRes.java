@@ -2,19 +2,17 @@ package website.chatx.dto.res.channel.list;
 
 import lombok.*;
 
-import java.util.List;
-
 @Getter
 @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CurrentMessageRes {
+public class FileRes {
     private String id;
-    private String type;
-    private String content;
+    private String name;
+    private String url;
+    private String contentType;
+    private Integer size;
     private Long createdAt;
     private Long updatedAt;
-    private List<FileRes> files;
-    private SenderRes sender;
 }

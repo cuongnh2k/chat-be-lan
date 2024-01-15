@@ -1,4 +1,4 @@
-package website.chatx.core.async;
+package website.chatx.async;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;

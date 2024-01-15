@@ -1,10 +1,12 @@
-package website.chatx.rest.user;
+package website.chatx.rest;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import website.chatx.async.PushMessageAsync;
+import website.chatx.core.common.CommonAuthContext;
 import website.chatx.core.common.CommonResponse;
 import website.chatx.core.enums.ChannelTypeEnum;
 import website.chatx.core.enums.UserChannelStatusEnum;
@@ -25,6 +27,8 @@ public class ChannelController {
     private final MessageService messageService;
     private final MessageFileService messageFileService;
     private final UserChannelService userChannelService;
+    private final PushMessageAsync pushMessageAsync;
+    private final CommonAuthContext commonAuthContext;
 
     @GetMapping
     public ResponseEntity<CommonResponse> getListChannel(@RequestParam(required = false) ChannelTypeEnum type,
@@ -101,7 +105,8 @@ public class ChannelController {
     @PostMapping("/{channelId}/messages")
     public ResponseEntity<CommonResponse> createMessage(@PathVariable String channelId,
                                                         @RequestBody @Valid CreateMessageReq req) {
-        userChannelService.createMessage(channelId, req);
+        String messageId = userChannelService.createMessage(channelId, req);
+        pushMessageAsync.pushNotify(messageId, channelId, "CREATE", commonAuthContext.getUserEntity().getId());
         return CommonResponse.success("");
     }
 
@@ -110,6 +115,7 @@ public class ChannelController {
                                                         @PathVariable String messageId,
                                                         @RequestBody @Valid UpdateMessageReq req) {
         userChannelService.updateMessage(channelId, messageId, req);
+        pushMessageAsync.pushNotify(messageId, channelId, "UPDATE", commonAuthContext.getUserEntity().getId());
         return CommonResponse.success("");
     }
 
@@ -117,6 +123,7 @@ public class ChannelController {
     public ResponseEntity<CommonResponse> deleteMessage(@PathVariable String channelId,
                                                         @PathVariable String messageId) {
         userChannelService.deleteMessage(channelId, messageId);
+        pushMessageAsync.pushNotify(messageId, channelId, "DELETE", commonAuthContext.getUserEntity().getId());
         return CommonResponse.success("");
     }
 }

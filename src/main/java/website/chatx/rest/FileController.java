@@ -1,4 +1,4 @@
-package website.chatx.rest.user;
+package website.chatx.rest;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;

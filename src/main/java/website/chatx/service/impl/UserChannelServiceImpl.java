@@ -261,7 +261,7 @@ public class UserChannelServiceImpl implements UserChannelService {
     }
 
     @Override
-    public void createMessage(String channelId, CreateMessageReq req) {
+    public String createMessage(String channelId, CreateMessageReq req) {
         ChannelEntity channelEntity = channelJpaRepository.findByMyIdAndChannel1Id(commonAuthContext.getUserEntity().getId(), channelId)
                 .orElseThrow(() -> new BusinessLogicException(-28));
 
@@ -284,6 +284,7 @@ public class UserChannelServiceImpl implements UserChannelService {
                     .build()));
             messageFileJpaRepository.saveAll(messageFileEntities);
         }
+        return messageEntity.getId();
     }
 
     @Override
