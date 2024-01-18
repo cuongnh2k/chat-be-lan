@@ -13,6 +13,7 @@ public class ListChannelRes {
     private String id;
     private UserChannelStatusEnum status;
     private String friendId;
+    private String friendEmail;
     private UserChannelStatusEnum friendStatus;
     private String name;
     private String avatarUrl;

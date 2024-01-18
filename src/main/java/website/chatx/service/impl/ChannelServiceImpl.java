@@ -97,6 +97,7 @@ public class ChannelServiceImpl implements ChannelService {
                         .map(o -> ListChannelRes.builder()
                                 .id(o.getId())
                                 .friendId(o.getFriendId())
+                                .friendEmail(o.getType() == ChannelTypeEnum.FRIEND ? o.getFriendEmail() : null)
                                 .name(o.getType() == ChannelTypeEnum.FRIEND ? o.getFriendName() : o.getName())
                                 .avatarUrl(o.getType() == ChannelTypeEnum.FRIEND ? o.getFriendAvatarUrl() : o.getAvatarUrl())
                                 .type(o.getType())
