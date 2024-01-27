@@ -323,7 +323,7 @@ public class UserChannelServiceImpl implements UserChannelService {
             throw new BusinessLogicException(-36);
         }
 
-        messageJpaRepository.delete(messageEntity);
         messageFileJpaRepository.deleteByMessage(messageEntity);
+        messageJpaRepository.delete(messageEntity);
     }
 }
