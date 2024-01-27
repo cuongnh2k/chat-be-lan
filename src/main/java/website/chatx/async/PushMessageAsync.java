@@ -69,7 +69,7 @@ public class PushMessageAsync {
                     .createdAt(Timestamp.valueOf(channelEntity.getCreatedAt()).getTime())
                     .updatedAt(Timestamp.valueOf(channelEntity.getUpdatedAt()).getTime())
                     .currentMessage(CurrentMessageRes.builder()
-                            .id(messageEntity != null ? messageEntity.getId() : null)
+                            .id(messageId)
                             .type(type)
                             .content(messageEntity != null ? messageEntity.getContent() : null)
                             .createdAt(messageEntity != null ? Timestamp.valueOf(messageEntity.getCreatedAt()).getTime() : null)
