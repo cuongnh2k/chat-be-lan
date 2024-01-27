@@ -143,6 +143,7 @@ public class ChannelServiceImpl implements ChannelService {
                 .id(detailChannelRss.getId())
                 .ownerId(detailChannelRss.getOwnerId())
                 .name(detailChannelRss.getType() == ChannelTypeEnum.FRIEND ? detailChannelRss.getFriendName() : detailChannelRss.getName())
+                .email(detailChannelRss.getType() == ChannelTypeEnum.FRIEND ? detailChannelRss.getFriendEmail() : null)
                 .avatarUrl(detailChannelRss.getType() == ChannelTypeEnum.FRIEND ? detailChannelRss.getFriendAvatarUrl() : detailChannelRss.getAvatarUrl())
                 .type(detailChannelRss.getType())
                 .createdAt(Timestamp.valueOf(detailChannelRss.getCreatedAt()).getTime())

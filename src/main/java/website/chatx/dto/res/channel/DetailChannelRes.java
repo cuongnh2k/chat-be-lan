@@ -13,6 +13,7 @@ public class DetailChannelRes {
     private String id;
     private String ownerId;
     private String name;
+    private String email;
     private String avatarUrl;
     private ChannelTypeEnum type;
     private Long createdAt;

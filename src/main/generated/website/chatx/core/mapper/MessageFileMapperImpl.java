@@ -7,8 +7,8 @@ import website.chatx.dto.res.entity.MessageFileEntityRes;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-01-11T23:17:54+0700",
-    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.9 (JetBrains s.r.o.)"
+    date = "2024-01-27T08:48:28+0700",
+    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 21.0.2 (Amazon.com Inc.)"
 )
 @Component
 public class MessageFileMapperImpl extends MessageFileMapper {
