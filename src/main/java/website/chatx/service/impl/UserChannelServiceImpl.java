@@ -324,5 +324,6 @@ public class UserChannelServiceImpl implements UserChannelService {
         }
 
         messageJpaRepository.delete(messageEntity);
+        messageFileJpaRepository.deleteByMessage(messageEntity);
     }
 }
