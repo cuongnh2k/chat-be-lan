@@ -21,12 +21,21 @@
                                 join user_channel uc3
                                     on (c1.id = uc3.channel_id and uc3.user_id != #{userId} and c1.type = 'FRIEND')
                                 join user u2
-                                    on (uc3.user_id = u2.id and u2.email = #{email})
+                                    on (uc3.user_id = u2.id and u2.email in
+        <foreach item="item" index="index" collection="list"
+                 open=" (" separator="," close=")" nullable="true">
+            #{item}
+        </foreach>
+                                        )
                               )
                           )
         <where>
             u1.id != #{userId}
-            and u1.email = #{email}
+            and u1.email in
+            <foreach item="item" index="index" collection="list"
+                     open=" (" separator="," close=")" nullable="true">
+                #{item}
+            </foreach>
             and u1.is_activated = 1
         </where>
     </select>

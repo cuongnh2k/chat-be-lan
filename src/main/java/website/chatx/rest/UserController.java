@@ -9,6 +9,8 @@ import website.chatx.core.common.CommonResponse;
 import website.chatx.dto.req.user.UpdateUserReq;
 import website.chatx.service.UserService;
 
+import java.util.List;
+
 @Validated
 @RestController
 @RequiredArgsConstructor
@@ -28,8 +30,8 @@ public class UserController {
         return CommonResponse.success("");
     }
 
-    @GetMapping("/to-add-friend")
-    public ResponseEntity<CommonResponse> getOneUserToAddFriend(@RequestParam String email) {
+    @PostMapping("/to-add-friend")
+    public ResponseEntity<CommonResponse> getOneUserToAddFriend(@RequestBody List<String> email) {
         return CommonResponse.success(userService.getOneUserToAddFriend(email));
     }
 

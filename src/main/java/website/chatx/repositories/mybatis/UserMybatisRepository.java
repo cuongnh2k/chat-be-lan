@@ -16,8 +16,8 @@ public class UserMybatisRepository {
 
     private final SqlSession sqlSession;
 
-    public OneUserToAddFriendRss getOneUserToAddFriend(GetOneUserToAddFriendPrt prt) {
-        return sqlSession.selectOne("website.chatx.repositories.mybatis.UserMybatisRepository.getOneUserToAddFriend", prt);
+    public List<OneUserToAddFriendRss> getOneUserToAddFriend(GetOneUserToAddFriendPrt prt) {
+        return sqlSession.selectList("website.chatx.repositories.mybatis.UserMybatisRepository.getOneUserToAddFriend", prt);
     }
 
     public Long countListFriendToAddGroup(GetListFriendToAddGroupPrt prt) {

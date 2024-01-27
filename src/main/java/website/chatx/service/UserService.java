@@ -6,8 +6,10 @@ import website.chatx.dto.res.entity.UserEntityRes;
 import website.chatx.dto.res.user.OneUserToAddFriendRes;
 import website.chatx.dto.res.user.ListFriendToAddGroupRes;
 
+import java.util.List;
+
 public interface UserService {
-    OneUserToAddFriendRes getOneUserToAddFriend(String email);
+    List<OneUserToAddFriendRes> getOneUserToAddFriend(List<String> email);
 
     CommonListResponse<ListFriendToAddGroupRes> getListFriendToAddGroup(String channelId, String search, Integer page, Integer size);
 

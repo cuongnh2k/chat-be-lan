@@ -30,6 +30,7 @@ import website.chatx.repositories.mybatis.UserMybatisRepository;
 import website.chatx.service.UserService;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -54,17 +55,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(readOnly = true)
-    public OneUserToAddFriendRes getOneUserToAddFriend(String email) {
-        OneUserToAddFriendRss oneUserToAddFriendRss = userMybatisRepository.getOneUserToAddFriend(GetOneUserToAddFriendPrt.builder()
+    public List<OneUserToAddFriendRes> getOneUserToAddFriend(List<String> email) {
+        List<OneUserToAddFriendRss> oneUserToAddFriendRss = userMybatisRepository.getOneUserToAddFriend(GetOneUserToAddFriendPrt.builder()
                 .userId(commonAuthContext.getUserEntity().getId())
-                .email(email)
+                .list(email)
                 .build());
         if (oneUserToAddFriendRss == null) {
             throw new BusinessLogicException(-12);
         }
-        OneUserToAddFriendRes oneUserToAddFriendRes = new OneUserToAddFriendRes();
-        BeanCopyUtils.copyProperties(oneUserToAddFriendRes, oneUserToAddFriendRss);
-        return oneUserToAddFriendRes;
+        return oneUserToAddFriendRss.stream().map(o -> {
+            OneUserToAddFriendRes oneUserToAddFriendRes = new OneUserToAddFriendRes();
+            BeanCopyUtils.copyProperties(oneUserToAddFriendRes, o);
+            return oneUserToAddFriendRes;
+        }).collect(Collectors.toList());
     }
 
     @Override
