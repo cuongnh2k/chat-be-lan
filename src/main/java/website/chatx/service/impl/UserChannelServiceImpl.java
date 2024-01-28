@@ -223,8 +223,12 @@ public class UserChannelServiceImpl implements UserChannelService {
             throw new BusinessLogicException(-22);
         }
 
-        if (!channelEntity.getOwnerId().equals(commonAuthContext.getUserEntity().getId())) {
-            throw new BusinessLogicException(-23);
+        if (req.getUserId().equals(commonAuthContext.getUserEntity().getId()) && req.getStatus() == UserChannelStatusEnum.REJECT) {
+
+        } else {
+            if (!channelEntity.getOwnerId().equals(commonAuthContext.getUserEntity().getId())) {
+                throw new BusinessLogicException(-23);
+            }
         }
 
         List<UserChannelEntity> userChannelEntities = channelEntity.getUserChannels();
