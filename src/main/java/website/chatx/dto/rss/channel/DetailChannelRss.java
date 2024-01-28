@@ -23,6 +23,7 @@ public class DetailChannelRss {
     private LocalDateTime updatedAt;
 
     private UserChannelStatusEnum status;
+    private UserChannelStatusEnum friendStatus;
 
     private String friendId;
     private String friendEmail;

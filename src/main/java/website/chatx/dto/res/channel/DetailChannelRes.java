@@ -20,4 +20,5 @@ public class DetailChannelRes {
     private Long updatedAt;
 
     private UserChannelStatusEnum status;
+    private UserChannelStatusEnum friendStatus;
 }

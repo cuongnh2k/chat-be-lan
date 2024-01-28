@@ -149,6 +149,7 @@ public class ChannelServiceImpl implements ChannelService {
                 .createdAt(Timestamp.valueOf(detailChannelRss.getCreatedAt()).getTime())
                 .updatedAt(Timestamp.valueOf(detailChannelRss.getUpdatedAt()).getTime())
                 .status(detailChannelRss.getStatus())
+                .friendStatus(detailChannelRss.getType() == ChannelTypeEnum.FRIEND ? detailChannelRss.getFriendStatus() : null)
                 .build();
     }
 }
