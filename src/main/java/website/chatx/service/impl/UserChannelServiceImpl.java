@@ -17,10 +17,12 @@ import website.chatx.core.utils.BeanCopyUtils;
 import website.chatx.dto.prt.userchannel.GetListMemberPrt;
 import website.chatx.dto.req.channel.*;
 import website.chatx.dto.req.channel.createmessage.CreateMessageReq;
+import website.chatx.dto.res.user.OneUserToAddFriendRes;
 import website.chatx.dto.res.userchannel.list.ListMemberRes;
 import website.chatx.repositories.jpa.*;
 import website.chatx.repositories.mybatis.UserChannelMybatisRepository;
 import website.chatx.service.UserChannelService;
+import website.chatx.service.UserService;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -39,6 +41,7 @@ public class UserChannelServiceImpl implements UserChannelService {
     private final MessageFileJpaRepository messageFileJpaRepository;
 
     private final UserChannelMybatisRepository userChannelMybatisRepository;
+    private final UserService userService;
 
     private final CommonAuthContext commonAuthContext;
 
@@ -63,22 +66,40 @@ public class UserChannelServiceImpl implements UserChannelService {
                     .totalElements(commonPaginator.getTotalItems())
                     .build();
         }
+
+        List<ListMemberRes> listMemberRes = userChannelMybatisRepository.getListMember(GetListMemberPrt.builder()
+                        .userId(commonAuthContext.getUserEntity().getId())
+                        .channelId(channelId)
+                        .search(search)
+                        .status(status)
+                        .offset(commonPaginator.getOffset())
+                        .limit(commonPaginator.getLimit())
+                        .build()).stream()
+                .map(o -> {
+                    ListMemberRes listMember = new ListMemberRes();
+                    BeanCopyUtils.copyProperties(listMember, o);
+                    return listMember;
+                })
+                .collect(Collectors.toList());
+
+
+        List<OneUserToAddFriendRes> userToAddFriendRes = userService.getOneUserToAddFriend(listMemberRes.stream().map(ListMemberRes::getEmail).collect(Collectors.toList()));
+
+        listMemberRes.forEach(o -> {
+            final boolean[] check = {false};
+            userToAddFriendRes.forEach(oo -> {
+                if (oo.getId().equals(o.getId())) {
+                    check[0] = true;
+                    o.setFriendStatus(oo.getStatus());
+                }
+            });
+            if (!check[0]) {
+                o.setFriendStatus(null);
+            }
+        });
+
         return CommonListResponse.<ListMemberRes>builder()
-                .content(userChannelMybatisRepository.getListMember(GetListMemberPrt.builder()
-                                .userId(commonAuthContext.getUserEntity().getId())
-                                .channelId(channelId)
-                                .search(search)
-                                .status(status)
-                                .offset(commonPaginator.getOffset())
-                                .limit(commonPaginator.getLimit())
-                                .build()).stream()
-                        .map(o -> {
-                            ListMemberRes listMemberRes = new ListMemberRes();
-                            BeanCopyUtils.copyProperties(listMemberRes, o);
-                            return listMemberRes;
-                        })
-                        .collect(Collectors.toList())
-                )
+                .content(listMemberRes)
                 .page(commonPaginator.getPageNo())
                 .size(commonPaginator.getPageSize())
                 .totalPages(commonPaginator.getTotalPages())

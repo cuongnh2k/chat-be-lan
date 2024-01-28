@@ -15,4 +15,5 @@ public class ListMemberRes {
     private String name;
     private String avatarUrl;
     private UserChannelStatusEnum status;
+    private UserChannelStatusEnum friendStatus;
 }
