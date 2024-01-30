@@ -246,6 +246,33 @@ public class UserChannelServiceImpl implements UserChannelService {
     }
 
     @Override
+    public void changeOwnerGroup(String channelId, ChangeOwnerGroupReq req) {
+        ChannelEntity channelEntity = channelJpaRepository.findById(channelId)
+                .orElseThrow(() -> new BusinessLogicException(-21));
+
+        if (channelEntity.getType() == ChannelTypeEnum.FRIEND) {
+            throw new BusinessLogicException(-22);
+        }
+
+        if (!channelEntity.getOwnerId().equals(commonAuthContext.getUserEntity().getId())) {
+            throw new BusinessLogicException(-23);
+        }
+
+        List<UserChannelEntity> userChannelEntities = channelEntity.getUserChannels();
+        boolean exists = false;
+        for (UserChannelEntity o : userChannelEntities) {
+            if (o.getUser().getId().equals(req.getUserId())) {
+                channelEntity.setOwnerId(req.getUserId());
+                exists = true;
+            }
+        }
+        if (!exists) {
+            throw new BusinessLogicException(-24);
+        }
+        channelJpaRepository.save(channelEntity);
+    }
+
+    @Override
     public void createGroup(CreateGroupReq req) {
         if (req.getUserIds().size() < 2) {
             throw new BusinessLogicException(-25);

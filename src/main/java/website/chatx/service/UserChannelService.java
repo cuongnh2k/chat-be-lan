@@ -18,6 +18,8 @@ public interface UserChannelService {
 
     void reactUserGroup(String channelId, ReactUserGroupReq req);
 
+    void changeOwnerGroup(String channelId, ChangeOwnerGroupReq req);
+
     void createGroup(CreateGroupReq req);
 
     String createMessage(String channelId, CreateMessageReq req);

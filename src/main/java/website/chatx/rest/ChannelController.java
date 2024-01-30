@@ -96,6 +96,13 @@ public class ChannelController {
         return CommonResponse.success("");
     }
 
+    @PostMapping("/{channelId}/change-owner-group")
+    public ResponseEntity<CommonResponse> changeOwnerGroup(@PathVariable String channelId,
+                                                           @RequestBody @Valid ChangeOwnerGroupReq req) {
+        userChannelService.changeOwnerGroup(channelId, req);
+        return CommonResponse.success("");
+    }
+
     @PostMapping("/create-group")
     public ResponseEntity<CommonResponse> createGroup(@RequestBody @Valid CreateGroupReq req) {
         userChannelService.createGroup(req);
